@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity
+@Entity(tableName = "note_pin")
 public class NotePin {
 
     @PrimaryKey
@@ -17,8 +17,8 @@ public class NotePin {
     public String pinDescription;
 
     @ColumnInfo(name = "latitude")
-    public float latitude;
+    public double latitude;
 
     @ColumnInfo(name = "longitude")
-    public float longitude;
+    public double longitude;
 }

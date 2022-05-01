@@ -1,7 +1,9 @@
 package edu.cuhk.mapnotes.activities;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -10,6 +12,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
@@ -25,7 +28,8 @@ import edu.cuhk.mapnotes.R;
 import edu.cuhk.mapnotes.databinding.ActivityMapsBinding;
 import edu.cuhk.mapnotes.datatypes.NotePin;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity
+        implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private List<NotePin> notePins = new ArrayList<>();
 
@@ -51,6 +55,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         drawNotePins();
+
+        mMap.setOnMarkerClickListener(this);
         initCamera();
     }
 
@@ -101,5 +107,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         double latCenter = (Collections.max(latitudes) + Collections.min(latitudes)) / 2;
         double lngCenter = (Collections.max(longitudes) + Collections.min(longitudes)) / 2;
         return new LatLng(latCenter, lngCenter);
+    }
+
+    @Override
+    public boolean onMarkerClick(@NonNull Marker marker) {
+        showNotesActivity();
+
+        // As we will launch the notes activity immediately, return true to prevent the default
+        // google map marker onclick behaviours (center marker and open info window).
+        return true;
+    }
+
+    private void showNotesActivity() {
+        Intent intent = new Intent(this, NotesActivity.class);
+        startActivity(intent);
     }
 }

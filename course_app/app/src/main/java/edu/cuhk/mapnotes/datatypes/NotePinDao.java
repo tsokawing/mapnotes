@@ -1,4 +1,4 @@
-package edu.cuhk.courseproject.datatypes;
+package edu.cuhk.mapnotes.datatypes;
 
 import androidx.room.Dao;
 import androidx.room.Delete;

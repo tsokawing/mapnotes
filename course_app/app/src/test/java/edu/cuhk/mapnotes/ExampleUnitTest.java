@@ -1,4 +1,4 @@
-package edu.cuhk.courseproject;
+package edu.cuhk.mapnotes;
 
 import org.junit.Test;
 

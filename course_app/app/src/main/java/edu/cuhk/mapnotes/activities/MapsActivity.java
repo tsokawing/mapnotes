@@ -16,13 +16,9 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import edu.cuhk.mapnotes.R;
 import edu.cuhk.mapnotes.databinding.ActivityMapsBinding;
@@ -111,6 +107,7 @@ public class MapsActivity extends FragmentActivity
 
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
+        Log.d("NotePin", "CLICK");
         showNotesActivity();
 
         // As we will launch the notes activity immediately, return true to prevent the default

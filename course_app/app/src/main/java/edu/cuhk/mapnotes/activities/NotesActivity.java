@@ -5,10 +5,13 @@ import android.os.Bundle;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.View;
 
 import edu.cuhk.mapnotes.databinding.ActivityNotesBinding;
+import edu.cuhk.mapnotes.fragments.RecyclerViewFragment;
+import edu.cuhk.mapnotes.R;
 
 public class NotesActivity extends AppCompatActivity {
 
@@ -28,5 +31,12 @@ public class NotesActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        if (savedInstanceState == null) {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            RecyclerViewFragment fragment = new RecyclerViewFragment();
+            transaction.replace(R.id.sample_content_fragment, fragment);
+            transaction.commit();
+        }
     }
 }

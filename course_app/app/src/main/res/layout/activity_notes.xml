@@ -6,22 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".activities.NotesActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
+<!--    Tool Bar    -->
+<!--    <com.google.android.material.appbar.AppBarLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:theme="@style/Theme.CourseProject.AppBarOverlay">-->
+
+<!--        <androidx.appcompat.widget.Toolbar-->
+<!--            android:id="@+id/toolbar"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="?attr/actionBarSize"-->
+<!--            android:background="?attr/colorPrimary"-->
+<!--            app:popupTheme="@style/Theme.CourseProject.PopupOverlay" />-->
+
+<!--    </com.google.android.material.appbar.AppBarLayout>-->
+
+    <FrameLayout
+        android:id="@+id/sample_content_fragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/Theme.CourseProject.AppBarOverlay">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/Theme.CourseProject.PopupOverlay" />
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-<!--    Contents    -->
-<!--    <include layout="@layout/content_notes" />-->
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:layout_weight="2" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
@@ -31,5 +36,7 @@
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="16dp"
         app:srcCompat="@android:drawable/ic_input_add" />
+
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

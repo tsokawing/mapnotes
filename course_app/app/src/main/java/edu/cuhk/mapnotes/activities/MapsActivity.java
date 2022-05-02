@@ -2,6 +2,7 @@ package edu.cuhk.mapnotes.activities;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
+import androidx.room.Room;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 
 import edu.cuhk.mapnotes.R;
 import edu.cuhk.mapnotes.databinding.ActivityMapsBinding;
+import edu.cuhk.mapnotes.datatypes.AppDatabase;
 import edu.cuhk.mapnotes.datatypes.NotePin;
 
 public class MapsActivity extends FragmentActivity
@@ -31,6 +33,8 @@ public class MapsActivity extends FragmentActivity
 
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
+
+    public static AppDatabase noteDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +49,9 @@ public class MapsActivity extends FragmentActivity
         mapFragment.getMapAsync(this);
 
         loadNotePins();
+
+        // start the Rooms database
+        noteDatabase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "notes-database").build();
     }
 
     @Override

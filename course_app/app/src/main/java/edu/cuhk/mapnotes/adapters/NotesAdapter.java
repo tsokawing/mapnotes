@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import edu.cuhk.mapnotes.R;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> {
-    private static final String TAG = "CustomAdapter";
+    private static final String TAG = "Adapter";
 
     private String[] mDataSet;
 

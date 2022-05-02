@@ -48,10 +48,10 @@ public class MapsActivity extends FragmentActivity
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        loadNotePins();
-
         // start the Rooms database
         noteDatabase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "notes-database").build();
+
+        loadNotePins();
     }
 
     @Override

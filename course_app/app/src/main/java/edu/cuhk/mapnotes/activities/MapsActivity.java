@@ -108,15 +108,15 @@ public class MapsActivity extends FragmentActivity
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
         Log.d("NotePin", "CLICK");
-        showNotesActivity();
+        showPinsActivity();
 
         // As we will launch the notes activity immediately, return true to prevent the default
         // google map marker onclick behaviours (center marker and open info window).
         return true;
     }
 
-    private void showNotesActivity() {
-        Intent intent = new Intent(this, NotesActivity.class);
+    private void showPinsActivity() {
+        Intent intent = new Intent(this, PinsActivity.class);
         startActivity(intent);
     }
 }

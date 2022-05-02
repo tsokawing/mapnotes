@@ -38,9 +38,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.NotesActivity"
+            android:name=".activities.PinsActivity"
             android:exported="false"
-            android:label="@string/title_activity_notes"
+            android:label="@string/title_activity_pins"
             android:theme="@style/Theme.CourseProject.NoActionBar" />
     </application>
 

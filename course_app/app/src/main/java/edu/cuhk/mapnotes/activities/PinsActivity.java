@@ -9,19 +9,19 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.view.View;
 
-import edu.cuhk.mapnotes.databinding.ActivityNotesBinding;
+import edu.cuhk.mapnotes.databinding.ActivityPinsBinding;
 import edu.cuhk.mapnotes.fragments.RecyclerViewFragment;
 import edu.cuhk.mapnotes.R;
 
-public class NotesActivity extends AppCompatActivity {
+public class PinsActivity extends AppCompatActivity {
 
-    private ActivityNotesBinding binding;
+    private ActivityPinsBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityNotesBinding.inflate(getLayoutInflater());
+        binding = ActivityPinsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         binding.fab.setOnClickListener(new View.OnClickListener() {

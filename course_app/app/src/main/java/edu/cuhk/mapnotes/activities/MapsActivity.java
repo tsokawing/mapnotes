@@ -26,6 +26,7 @@ import edu.cuhk.mapnotes.R;
 import edu.cuhk.mapnotes.databinding.ActivityMapsBinding;
 import edu.cuhk.mapnotes.datatypes.AppDatabase;
 import edu.cuhk.mapnotes.datatypes.NotePin;
+import edu.cuhk.mapnotes.util.NotePinUtil;
 
 public class MapsActivity extends FragmentActivity
         implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
@@ -82,6 +83,14 @@ public class MapsActivity extends FragmentActivity
         drawNotePins();
 
         mMap.setOnMarkerClickListener(this);
+        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(@NonNull LatLng latLng) {
+                // create a new pin
+                NotePin pin = NotePinUtil.MakeNewPinAtLocation(latLng);
+                drawNotePin(pin);
+            }
+        });
         initCamera();
     }
 

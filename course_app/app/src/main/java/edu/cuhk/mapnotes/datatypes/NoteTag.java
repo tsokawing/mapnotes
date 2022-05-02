@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 @Entity
 public class NoteTag {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public int uid;
 
     @ColumnInfo(name = "name")

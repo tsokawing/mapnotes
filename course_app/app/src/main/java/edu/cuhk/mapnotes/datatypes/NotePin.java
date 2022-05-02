@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "note_pin")
 public class NotePin {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public int uid;
 
     @ColumnInfo(name = "name")

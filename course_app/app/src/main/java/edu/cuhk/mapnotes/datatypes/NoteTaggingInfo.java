@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey;
 @Entity
 public class NoteTaggingInfo {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public int uid;
 
     // todo

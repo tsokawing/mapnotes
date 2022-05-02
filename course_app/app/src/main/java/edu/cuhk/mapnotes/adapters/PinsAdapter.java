@@ -1,5 +1,6 @@
 package edu.cuhk.mapnotes.adapters;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 import edu.cuhk.mapnotes.R;
+import edu.cuhk.mapnotes.activities.NotesActivity;
+import edu.cuhk.mapnotes.activities.PinsActivity;
 
 public class PinsAdapter extends RecyclerView.Adapter<PinsAdapter.ViewHolder> {
     private static final String TAG = "Adapter";
@@ -27,6 +30,7 @@ public class PinsAdapter extends RecyclerView.Adapter<PinsAdapter.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     Log.d(TAG, "Element " + getAdapterPosition() + " clicked.");
+                    v.getContext().startActivity(new Intent(v.getContext(), NotesActivity.class));
                 }
             });
             textView = (TextView) v.findViewById(R.id.textView);

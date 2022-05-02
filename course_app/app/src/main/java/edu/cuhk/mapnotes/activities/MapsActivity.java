@@ -19,6 +19,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import edu.cuhk.mapnotes.R;
@@ -51,6 +52,26 @@ public class MapsActivity extends FragmentActivity
         // start the Rooms database
         // todo the allowMainThreadQueries is unsafe
         noteDatabase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "notes-database").allowMainThreadQueries().build();
+
+        // debug/demo behavior: each time the app runs, a new pin is added to the db
+        // when there are too many pins, clear the db and add again
+        List<NotePin> notePins = noteDatabase.notePinDao().getAllPins();
+        if (notePins.size() >= 5) {
+            // clear the list
+            for (NotePin dumpingPin : notePins) {
+                noteDatabase.notePinDao().deletePin(dumpingPin);
+            }
+        }
+        // add 1 random pin to map
+        Random random = new Random(System.currentTimeMillis());
+        NotePin randomPin = new NotePin();
+        randomPin.pinName = "Random Pin";
+        // a box inside Shatin
+        // 22.3787,114.1930 -> 22.3907,114.2104
+        randomPin.latitude = 22.3787 + random.nextDouble() * (22.3907 - 22.3787);
+        randomPin.longitude = 114.1930 + random.nextDouble() * (114.2104 - 114.1930);
+        randomPin.pinDescription = "Is Random";
+        noteDatabase.notePinDao().insertPins(randomPin);
 
         loadNotePins();
     }

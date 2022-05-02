@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import edu.cuhk.mapnotes.R;
 
-public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> {
+public class PinsAdapter extends RecyclerView.Adapter<PinsAdapter.ViewHolder> {
     private static final String TAG = "Adapter";
 
     private String[] mDataSet;
@@ -42,7 +42,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
      *
      * @param dataSet String[] containing the data to populate views to be used by RecyclerView.
      */
-    public NotesAdapter(String[] dataSet) {
+    public PinsAdapter(String[] dataSet) {
         mDataSet = dataSet;
     }
 

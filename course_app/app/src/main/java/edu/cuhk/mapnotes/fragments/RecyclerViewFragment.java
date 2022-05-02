@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import edu.cuhk.mapnotes.R;
-import edu.cuhk.mapnotes.adapters.NotesAdapter;
+import edu.cuhk.mapnotes.adapters.PinsAdapter;
 
 public class RecyclerViewFragment extends Fragment {
     private static final String TAG = "RecyclerViewFragment";
@@ -26,7 +26,7 @@ public class RecyclerViewFragment extends Fragment {
     protected LayoutManagerType mCurrentLayoutManagerType;
 
     protected RecyclerView mRecyclerView;
-    protected NotesAdapter mAdapter;
+    protected PinsAdapter mAdapter;
     protected RecyclerView.LayoutManager mLayoutManager;
     protected String[] mDataset;
 
@@ -61,7 +61,7 @@ public class RecyclerViewFragment extends Fragment {
         }
         setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
 
-        mAdapter = new NotesAdapter(mDataset);
+        mAdapter = new PinsAdapter(mDataset);
         // Set CustomAdapter as the adapter for RecyclerView.
         mRecyclerView.setAdapter(mAdapter);
 

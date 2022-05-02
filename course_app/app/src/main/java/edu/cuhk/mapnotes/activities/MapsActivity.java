@@ -49,7 +49,8 @@ public class MapsActivity extends FragmentActivity
         mapFragment.getMapAsync(this);
 
         // start the Rooms database
-        noteDatabase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "notes-database").build();
+        // todo the allowMainThreadQueries is unsafe
+        noteDatabase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "notes-database").allowMainThreadQueries().build();
 
         loadNotePins();
     }

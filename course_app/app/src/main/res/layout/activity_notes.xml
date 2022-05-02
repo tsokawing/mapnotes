@@ -54,4 +54,12 @@
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@android:drawable/ic_menu_delete" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_edit_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/fab_margin"
+        android:layout_gravity="bottom|end"
+        app:srcCompat="@android:drawable/ic_menu_edit" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

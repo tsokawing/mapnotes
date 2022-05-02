@@ -24,6 +24,7 @@ public class PinsActivity extends AppCompatActivity {
         binding = ActivityPinsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // Fab button for adding new note
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -32,10 +33,11 @@ public class PinsActivity extends AppCompatActivity {
             }
         });
 
+        // Display notes in a fragment recycler view
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             RecyclerViewFragment fragment = new RecyclerViewFragment();
-            transaction.replace(R.id.sample_content_fragment, fragment);
+            transaction.replace(R.id.pin_content_fragment, fragment);
             transaction.commit();
         }
     }

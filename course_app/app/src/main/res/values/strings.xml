@@ -2,7 +2,7 @@
     <string name="app_name">Course Project</string>
     <string name="title_activity_maps">MapsActivity</string>
     <string name="title_activity_pins">PinsActivity</string>
-    <string name="element_text">Element</string>
+    <string name="note_text">Note</string>
     <string name="grid_layout_manager">Grid Layout Manager</string>
     <string name="linear_layout_manager">Linear Layout Manager</string>
 </resources>

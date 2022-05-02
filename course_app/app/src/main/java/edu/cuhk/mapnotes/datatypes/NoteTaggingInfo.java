@@ -10,8 +10,8 @@ public class NoteTaggingInfo {
     public int uid;
 
     // todo
-    public NotePin pin;
+//    public NotePin pin;
 
     // todo
-    public NoteTag tag;
+//    public NoteTag tag;
 }

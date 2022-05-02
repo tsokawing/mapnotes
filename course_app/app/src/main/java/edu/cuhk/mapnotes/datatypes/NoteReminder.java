@@ -10,8 +10,8 @@ public class NoteReminder {
     @PrimaryKey
     public int uid;
 
-    @ColumnInfo(name = "pin")
-    public NotePin pin;
+//    @ColumnInfo(name = "pin")
+//    public NotePin pin;
 
     @ColumnInfo(name = "alarm_timestamp")
     public int alarmStamp;

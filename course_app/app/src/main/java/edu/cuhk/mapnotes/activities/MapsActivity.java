@@ -121,6 +121,11 @@ public class MapsActivity extends FragmentActivity
         pin2.latitude = 22.386583738555515;
         pin2.longitude = 114.20890877918538;
         notePins.add(pin2);
+
+        // we can add in pins from the database
+        for (NotePin storedPin : noteDatabase.notePinDao().getAllPins()) {
+            notePins.add(storedPin);
+        }
     }
 
     private LatLng getCenterOfPins(List<NotePin> notePins) {

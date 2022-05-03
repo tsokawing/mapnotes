@@ -25,10 +25,18 @@ public class PinsActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         // Fab button for adding new note
-        binding.fab.setOnClickListener(new View.OnClickListener() {
+        binding.fabAddNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Add a new note to this pin", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
+        binding.fabDeletePin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Delete this pin from map (with confirmation)", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });

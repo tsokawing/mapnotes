@@ -145,14 +145,14 @@ public class MapsActivity extends FragmentActivity
         pin1.pinDescription = "My first notes";
         pin1.latitude = 22.38670278162099;
         pin1.longitude = 114.1954333616334;
-        notePins.add(pin1);
+//        notePins.add(pin1);
 
         NotePin pin2 = new NotePin();
         pin2.pinName = "Shek Mun";
         pin2.pinDescription = "My second notes";
         pin2.latitude = 22.386583738555515;
         pin2.longitude = 114.20890877918538;
-        notePins.add(pin2);
+//        notePins.add(pin2);
 
         // we can add in pins from the database
         for (NotePin storedPin : noteDatabase.notePinDao().getAllPins()) {

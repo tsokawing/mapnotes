@@ -73,14 +73,12 @@ public class MapsActivity extends FragmentActivity
         }
         // add 1 random pin to map
         Random random = new Random(System.currentTimeMillis());
-        NotePin randomPin = new NotePin();
-        randomPin.pinName = "Random Pin";
         // a box inside Shatin
         // 22.3787,114.1930 -> 22.3907,114.2104
-        randomPin.latitude = 22.3787 + random.nextDouble() * (22.3907 - 22.3787);
-        randomPin.longitude = 114.1930 + random.nextDouble() * (114.2104 - 114.1930);
-        randomPin.pinDescription = "Is Random";
-        noteDatabase.notePinDao().insertPins(randomPin);
+        double latitude = 22.3787 + random.nextDouble() * (22.3907 - 22.3787);
+        double longitude = 114.1930 + random.nextDouble() * (114.2104 - 114.1930);
+        NotePin randomPin = NotePinUtil.MakeNewPinAtLocation(latitude, longitude);
+        drawNotePin(randomPin);
 
         loadNotePins();
 

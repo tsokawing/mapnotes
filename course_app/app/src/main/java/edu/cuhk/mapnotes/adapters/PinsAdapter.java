@@ -8,14 +8,21 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.List;
+
 import edu.cuhk.mapnotes.R;
+import edu.cuhk.mapnotes.activities.MapsActivity;
 import edu.cuhk.mapnotes.activities.NotesActivity;
 import edu.cuhk.mapnotes.activities.PinsActivity;
+import edu.cuhk.mapnotes.datatypes.NoteEntry;
 
 public class PinsAdapter extends RecyclerView.Adapter<PinsAdapter.ViewHolder> {
     private static final String TAG = "Adapter";
 
-    private String[] mDataSet;
+//    private String[] mDataSet;
+
+    private List<NoteEntry> mNoteEntries;
 
     /**
      * Provide a reference to the type of views that you are using (custom ViewHolder)
@@ -47,7 +54,11 @@ public class PinsAdapter extends RecyclerView.Adapter<PinsAdapter.ViewHolder> {
      * @param dataSet String[] containing the data to populate views to be used by RecyclerView.
      */
     public PinsAdapter(String[] dataSet) {
-        mDataSet = dataSet;
+//        mDataSet = dataSet;
+    }
+
+    public PinsAdapter(int pinUid) {
+        mNoteEntries = MapsActivity.noteDatabase.noteEntryDao().getAllNoteEntries(pinUid);
     }
 
     // Create new views (invoked by the layout manager)
@@ -67,12 +78,12 @@ public class PinsAdapter extends RecyclerView.Adapter<PinsAdapter.ViewHolder> {
 
         // Get element from your dataset at this position and replace the contents of the view
         // with that element
-        viewHolder.getTextView().setText(mDataSet[position]);
+        viewHolder.getTextView().setText(mNoteEntries.get(position).noteText);
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return mDataSet.length;
+        return mNoteEntries.size();
     }
 }

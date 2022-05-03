@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -128,7 +129,7 @@ public class MapsActivity extends FragmentActivity
         // pairs the notepins in the database with the markers on the map
         for (NotePin notePin : noteDatabase.notePinDao().getAllPins()) {
             LatLng latlng = new LatLng(notePin.latitude, notePin.longitude);
-            Marker marker = mMap.addMarker(new MarkerOptions().position(latlng).title(notePin.pinName));
+            Marker marker = mMap.addMarker(new MarkerOptions().position(latlng).title("" + notePin.uid));
             notePinsMapping.put(notePin.uid, marker);
         }
     }
@@ -190,7 +191,11 @@ public class MapsActivity extends FragmentActivity
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
         Log.d("NotePin", "CLICK");
-        goToPinsActivity();
+//        goToPinsActivity();
+
+        // title = uid of pin
+        int clickedPinUid = Integer.parseInt(Objects.requireNonNull(marker.getTitle()));
+        this.tryGoToNotePinsActivity(clickedPinUid);
 
         // As we will launch the notes activity immediately, return true to prevent the default
         // google map marker onclick behaviours (center marker and open info window).
@@ -199,6 +204,12 @@ public class MapsActivity extends FragmentActivity
 
     private void goToPinsActivity() {
         Intent intent = new Intent(this, PinsActivity.class);
+        startActivity(intent);
+    }
+
+    private void tryGoToNotePinsActivity(int pinUid) {
+        Intent intent = new Intent(this, PinsActivity.class);
+        intent.putExtra("pinUid", pinUid);
         startActivity(intent);
     }
 }

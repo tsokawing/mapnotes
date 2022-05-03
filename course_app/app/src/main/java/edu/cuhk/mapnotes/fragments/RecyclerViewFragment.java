@@ -1,6 +1,7 @@
 package edu.cuhk.mapnotes.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,13 +31,26 @@ public class RecyclerViewFragment extends Fragment {
     protected RecyclerView.LayoutManager mLayoutManager;
     protected String[] mDataset;
 
+    private int pinUid;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Initialize dataset, this data would usually come from a local content provider or
         // remote server.
-        initDataset();
+//        initDataset();
+
+        // load uid
+        Bundle bundleArguments = getArguments();
+        if (bundleArguments != null) {
+            this.pinUid = bundleArguments.getInt("pinUid");
+            Log.d("TAG", "Recycler view: pin UID " + this.pinUid);
+        }
+        if (savedInstanceState != null) {
+            // todo
+            this.pinUid = savedInstanceState.getInt("pinUid");
+        }
     }
 
     @Override
@@ -61,7 +75,8 @@ public class RecyclerViewFragment extends Fragment {
         }
         setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
 
-        mAdapter = new PinsAdapter(mDataset);
+//        mAdapter = new PinsAdapter(mDataset);
+        mAdapter = new PinsAdapter(this.pinUid);
         // Set CustomAdapter as the adapter for RecyclerView.
         mRecyclerView.setAdapter(mAdapter);
 

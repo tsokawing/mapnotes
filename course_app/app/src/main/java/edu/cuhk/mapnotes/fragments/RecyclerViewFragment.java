@@ -128,4 +128,8 @@ public class RecyclerViewFragment extends Fragment {
             mDataset[i] = "This is element #" + i;
         }
     }
+
+    public PinsAdapter getPinsAdapter() {
+        return mAdapter;
+    }
 }

@@ -24,6 +24,7 @@ public class PinsAdapter extends RecyclerView.Adapter<PinsAdapter.ViewHolder> {
 
 //    private String[] mDataSet;
 
+    private int pinUid;
     private List<NoteEntry> mNoteEntries;
 
     /**
@@ -66,6 +67,13 @@ public class PinsAdapter extends RecyclerView.Adapter<PinsAdapter.ViewHolder> {
     }
 
     public PinsAdapter(int pinUid) {
+        this.pinUid = pinUid;
+        this.refreshNotePins();
+    }
+
+    public void refreshNotePins() {
+        // for performance reasons, this will not call any notify-dataset-changed functions
+        // only the calle knows what should be called
         mNoteEntries = MapsActivity.noteDatabase.noteEntryDao().getAllNoteEntries(pinUid);
     }
 

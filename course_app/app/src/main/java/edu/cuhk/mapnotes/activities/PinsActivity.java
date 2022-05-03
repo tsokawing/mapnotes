@@ -12,8 +12,11 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
+import edu.cuhk.mapnotes.adapters.PinsAdapter;
 import edu.cuhk.mapnotes.databinding.ActivityPinsBinding;
+import edu.cuhk.mapnotes.datatypes.NoteEntry;
 import edu.cuhk.mapnotes.fragments.RecyclerViewFragment;
 import edu.cuhk.mapnotes.R;
 import edu.cuhk.mapnotes.util.HelpButtonOnClickListener;
@@ -22,6 +25,7 @@ public class PinsActivity extends AppCompatActivity {
 
     private ActivityPinsBinding binding;
     private AlertDialog.Builder builder;
+    private RecyclerViewFragment recyclerViewFragment;
 
     private int pinUid;
 
@@ -52,8 +56,21 @@ public class PinsActivity extends AppCompatActivity {
         binding.fabAddNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Add a new note to this pin", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                // add a new note entry to this pin
+                NoteEntry noteEntry = new NoteEntry();
+                noteEntry.noteTitle = "New Note";
+                noteEntry.noteText = "A new note for this location has been created. Click here to edit it.";
+                noteEntry.pinUid = pinUid;
+                MapsActivity.noteDatabase.noteEntryDao().insertNoteEntries(noteEntry);
+
+                PinsAdapter adapter = recyclerViewFragment.getPinsAdapter();
+                adapter.refreshNotePins();
+                adapter.notifyItemInserted(adapter.getItemCount() - 1);
+
+                Toast.makeText(getApplicationContext(), "A new note has been created.", Toast.LENGTH_LONG).show();
+
+//                Snackbar.make(view, "Add a new note to this pin", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
             }
         });
 
@@ -72,6 +89,7 @@ public class PinsActivity extends AppCompatActivity {
             Bundle bundle = new Bundle();
             bundle.putInt("pinUid", this.pinUid);
             fragment.setArguments(bundle);
+            recyclerViewFragment = fragment;
             transaction.replace(R.id.pin_content_fragment, fragment);
             transaction.commit();
         }

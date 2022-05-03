@@ -2,6 +2,7 @@ package edu.cuhk.mapnotes.activities;
 
 import android.os.Bundle;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,10 +13,13 @@ import android.view.View;
 import edu.cuhk.mapnotes.databinding.ActivityPinsBinding;
 import edu.cuhk.mapnotes.fragments.RecyclerViewFragment;
 import edu.cuhk.mapnotes.R;
+import edu.cuhk.mapnotes.util.HelpButtonOnClickListener;
 
 public class PinsActivity extends AppCompatActivity {
 
     private ActivityPinsBinding binding;
+    private AlertDialog.Builder builder;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,5 +52,11 @@ public class PinsActivity extends AppCompatActivity {
             transaction.replace(R.id.pin_content_fragment, fragment);
             transaction.commit();
         }
+
+        // help button
+        builder = new AlertDialog.Builder(this);
+        FloatingActionButton mapHelpButton = binding.fabHelpNotes;
+        mapHelpButton.setOnClickListener(new HelpButtonOnClickListener(
+                builder, R.string.notes_of_pin_title, R.string.notes_of_pin_descr));
     }
 }

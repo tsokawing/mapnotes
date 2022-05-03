@@ -103,4 +103,8 @@
         "To begin, long-click on the map to add your first location. "
         "You may then edit the notes of the locations on the map by clicking on the pins on the map."
     </string>
+    <string name="notes_of_pin_title">Notes of this Location</string>
+    <string name="notes_of_pin_descr">
+        "This page shows the notes that belongs to this location."
+    </string>
 </resources>

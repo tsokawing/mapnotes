@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Course Project</string>
+    <string name="app_name">MapNotes</string>
     <string name="title_activity_maps">MapsActivity</string>
     <string name="title_activity_pins">PinsActivity</string>
     <string name="note_text">Note</string>

@@ -4,9 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.room.Room;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -15,6 +19,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -39,6 +44,8 @@ public class MapsActivity extends FragmentActivity
     private ActivityMapsBinding binding;
 
     public static AppDatabase noteDatabase;
+
+    AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +84,26 @@ public class MapsActivity extends FragmentActivity
         noteDatabase.notePinDao().insertPins(randomPin);
 
         loadNotePins();
+
+        // help button
+        builder = new AlertDialog.Builder(this);
+        FloatingActionButton mapHelpButton = binding.fabMapHelp;
+        mapHelpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                builder.setMessage(R.string.welcome_to_app_descr)
+                        .setCancelable(false)
+                        .setNeutralButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        });
+                AlertDialog dialog = builder.create();
+                dialog.setTitle(R.string.welcome_to_app_title);
+                dialog.show();
+            }
+        });
     }
 
     @Override

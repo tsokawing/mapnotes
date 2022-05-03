@@ -96,4 +96,11 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="action_settings">Settings</string>
+    <string name="welcome_to_app_title">Welcome to MapNotes!</string>
+    <string name="welcome_to_app_descr">
+        "MapNotes is an app that helps you jot down notes on the map.\n\n"
+
+        "To begin, long-click on the map to add your first location. "
+        "You may then edit the notes of the locations on the map by clicking on the pins on the map."
+    </string>
 </resources>

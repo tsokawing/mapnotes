@@ -12,11 +12,11 @@ import edu.cuhk.mapnotes.datatypes.NotePin;
 public class NotePinUtil {
     private static final DecimalFormat df = new DecimalFormat("0.00000");
 
-    public static NotePin MakeNewPinAtLocation(LatLng latLng) {
+    public static NotePin MakeNewPinAtLocation(double latitude, double longitude) {
         NotePin newPin = new NotePin();
         newPin.pinName = "New Note";
-        newPin.latitude = latLng.latitude;
-        newPin.longitude = latLng.longitude;
+        newPin.latitude = latitude;
+        newPin.longitude = longitude;
         List<Long> insertionResponse = MapsActivity.noteDatabase.notePinDao().insertPins(newPin);
         // immediately write back to the object here, others may want to use the UID
         newPin.uid = (int) ((long) insertionResponse.get(0));

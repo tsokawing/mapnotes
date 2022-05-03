@@ -101,7 +101,7 @@ public class MapsActivity extends FragmentActivity
             @Override
             public void onMapLongClick(@NonNull LatLng latLng) {
                 // create a new pin
-                NotePin pin = NotePinUtil.MakeNewPinAtLocation(latLng);
+                NotePin pin = NotePinUtil.MakeNewPinAtLocation(latLng.latitude, latLng.longitude);
                 drawNotePin(pin);
             }
         });

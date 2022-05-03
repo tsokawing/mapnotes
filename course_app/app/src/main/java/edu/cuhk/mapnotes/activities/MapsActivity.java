@@ -18,6 +18,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -32,6 +33,7 @@ public class MapsActivity extends FragmentActivity
         implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private List<NotePin> notePins = new ArrayList<>();
+    private HashMap<Integer, Marker> notePinsMapping = new HashMap<Integer, Marker>();
 
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
@@ -80,7 +82,8 @@ public class MapsActivity extends FragmentActivity
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        drawNotePins();
+        pairNotePins();
+//        drawNotePins();
 
         mMap.setOnMarkerClickListener(this);
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
@@ -92,6 +95,15 @@ public class MapsActivity extends FragmentActivity
             }
         });
         initCamera();
+    }
+
+    private void pairNotePins() {
+        // pairs the notepins in the database with the markers on the map
+        for (NotePin notePin : noteDatabase.notePinDao().getAllPins()) {
+            LatLng latlng = new LatLng(notePin.latitude, notePin.longitude);
+            Marker marker = mMap.addMarker(new MarkerOptions().position(latlng).title(notePin.pinName));
+            notePinsMapping.put(notePin.uid, marker);
+        }
     }
 
     private void drawNotePins() {

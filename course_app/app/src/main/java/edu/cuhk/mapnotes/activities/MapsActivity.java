@@ -5,12 +5,9 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.room.Room;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -33,6 +30,7 @@ import edu.cuhk.mapnotes.R;
 import edu.cuhk.mapnotes.databinding.ActivityMapsBinding;
 import edu.cuhk.mapnotes.datatypes.AppDatabase;
 import edu.cuhk.mapnotes.datatypes.NotePin;
+import edu.cuhk.mapnotes.util.HelpButtonOnClickListener;
 import edu.cuhk.mapnotes.util.NotePinUtil;
 
 public class MapsActivity extends FragmentActivity
@@ -89,22 +87,7 @@ public class MapsActivity extends FragmentActivity
         // help button
         builder = new AlertDialog.Builder(this);
         FloatingActionButton mapHelpButton = binding.fabMapHelp;
-        mapHelpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                builder.setMessage(R.string.welcome_to_app_descr)
-                        .setCancelable(false)
-                        .setNeutralButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.cancel();
-                            }
-                        });
-                AlertDialog dialog = builder.create();
-                dialog.setTitle(R.string.welcome_to_app_title);
-                dialog.show();
-            }
-        });
+        mapHelpButton.setOnClickListener(new HelpButtonOnClickListener(builder, R.string.welcome_to_app_title, R.string.welcome_to_app_descr));
     }
 
     @Override

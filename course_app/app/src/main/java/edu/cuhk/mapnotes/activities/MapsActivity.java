@@ -78,7 +78,7 @@ public class MapsActivity extends FragmentActivity
         double latitude = 22.3787 + random.nextDouble() * (22.3907 - 22.3787);
         double longitude = 114.1930 + random.nextDouble() * (114.2104 - 114.1930);
         NotePin randomPin = NotePinUtil.MakeNewPinAtLocation(latitude, longitude);
-        drawNotePin(randomPin);
+        notePins.add(randomPin);
 
         loadNotePins();
 

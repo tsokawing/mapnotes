@@ -125,7 +125,7 @@ public class MapsActivity extends FragmentActivity
 
     private void drawNotePin(NotePin notePin) {
         LatLng latlng = new LatLng(notePin.latitude, notePin.longitude);
-        mMap.addMarker(new MarkerOptions().position(latlng).title(notePin.pinName));
+        mMap.addMarker(new MarkerOptions().position(latlng).title("" + notePin.uid));
     }
 
     private void initCamera() {

@@ -18,7 +18,7 @@ public interface NotePinDao {
     List<NotePin> getAllPinsInArea(double fromLatitude, double fromLongitude, double toLatitude, double toLongitude);
 
     @Insert
-    void insertPins(NotePin... pins);
+    List<Long> insertPins(NotePin... pins);
 
     @Delete
     void deletePin(NotePin pin);

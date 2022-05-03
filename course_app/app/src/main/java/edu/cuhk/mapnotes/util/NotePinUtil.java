@@ -21,14 +21,21 @@ public class NotePinUtil {
         // immediately write back to the object here, others may want to use the UID
         newPin.uid = (int) ((long) insertionResponse.get(0));
 
-        // also give a default note for the pin
-        NoteEntry noteEntry = new NoteEntry();
-        String roundedLat = df.format(newPin.latitude);
-        String roundedLng = df.format(newPin.longitude);
-        noteEntry.noteText = "The location (" + roundedLat + ", " + roundedLng + ") is now marked. Perhaps there is something important here to be noted.";
-        noteEntry.pinUid = newPin.uid;
-        MapsActivity.noteDatabase.noteEntryDao().insertNoteEntries(noteEntry);
-
+        ensurePinHasSomeNotes(newPin);
         return newPin;
+    }
+
+    public static void ensurePinHasSomeNotes(NotePin pin) {
+        // if pin has no notes, then add a default note to it
+        List<NoteEntry> notesOfPin = MapsActivity.noteDatabase.noteEntryDao().getAllNoteEntries(pin.uid);
+        if (notesOfPin.isEmpty()) {
+            NoteEntry noteEntry = new NoteEntry();
+            String roundedLat = df.format(pin.latitude);
+            String roundedLng = df.format(pin.longitude);
+            noteEntry.noteTitle = "Location Marked";
+            noteEntry.noteText = "The location (" + roundedLat + ", " + roundedLng + ") is now marked. Perhaps there is something important here to be noted.";
+            noteEntry.pinUid = pin.uid;
+            MapsActivity.noteDatabase.noteEntryDao().insertNoteEntries(noteEntry);
+        }
     }
 }

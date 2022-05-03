@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 import edu.cuhk.mapnotes.R;
@@ -28,7 +30,8 @@ public class PinsAdapter extends RecyclerView.Adapter<PinsAdapter.ViewHolder> {
      * Provide a reference to the type of views that you are using (custom ViewHolder)
      */
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView textView;
+        private final TextView textViewNoteTitle;
+        private final TextView textViewNoteContent;
 
         public ViewHolder(View v) {
             super(v);
@@ -40,11 +43,16 @@ public class PinsAdapter extends RecyclerView.Adapter<PinsAdapter.ViewHolder> {
                     v.getContext().startActivity(new Intent(v.getContext(), NotesActivity.class));
                 }
             });
-            textView = (TextView) v.findViewById(R.id.textView);
+            textViewNoteTitle = (TextView) v.findViewById(R.id.textViewNoteTitle);
+            textViewNoteContent = (TextView) v.findViewById(R.id.textViewNoteText);
         }
 
-        public TextView getTextView() {
-            return textView;
+        public TextView getTitleTextView() {
+            return textViewNoteTitle;
+        }
+
+        public TextView getContentTextView() {
+            return textViewNoteContent;
         }
     }
 
@@ -78,7 +86,9 @@ public class PinsAdapter extends RecyclerView.Adapter<PinsAdapter.ViewHolder> {
 
         // Get element from your dataset at this position and replace the contents of the view
         // with that element
-        viewHolder.getTextView().setText(mNoteEntries.get(position).noteText);
+        NoteEntry noteEntry = mNoteEntries.get(position);
+        viewHolder.getTitleTextView().setText(noteEntry.noteTitle);
+        viewHolder.getContentTextView().setText(noteEntry.noteText);
     }
 
     // Return the size of your dataset (invoked by the layout manager)

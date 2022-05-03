@@ -21,6 +21,9 @@ public class NoteEntry {
     @ColumnInfo(name = "pin_uid")
     public int pinUid;
 
+    @ColumnInfo(name = "title")
+    public String noteTitle;
+
     @ColumnInfo(name = "text")
     public String noteText;
 }

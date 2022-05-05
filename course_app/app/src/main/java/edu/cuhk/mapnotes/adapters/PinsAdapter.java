@@ -9,14 +9,11 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 import edu.cuhk.mapnotes.R;
 import edu.cuhk.mapnotes.activities.MapsActivity;
 import edu.cuhk.mapnotes.activities.NotesActivity;
-import edu.cuhk.mapnotes.activities.PinsActivity;
 import edu.cuhk.mapnotes.datatypes.NoteEntry;
 
 public class PinsAdapter extends RecyclerView.Adapter<PinsAdapter.ViewHolder> {
@@ -82,7 +79,7 @@ public class PinsAdapter extends RecyclerView.Adapter<PinsAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         // Create a new view.
         View v = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.text_row_item, viewGroup, false);
+                .inflate(R.layout.note_row_item, viewGroup, false);
 
         return new ViewHolder(v);
     }

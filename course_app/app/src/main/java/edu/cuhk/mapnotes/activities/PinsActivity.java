@@ -61,10 +61,12 @@ public class PinsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // add a new note entry to this pin
+                // TODO: Delete db then refresh may be slow as UI has to wait db finished.
                 NoteEntry noteEntry = new NoteEntry();
                 noteEntry.noteTitle = "New Note";
                 noteEntry.noteText = "A new note for this location has been created. Click here to edit it.";
                 noteEntry.pinUid = pinUid;
+                // TODO: Should make db related as singleton outside of MapsActivity
                 MapsActivity.noteDatabase.noteEntryDao().insertNoteEntries(noteEntry);
 
                 PinsAdapter adapter = recyclerViewFragment.getPinsAdapter();
@@ -72,9 +74,6 @@ public class PinsActivity extends AppCompatActivity {
                 adapter.notifyItemInserted(adapter.getItemCount() - 1);
 
                 Toast.makeText(getApplicationContext(), "A new note has been created.", Toast.LENGTH_LONG).show();
-
-//                Snackbar.make(view, "Add a new note to this pin", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
             }
         });
 

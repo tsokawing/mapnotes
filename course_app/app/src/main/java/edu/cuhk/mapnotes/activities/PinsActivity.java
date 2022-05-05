@@ -4,10 +4,12 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
@@ -35,6 +37,8 @@ public class PinsActivity extends AppCompatActivity {
 
         binding = ActivityPinsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        writePinInfoOnToolBar();
 
         // load the pin uid
         Intent invokerIntent = getIntent();
@@ -99,5 +103,12 @@ public class PinsActivity extends AppCompatActivity {
         FloatingActionButton mapHelpButton = binding.fabHelpNotes;
         mapHelpButton.setOnClickListener(new HelpButtonOnClickListener(
                 builder, R.string.notes_of_pin_title, R.string.notes_of_pin_descr));
+    }
+
+    void writePinInfoOnToolBar() {
+        Toolbar toolbar = binding.toolbar;
+        setSupportActionBar(toolbar);
+        CollapsingToolbarLayout toolBarLayout = binding.toolbarLayout;
+        toolBarLayout.setTitle("Pin");
     }
 }

@@ -32,7 +32,7 @@ public class NotePinUtil {
             NoteEntry noteEntry = new NoteEntry();
             String roundedLat = df.format(pin.latitude);
             String roundedLng = df.format(pin.longitude);
-            noteEntry.noteTitle = "Location Marked";
+            noteEntry.noteTitle = "First Note of This Pin";
             noteEntry.noteText = "The location (" + roundedLat + ", " + roundedLng + ") is now marked. Perhaps there is something important here to be noted.";
             noteEntry.pinUid = pin.uid;
             MapsActivity.noteDatabase.noteEntryDao().insertNoteEntries(noteEntry);

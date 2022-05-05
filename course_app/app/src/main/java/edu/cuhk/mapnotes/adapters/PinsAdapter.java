@@ -74,6 +74,10 @@ public class PinsAdapter extends RecyclerView.Adapter<PinsAdapter.ViewHolder> {
         mNoteEntries = MapsActivity.noteDatabase.noteEntryDao().getAllNoteEntries(pinUid);
     }
 
+    public NoteEntry getNoteEntryAt(int position) {
+        return mNoteEntries.get(position);
+    }
+
     // Create new views (invoked by the layout manager)
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {

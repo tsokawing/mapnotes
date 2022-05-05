@@ -5,13 +5,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import edu.cuhk.mapnotes.R;
+import edu.cuhk.mapnotes.activities.MapsActivity;
 import edu.cuhk.mapnotes.adapters.PinsAdapter;
+import edu.cuhk.mapnotes.datatypes.NoteEntry;
 
 public class RecyclerViewFragment extends Fragment {
     private static final String TAG = "RecyclerViewFragment";
@@ -80,7 +87,42 @@ public class RecyclerViewFragment extends Fragment {
         // Set CustomAdapter as the adapter for RecyclerView.
         mRecyclerView.setAdapter(mAdapter);
 
+        useSwipeToDelete(mRecyclerView, mAdapter);
+
         return rootView;
+    }
+
+    void useSwipeToDelete(RecyclerView recyclerView, PinsAdapter adapter) {
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                // This method is called when the item is moved.
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                // Remove note when swiping right
+                int position = viewHolder.getAdapterPosition();
+                NoteEntry deletedNote = adapter.getNoteEntryAt(position);
+                // TODO: Should make db related as singleton outside of MapsActivity
+                MapsActivity.noteDatabase.noteEntryDao().deleteNoteEntry(deletedNote);
+
+                adapter.refreshNotePins();
+                adapter.notifyItemRemoved(position);
+
+                // Display snack bar for undo
+                Snackbar.make(recyclerView, deletedNote.noteTitle, Snackbar.LENGTH_LONG).setAction("Undo", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // TODO: Add note back to db and ui
+//                        recyclerDataArrayList.add(position, deletedCourse);
+//                        adapter.notifyItemInserted(position);
+                    }
+                }).show();
+            }
+        }).attachToRecyclerView(recyclerView);
+
     }
 
     /**

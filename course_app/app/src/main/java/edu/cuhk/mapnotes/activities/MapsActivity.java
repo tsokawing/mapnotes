@@ -127,7 +127,8 @@ public class MapsActivity extends FragmentActivity
     }
 
     private void initCamera() {
-        LatLng center = getCenterOfPins(notePins);
+        LatLng hk = new LatLng(22.318736573752293, 114.16958960975587);
+        LatLng center = notePins.isEmpty() ? hk : getCenterOfPins(notePins);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(center));
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(center, 13));
     }

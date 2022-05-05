@@ -93,6 +93,10 @@ public class NotesActivity extends AppCompatActivity {
         EditText editText = findViewById(R.id.note_edittext);
         editText.setFocusable(false);
 
+        // Collapse keyboard
+        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+
         FloatingActionButton editTextFab = findViewById(R.id.fab_edit_text);
         editTextFab.setImageResource(R.drawable.ic_baseline_edit_24);
     }

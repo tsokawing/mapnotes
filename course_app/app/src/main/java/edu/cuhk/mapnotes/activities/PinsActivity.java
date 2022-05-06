@@ -1,5 +1,6 @@
 package edu.cuhk.mapnotes.activities;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -7,7 +8,6 @@ import android.os.Bundle;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -124,6 +124,18 @@ public class PinsActivity extends AppCompatActivity {
         FloatingActionButton mapHelpButton = binding.fabHelpNotes;
         mapHelpButton.setOnClickListener(new HelpButtonOnClickListener(
                 builder, R.string.notes_of_pin_title, R.string.notes_of_pin_descr));
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    @Override
+    public void onResume() {
+        super.onResume();
+        // force the stuff to update the UI; we know of no other way
+        if (recyclerViewFragment != null) {
+            PinsAdapter adapter = recyclerViewFragment.getPinsAdapter();
+            adapter.refreshNotePins();
+            adapter.notifyDataSetChanged();
+        }
     }
 
     void writePinInfoOnToolBar() {

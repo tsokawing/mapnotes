@@ -138,7 +138,7 @@ public class PinsActivity extends AppCompatActivity {
         }
     }
 
-    void writePinInfoOnToolBar() {
+    private void writePinInfoOnToolBar() {
         Toolbar toolbar = binding.toolbar;
         setSupportActionBar(toolbar);
         CollapsingToolbarLayout toolBarLayout = binding.toolbarLayout;

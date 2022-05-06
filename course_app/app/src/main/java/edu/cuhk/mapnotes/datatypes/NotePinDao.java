@@ -4,6 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.List;
 
@@ -22,6 +23,9 @@ public interface NotePinDao {
 
     @Insert
     List<Long> insertPins(NotePin... pins);
+
+    @Update
+    void updatePin(NotePin pin);
 
     @Delete
     void deletePin(NotePin pin);

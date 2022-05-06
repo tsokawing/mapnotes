@@ -4,6 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.List;
 
@@ -19,6 +20,9 @@ public interface NoteEntryDao {
 
     @Insert
     void insertNoteEntries(NoteEntry... entries);
+
+    @Update
+    void updateNoteEntry(NoteEntry entry);
 
     @Delete
     void deleteNoteEntry(NoteEntry entry);

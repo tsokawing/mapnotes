@@ -26,4 +26,7 @@
 
         "You may also delete this location from the map in this page."
     </string>
+
+    <!-- Toasts -->
+    <string name="toast_pin_created">A new location is now marked.</string>
 </resources>

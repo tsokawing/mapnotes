@@ -101,6 +101,7 @@ public class MapsActivity extends FragmentActivity
                 // create a new pin
                 NotePin pin = NotePinUtil.MakeNewPinAtLocation(latLng.latitude, latLng.longitude);
                 drawNotePin(pin);
+                Toast.makeText(getApplicationContext(), R.string.toast_pin_created, Toast.LENGTH_LONG).show();
             }
         });
         initCamera();

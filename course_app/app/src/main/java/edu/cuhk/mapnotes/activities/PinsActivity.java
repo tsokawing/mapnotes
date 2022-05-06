@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -57,6 +58,16 @@ public class PinsActivity extends AppCompatActivity {
 //            this.pinUid = savedInstanceState.getInt("pinUid");
 //            Log.d("TAG", "Pin notes: UID " + this.pinUid);
         }
+
+        // Fab button for gallery
+        FloatingActionButton fabViewGallery = binding.fabViewGallery;
+        fabViewGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "View the gallery", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
 
         // Fab button for adding new note
         binding.fabAddNote.setOnClickListener(new View.OnClickListener() {

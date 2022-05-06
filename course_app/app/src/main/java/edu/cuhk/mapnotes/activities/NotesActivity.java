@@ -53,7 +53,13 @@ public class NotesActivity extends AppCompatActivity {
         Toolbar toolbar = binding.toolbar;
         setSupportActionBar(toolbar);
         CollapsingToolbarLayout toolBarLayout = binding.toolbarLayout;
-        toolBarLayout.setTitle(getTitle());
+        // load the notes
+        NoteEntry noteEntry = MapsActivity.noteDatabase.noteEntryDao().getNoteEntry(this.noteEntryUid);
+        if (noteEntry != null) {
+            toolBarLayout.setTitle(noteEntry.noteTitle);
+        } else {
+            toolBarLayout.setTitle(getTitle());
+        }
 
         stopEditText(true);
 

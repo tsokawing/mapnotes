@@ -20,8 +20,8 @@ import edu.cuhk.mapnotes.activities.MapsActivity;
 import edu.cuhk.mapnotes.adapters.PinsAdapter;
 import edu.cuhk.mapnotes.datatypes.NoteEntry;
 
-public class RecyclerViewFragment extends Fragment {
-    private static final String TAG = "RecyclerViewFragment";
+public class NotesRecyclerViewFragment extends Fragment {
+    private static final String TAG = "NotesRecyclerViewFragment";
     private static final String KEY_LAYOUT_MANAGER = "layoutManager";
     private static final int SPAN_COUNT = 2;
     private static final int DATASET_COUNT = 60;

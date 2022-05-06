@@ -22,7 +22,7 @@ import edu.cuhk.mapnotes.adapters.PinsAdapter;
 import edu.cuhk.mapnotes.databinding.ActivityPinsBinding;
 import edu.cuhk.mapnotes.datatypes.NoteEntry;
 import edu.cuhk.mapnotes.datatypes.NotePin;
-import edu.cuhk.mapnotes.fragments.RecyclerViewFragment;
+import edu.cuhk.mapnotes.fragments.NotesRecyclerViewFragment;
 import edu.cuhk.mapnotes.R;
 import edu.cuhk.mapnotes.util.HelpButtonOnClickListener;
 
@@ -30,7 +30,7 @@ public class PinsActivity extends AppCompatActivity {
 
     private ActivityPinsBinding binding;
     private AlertDialog.Builder builder;
-    private RecyclerViewFragment recyclerViewFragment;
+    private NotesRecyclerViewFragment notesRecyclerViewFragment;
 
     private int pinUid;
 
@@ -82,7 +82,7 @@ public class PinsActivity extends AppCompatActivity {
                 // TODO: Should make db related as singleton outside of MapsActivity
                 MapsActivity.noteDatabase.noteEntryDao().insertNoteEntries(noteEntry);
 
-                PinsAdapter adapter = recyclerViewFragment.getPinsAdapter();
+                PinsAdapter adapter = notesRecyclerViewFragment.getPinsAdapter();
                 adapter.refreshNotePins();
                 adapter.notifyItemInserted(adapter.getItemCount() - 1);
 
@@ -121,11 +121,11 @@ public class PinsActivity extends AppCompatActivity {
         // Display notes in a fragment recycler view
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            RecyclerViewFragment fragment = new RecyclerViewFragment();
+            NotesRecyclerViewFragment fragment = new NotesRecyclerViewFragment();
             Bundle bundle = new Bundle();
             bundle.putInt("pinUid", this.pinUid);
             fragment.setArguments(bundle);
-            recyclerViewFragment = fragment;
+            notesRecyclerViewFragment = fragment;
             transaction.replace(R.id.pin_content_fragment, fragment);
             transaction.commit();
         }
@@ -142,8 +142,8 @@ public class PinsActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         // force the stuff to update the UI; we know of no other way
-        if (recyclerViewFragment != null) {
-            PinsAdapter adapter = recyclerViewFragment.getPinsAdapter();
+        if (notesRecyclerViewFragment != null) {
+            PinsAdapter adapter = notesRecyclerViewFragment.getPinsAdapter();
             adapter.refreshNotePins();
             adapter.notifyDataSetChanged();
         }

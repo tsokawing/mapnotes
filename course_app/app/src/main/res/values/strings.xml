@@ -22,7 +22,7 @@
     <string name="notes_of_pin_descr">
         "This page shows the notes that belongs to this location.\n\n"
 
-        "You may add/edit notes in this page.\n\n"
+        "You may add/edit notes in this page. You may also delete notes by swiping them.\n\n"
 
         "You may also delete this location from the map in this page."
     </string>

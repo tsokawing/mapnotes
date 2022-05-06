@@ -26,6 +26,10 @@
 
         "You may also delete this location from the map in this page."
     </string>
+    <string name="deleting_pin_title">Deleting this location</string>
+    <string name="deleting_pin_descr">
+        "Are you sure you want to delete this location and all its notes?"
+    </string>
 
     <!-- Toasts -->
     <string name="toast_pin_created">A new location is now marked.</string>

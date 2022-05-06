@@ -17,6 +17,9 @@ public interface NotePinDao {
     @Query("SELECT * FROM note_pin WHERE latitude BETWEEN :fromLatitude AND :toLatitude AND longitude BETWEEN :fromLongitude AND :toLongitude")
     List<NotePin> getAllPinsInArea(double fromLatitude, double fromLongitude, double toLatitude, double toLongitude);
 
+    @Query("SELECT * FROM note_pin WHERE uid = :pinUid")
+    NotePin getPinById(int pinUid);
+
     @Insert
     List<Long> insertPins(NotePin... pins);
 

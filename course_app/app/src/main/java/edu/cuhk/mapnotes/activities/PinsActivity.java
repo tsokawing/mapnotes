@@ -1,6 +1,7 @@
 package edu.cuhk.mapnotes.activities;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import edu.cuhk.mapnotes.adapters.PinsAdapter;
 import edu.cuhk.mapnotes.databinding.ActivityPinsBinding;
 import edu.cuhk.mapnotes.datatypes.NoteEntry;
+import edu.cuhk.mapnotes.datatypes.NotePin;
 import edu.cuhk.mapnotes.fragments.RecyclerViewFragment;
 import edu.cuhk.mapnotes.R;
 import edu.cuhk.mapnotes.util.HelpButtonOnClickListener;
@@ -80,8 +82,28 @@ public class PinsActivity extends AppCompatActivity {
         binding.fabDeletePin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Delete this pin from map (with confirmation)", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                builder.setMessage(R.string.deleting_pin_descr)
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                // delete it!
+                                // we will do it in a slightly roundabout way
+                                NotePin pin = MapsActivity.noteDatabase.notePinDao().getPinById(pinUid);
+                                MapsActivity.noteDatabase.notePinDao().deletePin(pin);
+                                // exit to the map
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        });
+                AlertDialog dialog = builder.create();
+                dialog.setTitle(R.string.deleting_pin_title);
+                dialog.show();
             }
         });
 

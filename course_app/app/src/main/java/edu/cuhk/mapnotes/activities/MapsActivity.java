@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -91,8 +92,7 @@ public class MapsActivity extends FragmentActivity
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        pairNotePins();
-//        drawNotePins();
+        this.updateGoogleMapContents();
 
         mMap.setOnMarkerClickListener(this);
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
@@ -105,6 +105,32 @@ public class MapsActivity extends FragmentActivity
             }
         });
         initCamera();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // when returning from another activity, sometimes onresume does not call onmapready, which is understandable
+        this.updateGoogleMapContents();
+    }
+
+    private void updateGoogleMapContents() {
+        if (this.mMap == null) {
+            // cannot update
+            return;
+        }
+        removeOldPinsIfExists();
+        pairNotePins();
+    }
+
+    private void removeOldPinsIfExists() {
+        for (int pinUid : notePinsMapping.keySet()) {
+            Marker marker = notePinsMapping.get(pinUid);
+            if (marker != null) {
+                marker.remove();
+            }
+        }
+        notePinsMapping.clear();
     }
 
     private void pairNotePins() {

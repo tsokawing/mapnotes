@@ -24,6 +24,7 @@ import edu.cuhk.mapnotes.datatypes.NoteEntry;
 import edu.cuhk.mapnotes.datatypes.NotePin;
 import edu.cuhk.mapnotes.fragments.NotesRecyclerViewFragment;
 import edu.cuhk.mapnotes.R;
+import edu.cuhk.mapnotes.fragments.PhotosRecyclerViewFragment;
 import edu.cuhk.mapnotes.util.HelpButtonOnClickListener;
 
 public class PinsActivity extends AppCompatActivity {
@@ -31,6 +32,7 @@ public class PinsActivity extends AppCompatActivity {
     private ActivityPinsBinding binding;
     private AlertDialog.Builder builder;
     private NotesRecyclerViewFragment notesRecyclerViewFragment;
+    private PhotosRecyclerViewFragment photosRecyclerViewFragment;
 
     private int pinUid;
 
@@ -118,23 +120,33 @@ public class PinsActivity extends AppCompatActivity {
             }
         });
 
-        // Display notes in a fragment recycler view
-        if (savedInstanceState == null) {
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            NotesRecyclerViewFragment fragment = new NotesRecyclerViewFragment();
-            Bundle bundle = new Bundle();
-            bundle.putInt("pinUid", this.pinUid);
-            fragment.setArguments(bundle);
-            notesRecyclerViewFragment = fragment;
-            transaction.replace(R.id.pin_content_fragment, fragment);
-            transaction.commit();
-        }
+        // Show list of notes by default
+        showPinPhotos();
 
         // help button
         builder = new AlertDialog.Builder(this);
         FloatingActionButton mapHelpButton = binding.fabHelpNotes;
         mapHelpButton.setOnClickListener(new HelpButtonOnClickListener(
                 builder, R.string.notes_of_pin_title, R.string.notes_of_pin_descr));
+    }
+
+    private void showPinNotes() {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        NotesRecyclerViewFragment fragment = new NotesRecyclerViewFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("pinUid", this.pinUid);
+        fragment.setArguments(bundle);
+        notesRecyclerViewFragment = fragment;
+        transaction.replace(R.id.pin_content_fragment, notesRecyclerViewFragment);
+        transaction.commit();
+    }
+
+    private void showPinPhotos() {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        PhotosRecyclerViewFragment fragment = new PhotosRecyclerViewFragment();
+        photosRecyclerViewFragment = fragment;
+        transaction.replace(R.id.pin_content_fragment, photosRecyclerViewFragment);
+        transaction.commit();
     }
 
     @SuppressLint("NotifyDataSetChanged")

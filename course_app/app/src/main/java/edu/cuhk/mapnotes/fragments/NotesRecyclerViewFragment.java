@@ -63,7 +63,7 @@ public class NotesRecyclerViewFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.recycler_view_frag, container, false);
+        View rootView = inflater.inflate(R.layout.notes_rv_frag, container, false);
         rootView.setTag(TAG);
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);

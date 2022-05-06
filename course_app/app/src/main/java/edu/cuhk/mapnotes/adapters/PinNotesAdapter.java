@@ -16,7 +16,7 @@ import edu.cuhk.mapnotes.activities.MapsActivity;
 import edu.cuhk.mapnotes.activities.NotesActivity;
 import edu.cuhk.mapnotes.datatypes.NoteEntry;
 
-public class PinsAdapter extends RecyclerView.Adapter<PinsAdapter.ViewHolder> {
+public class PinNotesAdapter extends RecyclerView.Adapter<PinNotesAdapter.ViewHolder> {
     private static final String TAG = "Adapter";
 
 //    private String[] mDataSet;
@@ -63,11 +63,11 @@ public class PinsAdapter extends RecyclerView.Adapter<PinsAdapter.ViewHolder> {
      *
      * @param dataSet String[] containing the data to populate views to be used by RecyclerView.
      */
-    public PinsAdapter(String[] dataSet) {
+    public PinNotesAdapter(String[] dataSet) {
 //        mDataSet = dataSet;
     }
 
-    public PinsAdapter(int pinUid) {
+    public PinNotesAdapter(int pinUid) {
         this.pinUid = pinUid;
         this.refreshNotePins();
     }

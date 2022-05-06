@@ -54,10 +54,9 @@ public class PhotosRecyclerViewFragment extends Fragment {
         mDataset.add(new Photo(R.drawable.image5));
         mDataset.add(new Photo(R.drawable.image6));
         mDataset.add(new Photo(R.drawable.image7));
-
     }
 
-    public PinPhotosAdapter getPinsAdapter() {
+    public PinPhotosAdapter getPinPhotosAdapter() {
         return mAdapter;
     }
 }

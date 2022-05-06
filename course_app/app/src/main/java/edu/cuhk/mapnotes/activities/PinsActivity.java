@@ -18,7 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import edu.cuhk.mapnotes.adapters.PinsAdapter;
+import edu.cuhk.mapnotes.adapters.PinNotesAdapter;
 import edu.cuhk.mapnotes.databinding.ActivityPinsBinding;
 import edu.cuhk.mapnotes.datatypes.NoteEntry;
 import edu.cuhk.mapnotes.datatypes.NotePin;
@@ -33,6 +33,8 @@ public class PinsActivity extends AppCompatActivity {
     private AlertDialog.Builder builder;
     private NotesRecyclerViewFragment notesRecyclerViewFragment;
     private PhotosRecyclerViewFragment photosRecyclerViewFragment;
+
+    private boolean showingPhotos = false;
 
     private int pinUid;
 
@@ -66,8 +68,7 @@ public class PinsActivity extends AppCompatActivity {
         fabViewGallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "View the gallery", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                toggleBetweenNotesAndPhotos();
             }
         });
 
@@ -84,7 +85,7 @@ public class PinsActivity extends AppCompatActivity {
                 // TODO: Should make db related as singleton outside of MapsActivity
                 MapsActivity.noteDatabase.noteEntryDao().insertNoteEntries(noteEntry);
 
-                PinsAdapter adapter = notesRecyclerViewFragment.getPinsAdapter();
+                PinNotesAdapter adapter = notesRecyclerViewFragment.getPinNotesAdapter();
                 adapter.refreshNotePins();
                 adapter.notifyItemInserted(adapter.getItemCount() - 1);
 
@@ -121,13 +122,22 @@ public class PinsActivity extends AppCompatActivity {
         });
 
         // Show list of notes by default
-        showPinPhotos();
+        showPinNotes();
 
         // help button
         builder = new AlertDialog.Builder(this);
         FloatingActionButton mapHelpButton = binding.fabHelpNotes;
         mapHelpButton.setOnClickListener(new HelpButtonOnClickListener(
                 builder, R.string.notes_of_pin_title, R.string.notes_of_pin_descr));
+    }
+
+    private void toggleBetweenNotesAndPhotos() {
+        if (showingPhotos) {
+            showPinNotes();
+        } else {
+            showPinPhotos();
+        }
+        showingPhotos = !showingPhotos;
     }
 
     private void showPinNotes() {
@@ -139,6 +149,9 @@ public class PinsActivity extends AppCompatActivity {
         notesRecyclerViewFragment = fragment;
         transaction.replace(R.id.pin_content_fragment, notesRecyclerViewFragment);
         transaction.commit();
+
+        FloatingActionButton galleryFab = findViewById(R.id.fab_view_gallery);
+        galleryFab.setImageResource(R.drawable.ic_baseline_photo_24);
     }
 
     private void showPinPhotos() {
@@ -147,6 +160,9 @@ public class PinsActivity extends AppCompatActivity {
         photosRecyclerViewFragment = fragment;
         transaction.replace(R.id.pin_content_fragment, photosRecyclerViewFragment);
         transaction.commit();
+
+        FloatingActionButton galleryFab = findViewById(R.id.fab_view_gallery);
+        galleryFab.setImageResource(R.drawable.ic_baseline_notes_24);
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -155,7 +171,7 @@ public class PinsActivity extends AppCompatActivity {
         super.onResume();
         // force the stuff to update the UI; we know of no other way
         if (notesRecyclerViewFragment != null) {
-            PinsAdapter adapter = notesRecyclerViewFragment.getPinsAdapter();
+            PinNotesAdapter adapter = notesRecyclerViewFragment.getPinNotesAdapter();
             adapter.refreshNotePins();
             adapter.notifyDataSetChanged();
         }

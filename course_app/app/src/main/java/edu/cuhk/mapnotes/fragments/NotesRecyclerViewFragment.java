@@ -17,7 +17,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import edu.cuhk.mapnotes.R;
 import edu.cuhk.mapnotes.activities.MapsActivity;
-import edu.cuhk.mapnotes.adapters.PinsAdapter;
+import edu.cuhk.mapnotes.adapters.PinNotesAdapter;
 import edu.cuhk.mapnotes.datatypes.NoteEntry;
 
 public class NotesRecyclerViewFragment extends Fragment {
@@ -34,7 +34,7 @@ public class NotesRecyclerViewFragment extends Fragment {
     protected LayoutManagerType mCurrentLayoutManagerType;
 
     protected RecyclerView mRecyclerView;
-    protected PinsAdapter mAdapter;
+    protected PinNotesAdapter mAdapter;
     protected RecyclerView.LayoutManager mLayoutManager;
     protected String[] mDataset;
 
@@ -82,8 +82,8 @@ public class NotesRecyclerViewFragment extends Fragment {
         }
         setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
 
-//        mAdapter = new PinsAdapter(mDataset);
-        mAdapter = new PinsAdapter(this.pinUid);
+//        mAdapter = new PinNotesAdapter(mDataset);
+        mAdapter = new PinNotesAdapter(this.pinUid);
         // Set CustomAdapter as the adapter for RecyclerView.
         mRecyclerView.setAdapter(mAdapter);
 
@@ -92,7 +92,7 @@ public class NotesRecyclerViewFragment extends Fragment {
         return rootView;
     }
 
-    void useSwipeToDelete(RecyclerView recyclerView, PinsAdapter adapter) {
+    void useSwipeToDelete(RecyclerView recyclerView, PinNotesAdapter adapter) {
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -171,7 +171,7 @@ public class NotesRecyclerViewFragment extends Fragment {
         }
     }
 
-    public PinsAdapter getPinsAdapter() {
+    public PinNotesAdapter getPinNotesAdapter() {
         return mAdapter;
     }
 }

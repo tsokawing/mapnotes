@@ -18,6 +18,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.Objects;
+
 import edu.cuhk.mapnotes.databinding.ActivityNotesBinding;
 import edu.cuhk.mapnotes.R;
 import edu.cuhk.mapnotes.datatypes.NoteEntry;
@@ -53,7 +55,7 @@ public class NotesActivity extends AppCompatActivity {
         CollapsingToolbarLayout toolBarLayout = binding.toolbarLayout;
         toolBarLayout.setTitle(getTitle());
 
-        stopEditText();
+        stopEditText(true);
 
         FloatingActionButton fabViewGallery = binding.fabViewGallery;
         fabViewGallery.setOnClickListener(new View.OnClickListener() {
@@ -78,7 +80,7 @@ public class NotesActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (isEditing) {
-                    stopEditText();
+                    stopEditText(false);
                     Toast.makeText(getApplicationContext(), "New changes saved", Toast.LENGTH_LONG).show();
                 } else {
                     startEditText();
@@ -116,7 +118,7 @@ public class NotesActivity extends AppCompatActivity {
         editTextFab.setImageResource(R.drawable.ic_baseline_check_24);
     }
 
-    void stopEditText() {
+    void stopEditText(boolean doNotSave) {
         isEditing = false;
         EditText editText = findViewById(R.id.note_edittext);
         editText.setFocusable(false);
@@ -127,5 +129,12 @@ public class NotesActivity extends AppCompatActivity {
 
         FloatingActionButton editTextFab = findViewById(R.id.fab_edit_text);
         editTextFab.setImageResource(R.drawable.ic_baseline_edit_24);
+
+        // save it to the db
+        if (!doNotSave) {
+            NoteEntry entry = MapsActivity.noteDatabase.noteEntryDao().getNoteEntry(this.noteEntryUid);
+            entry.noteText = editText.getText().toString();
+            MapsActivity.noteDatabase.noteEntryDao().updateNoteEntry(entry);
+        }
     }
 }

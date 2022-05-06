@@ -49,14 +49,14 @@ public class NotesActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton fabDeleteNote = binding.fabDeleteNote;
-        fabDeleteNote.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Delete this note (with confirmation)", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        FloatingActionButton fabDeleteNote = binding.fabDeleteNote;
+//        fabDeleteNote.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Delete this note (with confirmation)", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
 
         FloatingActionButton fabEditText = binding.fabEditText;
         fabEditText.setOnClickListener(new View.OnClickListener() {

@@ -45,6 +45,7 @@
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@android:drawable/ic_menu_gallery" />
 
+    <!--
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_delete_note"
         android:layout_width="wrap_content"
@@ -53,6 +54,7 @@
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@android:drawable/ic_menu_delete" />
+        -->
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_edit_text"

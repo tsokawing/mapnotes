@@ -18,6 +18,9 @@ public interface NoteEntryDao {
     @Query("SELECT * FROM note_entry WHERE pin_uid = :pinUid")
     List<NoteEntry> getAllNoteEntries(int pinUid);
 
+    @Query("SELECT * FROM note_entry WHERE uid = :noteEntryUid")
+    NoteEntry getNoteEntry(int noteEntryUid);
+
     @Insert
     void insertNoteEntries(NoteEntry... entries);
 

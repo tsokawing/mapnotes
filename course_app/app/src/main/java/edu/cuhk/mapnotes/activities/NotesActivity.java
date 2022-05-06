@@ -1,6 +1,7 @@
 package edu.cuhk.mapnotes.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 
 import edu.cuhk.mapnotes.databinding.ActivityNotesBinding;
 import edu.cuhk.mapnotes.R;
+import edu.cuhk.mapnotes.datatypes.NoteEntry;
 
 public class NotesActivity extends AppCompatActivity {
 
@@ -26,9 +28,22 @@ public class NotesActivity extends AppCompatActivity {
 
     private boolean isEditing = false;
 
+    private int noteEntryUid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent invokerIntent = getIntent();
+        if (invokerIntent != null) {
+            // has invoker
+            this.noteEntryUid = invokerIntent.getIntExtra("noteUid", -1);
+            if (this.noteEntryUid < 0) {
+                // well this cannot be good
+                throw new RuntimeException("noteUid is invalid");
+            }
+            Log.d("TAG", "Pin notes from intent: UID " + this.noteEntryUid);
+        }
 
         binding = ActivityNotesBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -70,6 +85,19 @@ public class NotesActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (this.noteEntryUid >= 0) {
+            // put the note content into the UI
+            EditText noteTextContentEditText = findViewById(R.id.note_edittext);
+            // load the notes
+            NoteEntry noteEntry = MapsActivity.noteDatabase.noteEntryDao().getNoteEntry(this.noteEntryUid);
+            // todo check is text or audio
+            noteTextContentEditText.setText(noteEntry.noteText);
+        }
     }
 
     void startEditText() {

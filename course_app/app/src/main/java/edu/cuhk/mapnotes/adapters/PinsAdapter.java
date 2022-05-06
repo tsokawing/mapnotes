@@ -27,7 +27,7 @@ public class PinsAdapter extends RecyclerView.Adapter<PinsAdapter.ViewHolder> {
     /**
      * Provide a reference to the type of views that you are using (custom ViewHolder)
      */
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView textViewNoteTitle;
         private final TextView textViewNoteContent;
 
@@ -37,12 +37,16 @@ public class PinsAdapter extends RecyclerView.Adapter<PinsAdapter.ViewHolder> {
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d(TAG, "Element " + getAdapterPosition() + " clicked.");
-                    v.getContext().startActivity(new Intent(v.getContext(), NotesActivity.class));
+                    NoteEntry entry = mNoteEntries.get(getAdapterPosition());
+                    Intent noteIntent = new Intent(v.getContext(), NotesActivity.class);
+                    noteIntent.putExtra("noteUid", entry.uid);
+                    Log.d(TAG, "Note entry " + entry.uid + " clicked.");
+                    v.getContext().startActivity(noteIntent);
                 }
             });
             textViewNoteTitle = (TextView) v.findViewById(R.id.textViewNoteTitle);
             textViewNoteContent = (TextView) v.findViewById(R.id.textViewNoteText);
+
         }
 
         public TextView getTitleTextView() {

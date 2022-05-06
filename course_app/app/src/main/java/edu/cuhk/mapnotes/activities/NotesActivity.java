@@ -63,24 +63,6 @@ public class NotesActivity extends AppCompatActivity {
 
         stopEditText(true);
 
-        FloatingActionButton fabViewGallery = binding.fabViewGallery;
-        fabViewGallery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "View the gallery", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-//        FloatingActionButton fabDeleteNote = binding.fabDeleteNote;
-//        fabDeleteNote.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Delete this note (with confirmation)", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-
         FloatingActionButton fabEditText = binding.fabEditText;
         fabEditText.setOnClickListener(new View.OnClickListener() {
             @Override

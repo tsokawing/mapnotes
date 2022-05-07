@@ -31,10 +31,16 @@
         "Are you sure you want to delete this location and all its notes?"
     </string>
     <string name="renaming_note_title">Rename this note</string>
+    <string name="config_reminder_title">Set up a reminder</string>
+    <string name="remind_me_switch">Remind me</string>
+    <string name="pick_datetime">Pick</string>
 
     <!-- UI Default -->
     <string name="note_tags_default">(Uncategorized)</string>
     <string name="note_reminders_default">No reminders set.</string>
+    <string name="reminder_date_default">No date set</string>
+    <string name="reminder_time_default">No time set</string>
+    <string name="reminder_text_hint">Set your reminder text…</string>
 
     <!-- Toasts -->
     <string name="toast_pin_created">A new location is now marked.</string>

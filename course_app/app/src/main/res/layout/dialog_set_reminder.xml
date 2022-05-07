@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/checkBoxEnableReminder"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="@dimen/fab_margin"
+        android:layout_marginEnd="@dimen/fab_margin"
+        android:text="@string/remind_me_switch"
+        android:textSize="16sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/textViewReminderDate"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:paddingTop="10dp"
+        android:text="@string/reminder_date_default"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/button"
+        app:layout_constraintStart_toStartOf="@+id/checkBoxEnableReminder"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxEnableReminder" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/pick_datetime"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewReminderDate"
+        app:layout_constraintEnd_toEndOf="@+id/checkBoxEnableReminder"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxEnableReminder" />
+
+    <TextView
+        android:id="@+id/textViewReminderTime"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:paddingTop="10dp"
+        android:text="@string/reminder_time_default"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/button3"
+        app:layout_constraintStart_toStartOf="@+id/textViewReminderDate"
+        app:layout_constraintTop_toBottomOf="@+id/textViewReminderDate" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/pick_datetime"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewReminderTime"
+        app:layout_constraintEnd_toEndOf="@+id/button"
+        app:layout_constraintTop_toBottomOf="@+id/button" />
+
+    <EditText
+        android:id="@+id/editTextTextPersonName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/reminder_text_hint"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="@+id/button3"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/textViewReminderTime"
+        app:layout_constraintTop_toBottomOf="@+id/textViewReminderTime"
+        android:importantForAutofill="no" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

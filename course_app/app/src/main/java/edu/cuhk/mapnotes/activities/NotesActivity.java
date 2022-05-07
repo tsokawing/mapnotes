@@ -119,6 +119,33 @@ public class NotesActivity extends AppCompatActivity {
                 properDialog.show();
             }
         });
+
+        // todo edit tags
+
+        // enable/disable reminder
+        AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
+        builder2.setTitle(R.string.config_reminder_title);
+        builder2.setView(R.layout.dialog_set_reminder);
+        builder2.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        builder2.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        AlertDialog properDialog2 = builder2.create();
+        FloatingActionButton fabEditReminder = binding.fabEditReminders;
+        fabEditReminder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                properDialog2.show();
+            }
+        });
     }
 
     @Override

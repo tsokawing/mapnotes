@@ -125,4 +125,9 @@ public class NotesActivity extends AppCompatActivity {
             MapsActivity.noteDatabase.noteEntryDao().updateNoteEntry(entry);
         }
     }
+
+    private void properlySetToolbarTitle(CharSequence charSequence) {
+        CollapsingToolbarLayout ctl = findViewById(R.id.toolbar_layout);
+        ctl.setTitle(charSequence);
+    }
 }

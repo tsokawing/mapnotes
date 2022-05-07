@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/checkBoxEnableReminder"
+        android:id="@+id/switchEnableReminder"
         android:layout_width="fill_parent"
         android:layout_height="40dp"
         android:layout_marginStart="@dimen/fab_margin"
@@ -25,9 +25,9 @@
         android:importantForAutofill="no"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="@+id/checkBoxEnableReminder"
-        app:layout_constraintStart_toStartOf="@+id/checkBoxEnableReminder"
-        app:layout_constraintTop_toBottomOf="@+id/checkBoxEnableReminder" />
+        app:layout_constraintEnd_toEndOf="@+id/switchEnableReminder"
+        app:layout_constraintStart_toStartOf="@+id/switchEnableReminder"
+        app:layout_constraintTop_toBottomOf="@+id/switchEnableReminder" />
 
     <TextView
         android:id="@+id/textView3"

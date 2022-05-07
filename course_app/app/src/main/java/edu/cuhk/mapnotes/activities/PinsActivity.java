@@ -126,9 +126,6 @@ public class PinsActivity extends AppCompatActivity {
 
         // help button
         builder = new AlertDialog.Builder(this);
-        FloatingActionButton mapHelpButton = binding.fabHelpNotes;
-        mapHelpButton.setOnClickListener(new HelpButtonOnClickListener(
-                builder, R.string.notes_of_pin_title, R.string.notes_of_pin_descr));
     }
 
     private void toggleBetweenNotesAndPhotos() {

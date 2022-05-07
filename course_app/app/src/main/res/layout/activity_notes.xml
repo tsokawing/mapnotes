@@ -32,7 +32,7 @@
                 android:layout_gravity="top|start"
                 android:layout_marginStart="@dimen/fab_margin"
                 android:layout_marginTop="200dp"
-                android:text="Text Tags"
+                android:text="@string/note_tags_default"
                 android:textSize="18dp"
                 android:textStyle="bold" />
 
@@ -43,7 +43,7 @@
                 android:layout_gravity="top|start"
                 android:layout_marginStart="@dimen/fab_margin"
                 android:layout_marginTop="240dp"
-                android:text="Text Reminder"
+                android:text="@string/note_reminders_default"
                 android:textSize="18dp"
                 android:textStyle="bold" />
 

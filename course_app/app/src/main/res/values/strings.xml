@@ -30,6 +30,11 @@
     <string name="deleting_pin_descr">
         "Are you sure you want to delete this location and all its notes?"
     </string>
+    <string name="renaming_note_title">Rename this note</string>
+
+    <!-- UI Default -->
+    <string name="note_tags_default">(Uncategorized)</string>
+    <string name="note_reminders_default">No reminders set.</string>
 
     <!-- Toasts -->
     <string name="toast_pin_created">A new location is now marked.</string>

@@ -10,14 +10,23 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 
 import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Switch;
+import android.widget.TimePicker;
 import android.widget.Toast;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import edu.cuhk.mapnotes.databinding.ActivityNotesBinding;
 import edu.cuhk.mapnotes.R;
@@ -120,7 +129,54 @@ public class NotesActivity extends AppCompatActivity {
         // enable/disable reminder
         AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
         builder2.setTitle(R.string.config_reminder_title);
-        builder2.setView(R.layout.dialog_set_reminder);
+        // start by configuring some details of the view
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_set_reminder, null);
+        EditText reminderTextEdit = dialogView.findViewById(R.id.editTextTextPersonName);
+        DatePicker datePicker = dialogView.findViewById(R.id.datePicker);
+        datePicker.setMinDate(System.currentTimeMillis() - 1000);
+        TimePicker timePicker = dialogView.findViewById(R.id.timePicker);
+        timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+            @Override
+            public void onTimeChanged(TimePicker timePicker, int hours, int minutes) {
+                // we cannot allow the date+time to be set to "before now"
+
+                // check against system time
+                LocalDateTime ldt = LocalDateTime.now();
+                DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                String nowDateTimeString = ldt.format(myFormatObj);
+
+                String dateTimePickerString = "" + datePicker.getYear() + "-" + String.format("%02d", datePicker.getMonth()) + "-" + String.format("%02d", datePicker.getDayOfMonth());
+                dateTimePickerString += " " + String.format("%02d", timePicker.getHour()) + ":" + String.format("%02d", timePicker.getMinute());
+
+                if (dateTimePickerString.compareTo(nowDateTimeString) < 0) {
+                    // not OK!
+                    datePicker.updateDate(ldt.getYear(), ldt.getMonthValue() - 1, ldt.getDayOfMonth());
+                    timePicker.setHour(ldt.getHour());
+                    timePicker.setMinute(ldt.getMinute());
+                }
+            }
+        });
+        SwitchCompat reminderSwitch = dialogView.findViewById(R.id.switchEnableReminder);
+        reminderSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                reminderTextEdit.setEnabled(isChecked);
+                datePicker.setEnabled(isChecked);
+                timePicker.setEnabled(isChecked);
+            }
+        });
+        boolean isChecked = false;
+        // todo check should check or not
+        reminderSwitch.setChecked(isChecked);
+        if (!isChecked) {
+            // we must manually apply the changes of states here for the initialization
+            reminderTextEdit.setEnabled(false);
+            datePicker.setEnabled(false);
+            timePicker.setEnabled(false);
+        }
+        // and then link the view
+        builder2.setView(dialogView);
         builder2.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {

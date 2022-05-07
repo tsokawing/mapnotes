@@ -16,60 +16,49 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
-    <TextView
-        android:id="@+id/textViewReminderDate"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:paddingTop="10dp"
-        android:text="@string/reminder_date_default"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toStartOf="@+id/button"
-        app:layout_constraintStart_toStartOf="@+id/checkBoxEnableReminder"
-        app:layout_constraintTop_toBottomOf="@+id/checkBoxEnableReminder" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/pick_datetime"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewReminderDate"
-        app:layout_constraintEnd_toEndOf="@+id/checkBoxEnableReminder"
-        app:layout_constraintTop_toBottomOf="@+id/checkBoxEnableReminder" />
-
-    <TextView
-        android:id="@+id/textViewReminderTime"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:paddingTop="10dp"
-        android:text="@string/reminder_time_default"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toStartOf="@+id/button3"
-        app:layout_constraintStart_toStartOf="@+id/textViewReminderDate"
-        app:layout_constraintTop_toBottomOf="@+id/textViewReminderDate" />
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/pick_datetime"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewReminderTime"
-        app:layout_constraintEnd_toEndOf="@+id/button"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
-
     <EditText
         android:id="@+id/editTextTextPersonName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/reminder_text_hint"
+        android:importantForAutofill="no"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="@+id/button3"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/textViewReminderTime"
-        app:layout_constraintTop_toBottomOf="@+id/textViewReminderTime"
-        android:importantForAutofill="no" />
+        app:layout_constraintEnd_toEndOf="@+id/checkBoxEnableReminder"
+        app:layout_constraintStart_toStartOf="@+id/checkBoxEnableReminder"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxEnableReminder" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Remind me at:"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/editTextTextPersonName"
+        app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+
+    <DatePicker
+        android:id="@+id/datePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner"
+        android:minDate="today"
+        app:layout_constraintEnd_toEndOf="@+id/editTextTextPersonName"
+        app:layout_constraintHorizontal_bias="0.534"
+        app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <TimePicker
+        android:id="@+id/timePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:timePickerMode="spinner"
+        app:layout_constraintTop_toBottomOf="@+id/datePicker"
+        app:layout_constraintStart_toStartOf="@+id/datePicker"
+        app:layout_constraintEnd_toEndOf="@+id/datePicker" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

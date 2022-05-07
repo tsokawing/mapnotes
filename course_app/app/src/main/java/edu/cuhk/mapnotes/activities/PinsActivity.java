@@ -2,6 +2,7 @@ package edu.cuhk.mapnotes.activities;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -33,6 +35,8 @@ public class PinsActivity extends AppCompatActivity {
     private AlertDialog.Builder builder;
     private NotesRecyclerViewFragment notesRecyclerViewFragment;
     private PhotosRecyclerViewFragment photosRecyclerViewFragment;
+
+    static final int REQUEST_IMAGE_CAPTURE = 1;
 
     private boolean showingPhotos = false;
 
@@ -72,7 +76,8 @@ public class PinsActivity extends AppCompatActivity {
             }
         });
 
-        // Fab button for adding new note
+        // Fab buttons
+
         binding.fabAddNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,6 +95,13 @@ public class PinsActivity extends AppCompatActivity {
                 adapter.notifyItemInserted(adapter.getItemCount() - 1);
 
                 Toast.makeText(getApplicationContext(), "A new note has been created.", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        binding.fabAddPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dispatchTakePictureIntent();
             }
         });
 
@@ -160,6 +172,16 @@ public class PinsActivity extends AppCompatActivity {
 
         FloatingActionButton galleryFab = findViewById(R.id.fab_view_gallery);
         galleryFab.setImageResource(R.drawable.ic_baseline_notes_24);
+    }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        try {
+            // TODO: startActivityForResult is deprecated
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        } catch (ActivityNotFoundException e) {
+            // display error state to the user
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")

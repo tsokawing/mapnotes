@@ -365,6 +365,7 @@ public class NotesActivity extends AppCompatActivity {
         }
         List<NoteReminder> reminderList = MapsActivity.noteDatabase.noteReminderDao().getAllNoteReminders(this.noteEntryUid);
         if (reminderList.isEmpty()) {
+            // should have already updated the records in the db
             return;
         }
         NoteReminder reminder = reminderList.get(0);

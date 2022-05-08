@@ -274,7 +274,7 @@ public class NotesActivity extends AppCompatActivity {
                 // we cannot allow the date+time to be set to "before now"
 
                 // check against system time
-                LocalDateTime ldt = LocalDateTime.now();
+                LocalDateTime ldt = LocalDateTime.now().plusMinutes(1);
                 DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                 String nowDateTimeString = ldt.format(myFormatObj);
 

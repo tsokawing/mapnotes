@@ -268,7 +268,7 @@ public class NotesActivity extends AppCompatActivity {
                 DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                 String nowDateTimeString = ldt.format(myFormatObj);
 
-                String dateTimePickerString = "" + datePicker.getYear() + "-" + String.format("%02d", datePicker.getMonth()) + "-" + String.format("%02d", datePicker.getDayOfMonth());
+                String dateTimePickerString = "" + datePicker.getYear() + "-" + String.format("%02d", datePicker.getMonth() + 1) + "-" + String.format("%02d", datePicker.getDayOfMonth());
                 dateTimePickerString += " " + String.format("%02d", timePicker.getHour()) + ":" + String.format("%02d", timePicker.getMinute());
 
                 if (dateTimePickerString.compareTo(nowDateTimeString) < 0) {

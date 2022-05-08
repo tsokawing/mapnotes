@@ -17,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"/>
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/editTextReminderText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -30,15 +30,15 @@
         app:layout_constraintTop_toBottomOf="@+id/switchEnableReminder" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/textViewRemindMeAt"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Remind me at:"
         android:textColor="#000000"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextPersonName"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintEnd_toEndOf="@+id/editTextReminderText"
+        app:layout_constraintStart_toStartOf="@+id/editTextReminderText"
+        app:layout_constraintTop_toBottomOf="@+id/editTextReminderText" />
 
     <DatePicker
         android:id="@+id/datePicker"
@@ -47,10 +47,10 @@
         android:calendarViewShown="false"
         android:datePickerMode="spinner"
         android:minDate="today"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/editTextReminderText"
         app:layout_constraintHorizontal_bias="0.534"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintStart_toStartOf="@+id/editTextReminderText"
+        app:layout_constraintTop_toBottomOf="@+id/textViewRemindMeAt" />
 
     <TimePicker
         android:id="@+id/timePicker"

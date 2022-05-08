@@ -1,6 +1,9 @@
 package edu.cuhk.mapnotes.fragments;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +13,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import edu.cuhk.mapnotes.R;
+import edu.cuhk.mapnotes.activities.PinsActivity;
 import edu.cuhk.mapnotes.adapters.PinPhotosAdapter;
 import edu.cuhk.mapnotes.datatypes.Photo;
 
@@ -46,13 +52,17 @@ public class PhotosRecyclerViewFragment extends Fragment {
     }
 
     private void loadPinPhotos() {
-        mDataset.add(new Photo(R.drawable.image1));
-        mDataset.add(new Photo(R.drawable.image2));
-        mDataset.add(new Photo(R.drawable.image3));
-        mDataset.add(new Photo(R.drawable.image4));
-        mDataset.add(new Photo(R.drawable.image5));
-        mDataset.add(new Photo(R.drawable.image6));
-        mDataset.add(new Photo(R.drawable.image7));
+        // Load from sdcard
+        File path = new File(this.requireContext().getExternalFilesDir(null).toString(), "images");
+        if(path.exists()) {
+            String[] fileNames = path.list();
+            for (String fileName : fileNames) {
+                Bitmap bitmap = BitmapFactory.decodeFile(path.getPath() + "/" + fileName);
+                mDataset.add(new Photo(bitmap));
+            }
+        } else {
+            Log.d(TAG, "Path not exist: " + path.getPath());
+        }
     }
 
     public PinPhotosAdapter getPinPhotosAdapter() {

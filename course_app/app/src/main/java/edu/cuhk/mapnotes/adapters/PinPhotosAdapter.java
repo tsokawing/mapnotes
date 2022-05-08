@@ -51,8 +51,7 @@ public class PinPhotosAdapter extends RecyclerView.Adapter<PinPhotosAdapter.PinP
         }
 
         void setPhoto(Photo photo) {
-            photoView.setImageResource(photo.getImage());
-
+            photoView.setImageBitmap(photo.getImage());
         }
     }
 }

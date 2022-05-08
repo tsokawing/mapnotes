@@ -1,13 +1,15 @@
 package edu.cuhk.mapnotes.datatypes;
 
-public class Photo {
-    private int image;
+import android.graphics.Bitmap;
 
-    public Photo(int image) {
+public class Photo {
+    private Bitmap image;
+
+    public Photo(Bitmap image) {
         this.image = image;
     }
 
-    public int getImage() {
+    public Bitmap getImage() {
         return image;
     }
 }

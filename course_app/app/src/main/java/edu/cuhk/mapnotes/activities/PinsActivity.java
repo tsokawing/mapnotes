@@ -2,14 +2,14 @@ package edu.cuhk.mapnotes.activities;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -20,6 +20,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Objects;
+
 import edu.cuhk.mapnotes.adapters.PinNotesAdapter;
 import edu.cuhk.mapnotes.databinding.ActivityPinsBinding;
 import edu.cuhk.mapnotes.datatypes.NoteEntry;
@@ -27,7 +34,6 @@ import edu.cuhk.mapnotes.datatypes.NotePin;
 import edu.cuhk.mapnotes.fragments.NotesRecyclerViewFragment;
 import edu.cuhk.mapnotes.R;
 import edu.cuhk.mapnotes.fragments.PhotosRecyclerViewFragment;
-import edu.cuhk.mapnotes.util.HelpButtonOnClickListener;
 
 public class PinsActivity extends AppCompatActivity {
 
@@ -37,7 +43,6 @@ public class PinsActivity extends AppCompatActivity {
     private PhotosRecyclerViewFragment photosRecyclerViewFragment;
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
-
     private boolean showingPhotos = false;
 
     private int pinUid;
@@ -101,7 +106,8 @@ public class PinsActivity extends AppCompatActivity {
         binding.fabAddPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dispatchTakePictureIntent();
+                captureImage();
+//                dispatchTakePictureIntent();
             }
         });
 
@@ -174,13 +180,48 @@ public class PinsActivity extends AppCompatActivity {
         galleryFab.setImageResource(R.drawable.ic_baseline_notes_24);
     }
 
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+    @SuppressLint("QueryPermissionsNeeded")
+    private void captureImage() {
+        Intent pictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (pictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(pictureIntent, 100);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100 && resultCode == RESULT_OK) {
+            if (data != null && data.getExtras() != null) {
+                Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
+                saveImage(imageBitmap);
+            }
+        }
+    }
+
+    private void saveImage(Bitmap bitmap) {
+        String filename;
+        Date date = new Date();
+        @SuppressLint("SimpleDateFormat")
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        filename = sdf.format(date);
+
         try {
-            // TODO: startActivityForResult is deprecated
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        } catch (ActivityNotFoundException e) {
-            // display error state to the user
+            String path = this.getApplicationContext().getExternalFilesDir(null).toString();
+            OutputStream outputStream = null;
+            File file = new File(path, "/images/" + filename + ".jpg");
+            File root = new File(Objects.requireNonNull(file.getParent()));
+            if (file.getParent() != null && !root.isDirectory()) {
+                root.mkdirs();
+            }
+            outputStream = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 85, outputStream);
+            outputStream.flush();
+            outputStream.close();
+            MediaStore.Images.Media.insertImage(getContentResolver(), file.getAbsolutePath(), file.getName(), file.getName());
+        } catch (Exception e) {
+            Log.e("PinsActivity", "saveImage: " + e);
+            e.printStackTrace();
         }
     }
 
@@ -201,5 +242,9 @@ public class PinsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         CollapsingToolbarLayout toolBarLayout = binding.toolbarLayout;
         toolBarLayout.setTitle("Pin");
+    }
+
+    public Context getContext() {
+        return this.getApplicationContext();
     }
 }

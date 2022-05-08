@@ -15,4 +15,6 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract NotePinDao notePinDao();
 
     public abstract NoteEntryDao noteEntryDao();
+
+    public abstract NoteReminderDao noteReminderDao();
 }

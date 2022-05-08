@@ -21,9 +21,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -147,6 +149,7 @@ public class NotesActivity extends AppCompatActivity {
                     if (noteEntryUid >= 0) {
                         MapsActivity.noteDatabase.noteReminderDao().clearAllRemindersOfNote(noteEntryUid);
                     }
+                    updateReminderDisplayText();
                     return;
                 }
                 // build a timestamp string and then convert it into a Date object
@@ -175,6 +178,7 @@ public class NotesActivity extends AppCompatActivity {
                     reminder.reminderText = reminderTextEditText.getText().toString();
                     reminder.reminderTimestamp = timestampMs;
                     MapsActivity.noteDatabase.noteReminderDao().upsertNoteReminders(reminder);
+                    updateReminderDisplayText();
                 } catch (ParseException x) {
                     Log.e("TAG", "Failed to parse date! I got: " + timestampString);
                 }
@@ -206,6 +210,9 @@ public class NotesActivity extends AppCompatActivity {
             NoteEntry noteEntry = MapsActivity.noteDatabase.noteEntryDao().getNoteEntry(this.noteEntryUid);
             // todo check is text or audio
             noteTextContentEditText.setText(noteEntry.noteText);
+
+            // check the reminder
+            this.updateReminderDisplayText();
         }
     }
 
@@ -299,6 +306,29 @@ public class NotesActivity extends AppCompatActivity {
         }
 
         return dialogView;
+    }
+
+    private void updateReminderDisplayText() {
+        // check reminder
+        List<NoteReminder> reminderList = MapsActivity.noteDatabase.noteReminderDao().getAllNoteReminders(this.noteEntryUid);
+        TextView reminderText = findViewById(R.id.reminderText);
+        if (reminderList.isEmpty()) {
+            // no reminder; set early
+            reminderText.setText(R.string.note_reminders_default);
+            return;
+        }
+        // has reminder
+        NoteReminder reminder = reminderList.get(0);
+        // format: Reminder set: [date]
+        Date reminderDate = new Date(reminder.reminderTimestamp);
+        if (System.currentTimeMillis() > reminderDate.getTime()) {
+            // expired!
+            reminderText.setText("Reminder expired.");
+            return;
+        }
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        String timestampString = format.format(reminderDate);
+        reminderText.setText("Reminder set: " + timestampString);
     }
 
     private void testNotification() {

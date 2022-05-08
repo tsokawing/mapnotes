@@ -46,7 +46,6 @@
         android:layout_height="wrap_content"
         android:calendarViewShown="false"
         android:datePickerMode="spinner"
-        android:minDate="today"
         app:layout_constraintEnd_toEndOf="@+id/editTextReminderText"
         app:layout_constraintHorizontal_bias="0.534"
         app:layout_constraintStart_toStartOf="@+id/editTextReminderText"

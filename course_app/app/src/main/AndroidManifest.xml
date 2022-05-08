@@ -52,6 +52,8 @@
             android:exported="false"
             android:label="@string/title_activity_pins"
             android:theme="@style/Theme.CourseProject.NoActionBar" />
+
+        <receiver android:name=".util.ReminderBroadcast"/>
     </application>
 
 </manifest>

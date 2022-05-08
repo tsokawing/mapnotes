@@ -283,7 +283,7 @@ public class NotesActivity extends AppCompatActivity {
 
                 if (dateTimePickerString.compareTo(nowDateTimeString) < 0) {
                     // not OK!
-                    datePicker.updateDate(ldt.getYear(), ldt.getMonthValue(), ldt.getDayOfMonth());
+                    datePicker.updateDate(ldt.getYear(), ldt.getMonthValue() - 1, ldt.getDayOfMonth());
                     timePicker.setHour(ldt.getHour());
                     timePicker.setMinute(ldt.getMinute());
                 }
@@ -305,14 +305,14 @@ public class NotesActivity extends AppCompatActivity {
             isChecked = true;
             // update the various values here
             LocalDateTime ldt = LocalDateTime.ofEpochSecond(reminder.reminderTimestamp / 1000, (int) (reminder.reminderTimestamp % 1000), OffsetDateTime.now().getOffset());
-            datePicker.updateDate(ldt.getYear(), ldt.getMonthValue(), ldt.getDayOfMonth());
+            datePicker.updateDate(ldt.getYear(), ldt.getMonthValue() - 1, ldt.getDayOfMonth());
             timePicker.setHour(ldt.getHour());
             timePicker.setMinute(ldt.getMinute());
         } else {
             // no valid reminder time; set it to now + 1 minute to force future
             // todo it doesnt work?
             LocalDateTime ldt = LocalDateTime.now().plusMinutes(1);
-            datePicker.updateDate(ldt.getYear(), ldt.getMonthValue(), ldt.getDayOfMonth());
+            datePicker.updateDate(ldt.getYear(), ldt.getMonthValue() - 1, ldt.getDayOfMonth());
             timePicker.setHour(ldt.getHour());
             timePicker.setMinute(ldt.getMinute());
         }

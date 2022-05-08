@@ -138,6 +138,7 @@ public class NotesActivity extends AppCompatActivity {
         // enable/disable reminder
         AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
         builder2.setTitle(R.string.config_reminder_title);
+        // todo: issue: reminder UI does not update when "reminder is triggered when inside the NoteEntry UI" (extreme edge case)
         View dialogView = this.inflateAndInitReminderDialog();
         builder2.setView(dialogView);
         builder2.setPositiveButton("OK", new DialogInterface.OnClickListener() {

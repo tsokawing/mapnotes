@@ -28,12 +28,15 @@ public class PhotosRecyclerViewFragment extends Fragment {
 
     protected RecyclerView mRecyclerView;
     protected PinPhotosAdapter mAdapter;
+
     protected List<Photo> mDataset = new ArrayList<>();
+    private int pinUid;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        loadPinId();
         loadPinPhotos();
     }
 
@@ -51,9 +54,17 @@ public class PhotosRecyclerViewFragment extends Fragment {
         return rootView;
     }
 
+    private void loadPinId() {
+        Bundle bundleArguments = getArguments();
+        if (bundleArguments != null) {
+            this.pinUid = bundleArguments.getInt("pinUid");
+            Log.d("TAG", "Recycler view: pin UID " + this.pinUid);
+        }
+    }
+
     private void loadPinPhotos() {
         // Load from sdcard
-        File path = new File(this.requireContext().getExternalFilesDir(null).toString(), "images");
+        File path = new File(this.requireContext().getExternalFilesDir(null).toString(), "images/" + String.valueOf(pinUid));
         if(path.exists()) {
             String[] fileNames = path.list();
             for (String fileName : fileNames) {

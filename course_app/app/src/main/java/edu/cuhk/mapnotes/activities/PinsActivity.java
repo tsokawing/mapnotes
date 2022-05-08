@@ -172,6 +172,9 @@ public class PinsActivity extends AppCompatActivity {
     private void showPinPhotos() {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         PhotosRecyclerViewFragment fragment = new PhotosRecyclerViewFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("pinUid", this.pinUid);
+        fragment.setArguments(bundle);
         photosRecyclerViewFragment = fragment;
         transaction.replace(R.id.pin_content_fragment, photosRecyclerViewFragment);
         transaction.commit();
@@ -209,7 +212,7 @@ public class PinsActivity extends AppCompatActivity {
         try {
             String path = this.getApplicationContext().getExternalFilesDir(null).toString();
             OutputStream outputStream = null;
-            File file = new File(path, "/images/" + filename + ".jpg");
+            File file = new File(path, "/images/" + String.valueOf(pinUid) + "/" + filename + ".jpg");
             File root = new File(Objects.requireNonNull(file.getParent()));
             if (file.getParent() != null && !root.isDirectory()) {
                 root.mkdirs();

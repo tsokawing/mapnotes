@@ -24,12 +24,16 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 import edu.cuhk.mapnotes.databinding.ActivityNotesBinding;
 import edu.cuhk.mapnotes.R;
 import edu.cuhk.mapnotes.datatypes.NoteEntry;
+import edu.cuhk.mapnotes.util.NotificationUtil;
 
 public class NotesActivity extends AppCompatActivity {
 
@@ -128,14 +132,30 @@ public class NotesActivity extends AppCompatActivity {
         // enable/disable reminder
         AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
         builder2.setTitle(R.string.config_reminder_title);
-        builder2.setView(this.inflateAndInitReminderDialog());
-        builder2.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        View dialogView = this.inflateAndInitReminderDialog();
+        builder2.setView(dialogView);
+        builder2.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+//                testNotification();
+                // build a timestamp string and then convert it into a Date object
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
+                DatePicker datePicker = dialogView.findViewById(R.id.datePicker);
+                TimePicker timePicker = dialogView.findViewById(R.id.timePicker);
+                String timestampString = "" + datePicker.getYear() + "-" + String.format("%02d", datePicker.getMonth() + 1) + "-" + String.format("%02d", datePicker.getDayOfMonth());
+                timestampString += " " + String.format("%02d", timePicker.getHour()) + ":" + String.format("%02d", timePicker.getMinute());
+
+                try {
+                    Date reminderDate = formatter.parse(timestampString);
+                    assert reminderDate != null;
+                    long timestampMs = reminderDate.getTime();
+                } catch (ParseException x) {
+                    Log.e("TAG", "Failed to parse date! I got: " + timestampString);
+                }
             }
         });
-        builder2.setNegativeButton("No", new DialogInterface.OnClickListener() {
+        builder2.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 

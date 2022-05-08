@@ -25,22 +25,18 @@ public class ReminderBroadcast extends BroadcastReceiver {
             int noteEntryUid = bundle.getInt("noteEntryUid", -1);
             if (noteEntryUid >= 0) {
                 // ok
-                List<NoteReminder> reminderList = MapsActivity.noteDatabase.noteReminderDao().getAllNoteReminders(noteEntryUid);
-                if (!reminderList.isEmpty()) {
-                    // is it really a valid thing?
-                    NoteReminder reminder = reminderList.get(0);
-                    if (reminder.reminderTimestamp < System.currentTimeMillis() + 1000) {
-                        // give the system a bit of buffer time to show the notif
-                        // is valid
-                        NoteEntry noteEntry = MapsActivity.noteDatabase.noteEntryDao().getNoteEntry(noteEntryUid);
-                        String notifTitle = "Reminder: " + noteEntry.noteTitle;
-                        String notifText = reminder.reminderText;
-                        if (notifText.equals("")) {
-                            notifText = "You are now reminded of this place.";
-                        }
-                        NotificationCompat.Builder builder = util.setNotification(notifTitle, notifText);
-                        util.getManager().notify(101, builder.build());
+                NoteReminder reminder = NoteEntryUtil.getValidReminderOfNoteEntry(noteEntryUid, 1000);
+                if (reminder != null) {
+                    // give the system a bit of buffer time to show the notif
+                    // is valid
+                    NoteEntry noteEntry = MapsActivity.noteDatabase.noteEntryDao().getNoteEntry(noteEntryUid);
+                    String notifTitle = "Reminder: " + noteEntry.noteTitle;
+                    String notifText = reminder.reminderText;
+                    if (notifText.equals("")) {
+                        notifText = "You are now reminded of this place.";
                     }
+                    NotificationCompat.Builder builder = util.setNotification(notifTitle, notifText);
+                    util.getManager().notify(101, builder.build());
                 }
             }
         }

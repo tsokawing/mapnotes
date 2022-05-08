@@ -4,9 +4,10 @@
     android:id="@+id/pin_photo"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    app:layout_constraintDimensionRatio="H,1:1"
     android:layout_marginStart="5dp"
     android:layout_marginTop="5dp"
     android:adjustViewBounds="true"
-    app:riv_corner_radius="1dp">
+    app:riv_corner_radius="0dp">
 
 </com.makeramen.roundedimageview.RoundedImageView>

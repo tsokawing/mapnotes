@@ -304,7 +304,7 @@ public class NotesActivity extends AppCompatActivity {
             // valid time
             isChecked = true;
             // update the various values here
-            LocalDateTime ldt = LocalDateTime.ofEpochSecond(reminder.reminderTimestamp / 1000, (int) (reminder.reminderTimestamp % 1000), OffsetDateTime.now().getOffset());
+            LocalDateTime ldt = LocalDateTime.ofEpochSecond(reminder.reminderTimestamp / 1000, (int) (reminder.reminderTimestamp % 1000), OffsetDateTime.now().getOffset()).plusMinutes(1);
             datePicker.updateDate(ldt.getYear(), ldt.getMonthValue(), ldt.getDayOfMonth());
             timePicker.setHour(ldt.getHour());
             timePicker.setMinute(ldt.getMinute());

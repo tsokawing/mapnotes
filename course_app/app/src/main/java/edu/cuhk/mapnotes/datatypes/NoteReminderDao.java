@@ -15,7 +15,7 @@ public interface NoteReminderDao {
     @Query("SELECT * FROM note_reminder")
     List<NoteReminder> getAllNoteReminders();
 
-    @Query("SELECT * FROM note_reminder WHERE note_uid = :noteUid")
+    @Query("SELECT * FROM note_reminder WHERE note_uid = :noteUid ORDER BY timestamp DESC")
     List<NoteReminder> getAllNoteReminders(int noteUid);
 
     @Query("SELECT * FROM note_reminder WHERE uid = :noteReminderUid")

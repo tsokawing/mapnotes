@@ -190,7 +190,7 @@ public class NotesActivity extends AppCompatActivity {
         builder2.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-
+                updateReminderDisplayText();
             }
         });
         AlertDialog properDialog2 = builder2.create();

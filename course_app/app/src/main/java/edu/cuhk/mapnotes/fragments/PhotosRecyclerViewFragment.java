@@ -19,7 +19,6 @@ import edu.cuhk.mapnotes.datatypes.Photo;
 
 public class PhotosRecyclerViewFragment extends Fragment {
     private static final String TAG = "PhotosRecyclerViewFragment";
-    private static final int DATASET_COUNT = 60;
 
     protected RecyclerView mRecyclerView;
     protected PinPhotosAdapter mAdapter;

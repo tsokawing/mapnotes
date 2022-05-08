@@ -12,6 +12,7 @@ import android.content.Intent;
 import androidx.core.app.NotificationCompat;
 
 import edu.cuhk.mapnotes.R;
+import edu.cuhk.mapnotes.datatypes.NoteReminder;
 
 public class NotificationUtil extends ContextWrapper {
 
@@ -62,6 +63,16 @@ public class NotificationUtil extends ContextWrapper {
         AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
         manager.set(AlarmManager.RTC_WAKEUP, timeInMillis, pendingIntent);
+    }
+
+    public void setNoteEntryReminder(NoteReminder reminder) {
+        Intent intent = new Intent(context, ReminderBroadcast.class);
+        intent.putExtra("noteEntryUid", reminder.noteUid);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+
+        AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        manager.set(AlarmManager.RTC_WAKEUP, reminder.reminderTimestamp, pendingIntent);
     }
 
 }

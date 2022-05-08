@@ -182,6 +182,7 @@ public class NotesActivity extends AppCompatActivity {
                     reminder.reminderTimestamp = timestampMs;
                     MapsActivity.noteDatabase.noteReminderDao().upsertNoteReminders(reminder);
                     updateReminderDisplayText();
+                    scheduleNoteEntryReminder();
                 } catch (ParseException x) {
                     Log.e("TAG", "Failed to parse date! I got: " + timestampString);
                 }
@@ -352,5 +353,23 @@ public class NotesActivity extends AppCompatActivity {
         long tenSeconds = 1000 * 10;
         long triggerTimeMs = currentTimeMs + tenSeconds; //triggers a reminder after 10 seconds.
         util.setReminder(triggerTimeMs);
+    }
+
+    private void scheduleNoteEntryReminder() {
+        if (this.noteEntryUid < 0) {
+            return;
+        }
+        List<NoteReminder> reminderList = MapsActivity.noteDatabase.noteReminderDao().getAllNoteReminders(this.noteEntryUid);
+        if (reminderList.isEmpty()) {
+            return;
+        }
+        NoteReminder reminder = reminderList.get(0);
+        if (reminder.reminderTimestamp < System.currentTimeMillis()) {
+            // invalid
+            return;
+        }
+        //
+        NotificationUtil util = new NotificationUtil(this);
+        util.setNoteEntryReminder(reminder);
     }
 }

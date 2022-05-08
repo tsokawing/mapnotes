@@ -308,6 +308,12 @@ public class NotesActivity extends AppCompatActivity {
             datePicker.updateDate(ldt.getYear(), ldt.getMonthValue(), ldt.getDayOfMonth());
             timePicker.setHour(ldt.getHour());
             timePicker.setMinute(ldt.getMinute());
+        } else {
+            // no valid reminder time; set it to now + 1 minute to force future
+            LocalDateTime ldt = LocalDateTime.now().plusMinutes(1);
+            datePicker.updateDate(ldt.getYear(), ldt.getMonthValue(), ldt.getDayOfMonth());
+            timePicker.setHour(ldt.getHour());
+            timePicker.setMinute(ldt.getMinute());
         }
         reminderSwitch.setChecked(isChecked);
         if (!isChecked) {

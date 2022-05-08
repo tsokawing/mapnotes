@@ -25,7 +25,7 @@ public interface NoteReminderDao {
     void upsertNoteReminders(NoteReminder... reminders);
 
     @Query("DELETE FROM note_reminder WHERE note_uid = :noteUid")
-    void clearReminderOfNote(int noteUid);
+    void clearAllRemindersOfNote(int noteUid);
 
     @Delete
     void deleteNoteReminder(NoteReminder entry);

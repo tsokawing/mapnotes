@@ -29,10 +29,12 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
 
 import edu.cuhk.mapnotes.databinding.ActivityNotesBinding;
 import edu.cuhk.mapnotes.R;
 import edu.cuhk.mapnotes.datatypes.NoteEntry;
+import edu.cuhk.mapnotes.datatypes.NoteReminder;
 import edu.cuhk.mapnotes.util.NotificationUtil;
 
 public class NotesActivity extends AppCompatActivity {
@@ -138,6 +140,15 @@ public class NotesActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 //                testNotification();
+                // did the user say to enable reminders?
+                SwitchCompat reminderSwitch = dialogView.findViewById(R.id.switchEnableReminder);
+                if (!reminderSwitch.isChecked()) {
+                    // no. remove any reminders
+                    if (noteEntryUid >= 0) {
+                        MapsActivity.noteDatabase.noteReminderDao().clearAllRemindersOfNote(noteEntryUid);
+                    }
+                    return;
+                }
                 // build a timestamp string and then convert it into a Date object
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
@@ -150,6 +161,20 @@ public class NotesActivity extends AppCompatActivity {
                     Date reminderDate = formatter.parse(timestampString);
                     assert reminderDate != null;
                     long timestampMs = reminderDate.getTime();
+
+                    // try to upsert
+                    List<NoteReminder> reminderList = MapsActivity.noteDatabase.noteReminderDao().getAllNoteReminders(noteEntryUid);
+                    NoteReminder reminder;
+                    if (reminderList.size() > 0) {
+                        reminder = reminderList.get(0);
+                    } else {
+                        reminder = new NoteReminder();
+                        reminder.noteUid = noteEntryUid;
+                    }
+                    EditText reminderTextEditText = dialogView.findViewById(R.id.editTextReminderText);
+                    reminder.reminderText = reminderTextEditText.getText().toString();
+                    reminder.reminderTimestamp = timestampMs;
+                    MapsActivity.noteDatabase.noteReminderDao().upsertNoteReminders(reminder);
                 } catch (ParseException x) {
                     Log.e("TAG", "Failed to parse date! I got: " + timestampString);
                 }
@@ -229,7 +254,7 @@ public class NotesActivity extends AppCompatActivity {
         // inflates and configures the dialog layout etc
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_set_reminder, null);
-        EditText reminderTextEdit = dialogView.findViewById(R.id.editTextTextPersonName);
+        EditText reminderTextEdit = dialogView.findViewById(R.id.editTextReminderText);
         DatePicker datePicker = dialogView.findViewById(R.id.datePicker);
         datePicker.setMinDate(System.currentTimeMillis() - 1000);
         TimePicker timePicker = dialogView.findViewById(R.id.timePicker);
@@ -274,5 +299,13 @@ public class NotesActivity extends AppCompatActivity {
         }
 
         return dialogView;
+    }
+
+    private void testNotification() {
+        NotificationUtil util = new NotificationUtil(this);
+        long currentTimeMs = System.currentTimeMillis();
+        long tenSeconds = 1000 * 10;
+        long triggerTimeMs = currentTimeMs + tenSeconds; //triggers a reminder after 10 seconds.
+        util.setReminder(triggerTimeMs);
     }
 }

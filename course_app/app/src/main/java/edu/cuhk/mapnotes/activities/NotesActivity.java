@@ -29,9 +29,12 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import edu.cuhk.mapnotes.databinding.ActivityNotesBinding;
 import edu.cuhk.mapnotes.R;
@@ -296,7 +299,19 @@ public class NotesActivity extends AppCompatActivity {
             }
         });
         boolean isChecked = false;
-        // todo check should check or not
+        List<NoteReminder> reminderList = MapsActivity.noteDatabase.noteReminderDao().getAllNoteReminders(this.noteEntryUid);
+        if (!reminderList.isEmpty()) {
+            NoteReminder potentialReminder = reminderList.get(0);
+            if (System.currentTimeMillis() < potentialReminder.reminderTimestamp) {
+                // valid time
+                isChecked = true;
+                // update the various values here
+                LocalDateTime ldt = LocalDateTime.ofEpochSecond(potentialReminder.reminderTimestamp / 1000, (int) (potentialReminder.reminderTimestamp % 1000), OffsetDateTime.now().getOffset());
+                datePicker.updateDate(ldt.getYear(), ldt.getMonthValue(), ldt.getDayOfMonth());
+                timePicker.setHour(ldt.getHour());
+                timePicker.setMinute(ldt.getMinute());
+            }
+        }
         reminderSwitch.setChecked(isChecked);
         if (!isChecked) {
             // we must manually apply the changes of states here for the initialization

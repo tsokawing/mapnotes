@@ -283,7 +283,7 @@ public class NotesActivity extends AppCompatActivity {
 
                 if (dateTimePickerString.compareTo(nowDateTimeString) < 0) {
                     // not OK!
-                    datePicker.updateDate(ldt.getYear(), ldt.getMonthValue() - 1, ldt.getDayOfMonth());
+                    datePicker.updateDate(ldt.getYear(), ldt.getMonthValue(), ldt.getDayOfMonth());
                     timePicker.setHour(ldt.getHour());
                     timePicker.setMinute(ldt.getMinute());
                 }

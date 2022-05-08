@@ -12,7 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_bar_height_extra"
         android:fitsSystemWindows="true"
-        android:theme="@style/Theme.CourseProject.AppBarOverlay">
+        android:theme="@style/Theme.CourseProject.AppBarOverlay"
+        android:background="@color/white"
+        app:elevation="0dp">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"
@@ -23,7 +25,9 @@
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:expandedTitleMarginBottom="120dp"
-            app:toolbarId="@+id/toolbar">
+            app:toolbarId="@+id/toolbar"
+            android:elevation="4dp"
+            android:background="@drawable/appbar_shadow">
 
             <TextView
                 android:id="@+id/tagsText"

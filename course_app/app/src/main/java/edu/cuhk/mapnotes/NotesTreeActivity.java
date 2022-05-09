@@ -19,12 +19,17 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.cuhk.mapnotes.activities.MapsActivity;
 import edu.cuhk.mapnotes.adapters.NotesTreeViewHolder;
 import edu.cuhk.mapnotes.databinding.ActivityNotesTreeBinding;
+import edu.cuhk.mapnotes.datatypes.NoteEntry;
+import edu.cuhk.mapnotes.datatypes.NotePin;
 
 public class NotesTreeActivity extends AppCompatActivity {
 
     private ActivityNotesTreeBinding binding;
+    private List<NotePin> notePins = new ArrayList<>();
+    List<TreeNode> roots = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +38,6 @@ public class NotesTreeActivity extends AppCompatActivity {
         binding = ActivityNotesTreeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        showTestData();
-    }
-
-    private void showTestData() {
         RecyclerView notesTreeRecyclerView = findViewById(R.id.notes_tree_rv);
         notesTreeRecyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
         notesTreeRecyclerView.setNestedScrollingEnabled(false);
@@ -46,13 +47,19 @@ public class NotesTreeActivity extends AppCompatActivity {
         TreeViewAdapter treeViewAdapter = new TreeViewAdapter(factory);
         notesTreeRecyclerView.setAdapter(treeViewAdapter);
 
-        TreeNode root1 = new TreeNode("Root1", R.layout.list_item_file);
-        root1.addChild(new TreeNode("Child1", R.layout.list_item_file));
-        root1.addChild(new TreeNode("Child2", R.layout.list_item_file));
-
-        List<TreeNode> roots = new ArrayList<>();
-        roots.add(root1);
-
+        loadAllNotes();
         treeViewAdapter.updateTreeNodes(roots);
+    }
+
+    private void loadAllNotes() {
+        notePins = MapsActivity.noteDatabase.notePinDao().getAllPins();
+        for (NotePin notePin : notePins) {
+            List<NoteEntry> noteEntries = MapsActivity.noteDatabase.noteEntryDao().getAllNoteEntries(notePin.uid);
+            TreeNode root = new TreeNode(notePin.pinName, R.layout.list_item_file);
+            for (NoteEntry noteEntry : noteEntries) {
+                root.addChild(new TreeNode(noteEntry.noteTitle, R.layout.list_item_file));
+            }
+            roots.add(root);
+        }
     }
 }

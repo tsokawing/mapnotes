@@ -20,6 +20,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CourseProject">
         <activity
+            android:name=".activities.NoteTagSearchActivity"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+        <activity
             android:name=".activities.NoteTagsActivity"
             android:exported="false"
             android:label="@string/title_activity_note_entry_tabs"

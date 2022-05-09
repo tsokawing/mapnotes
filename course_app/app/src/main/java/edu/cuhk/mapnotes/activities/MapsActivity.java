@@ -8,6 +8,8 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -27,6 +29,7 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import edu.cuhk.mapnotes.NotesTreeActivity;
 import edu.cuhk.mapnotes.R;
 import edu.cuhk.mapnotes.databinding.ActivityMapsBinding;
 import edu.cuhk.mapnotes.datatypes.AppDatabase;
@@ -60,6 +63,15 @@ public class MapsActivity extends FragmentActivity
         addRandomPin();
         loadNotePins();
 
+        // Tree view button
+        CheckBox treeViewCheckBox = findViewById(R.id.notetree_checkbox);
+        treeViewCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                goToNotesTreeActivity();
+            }
+        });
+
         // help button
         builder = new AlertDialog.Builder(this);
         FloatingActionButton mapHelpButton = binding.fabMapHelp;
@@ -71,6 +83,11 @@ public class MapsActivity extends FragmentActivity
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+    }
+
+    private void goToNotesTreeActivity() {
+        Intent intent = new Intent(this, NotesTreeActivity.class);
+        startActivity(intent);
     }
 
     private void startRoomDatabase() {

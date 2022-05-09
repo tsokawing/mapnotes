@@ -2,9 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.cuhk.mapnotes">
 
-    <uses-feature android:name="android.hardware.camera"
+    <uses-feature
+        android:name="android.hardware.camera"
         android:required="true" />
-
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -19,6 +19,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CourseProject">
+        <activity
+            android:name=".NotesTreeActivity"
+            android:exported="false"
+            android:label="@string/title_activity_notes_tree"
+            android:theme="@style/Theme.CourseProject.NoActionBar" />
         <activity
             android:name=".activities.NotesActivity"
             android:exported="false"
@@ -53,7 +58,7 @@
             android:label="@string/title_activity_pins"
             android:theme="@style/Theme.CourseProject.NoActionBar" />
 
-        <receiver android:name=".util.ReminderBroadcast"/>
+        <receiver android:name=".util.ReminderBroadcast" />
     </application>
 
 </manifest>

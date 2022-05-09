@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CourseProject">
         <activity
-            android:name=".activities.NoteEntryTabsActivity"
+            android:name=".activities.NoteTagsActivity"
             android:exported="false"
             android:label="@string/title_activity_note_entry_tabs"
             android:theme="@style/Theme.CourseProject.NoActionBar" />

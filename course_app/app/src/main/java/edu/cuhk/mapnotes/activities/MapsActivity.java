@@ -54,12 +54,26 @@ public class MapsActivity extends FragmentActivity
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        showMapView();
+
+        startRoomDatabase();
+        addRandomPin();
+        loadNotePins();
+
+        // help button
+        builder = new AlertDialog.Builder(this);
+        FloatingActionButton mapHelpButton = binding.fabMapHelp;
+        mapHelpButton.setOnClickListener(new HelpButtonOnClickListener(builder, R.string.welcome_to_app_title, R.string.welcome_to_app_descr));
+    }
+
+    private void showMapView() {
         // Obtain the SupportMapFragment and get notified when the map is ready to be used
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+    }
 
-        // start the Rooms database
+    private void startRoomDatabase() {
         // todo the allowMainThreadQueries is unsafe
         noteDatabase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "notes-database").allowMainThreadQueries().build();
 
@@ -72,7 +86,9 @@ public class MapsActivity extends FragmentActivity
                 noteDatabase.notePinDao().deletePin(dumpingPin);
             }
         }
-        // add 1 random pin to map
+    }
+
+    private void addRandomPin() {
         Random random = new Random(System.currentTimeMillis());
         // a box inside Shatin
         // 22.3787,114.1930 -> 22.3907,114.2104
@@ -80,13 +96,6 @@ public class MapsActivity extends FragmentActivity
         double longitude = 114.1930 + random.nextDouble() * (114.2104 - 114.1930);
         NotePin randomPin = NotePinUtil.MakeNewPinAtLocation(latitude, longitude);
         notePins.add(randomPin);
-
-        loadNotePins();
-
-        // help button
-        builder = new AlertDialog.Builder(this);
-        FloatingActionButton mapHelpButton = binding.fabMapHelp;
-        mapHelpButton.setOnClickListener(new HelpButtonOnClickListener(builder, R.string.welcome_to_app_title, R.string.welcome_to_app_descr));
     }
 
     @Override
@@ -204,19 +213,14 @@ public class MapsActivity extends FragmentActivity
 
         // title = uid of pin
         int clickedPinUid = Integer.parseInt(Objects.requireNonNull(marker.getTitle()));
-        this.tryGoToNotePinsActivity(clickedPinUid);
+        this.goToPinsActivity(clickedPinUid);
 
         // As we will launch the notes activity immediately, return true to prevent the default
         // google map marker onclick behaviours (center marker and open info window).
         return true;
     }
 
-    private void goToPinsActivity() {
-        Intent intent = new Intent(this, PinsActivity.class);
-        startActivity(intent);
-    }
-
-    private void tryGoToNotePinsActivity(int pinUid) {
+    private void goToPinsActivity(int pinUid) {
         Intent intent = new Intent(this, PinsActivity.class);
         intent.putExtra("pinUid", pinUid);
         startActivity(intent);

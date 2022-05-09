@@ -14,14 +14,14 @@ import android.view.View;
 import edu.cuhk.mapnotes.R;
 //import edu.cuhk.mapnotes.activities.databinding.ActivityNoteEntryTabsBinding;
 
-//public class NoteEntryTabsActivity extends AppCompatActivity {
-//
+public class NoteTagsActivity extends AppCompatActivity {
+
 //    private ActivityNoteEntryTabsBinding binding;
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
 //        binding = ActivityNoteEntryTabsBinding.inflate(getLayoutInflater());
 //        setContentView(binding.getRoot());
 //
@@ -38,5 +38,5 @@ import edu.cuhk.mapnotes.R;
 //                        .setAction("Action", null).show();
 //            }
 //        });
-//    }
-//}
+    }
+}

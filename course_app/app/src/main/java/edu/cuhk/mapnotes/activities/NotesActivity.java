@@ -134,6 +134,16 @@ public class NotesActivity extends AppCompatActivity {
         });
 
         // todo edit tags
+        FloatingActionButton fabTags = findViewById(R.id.fab_edit_tags);
+        fabTags.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // goto tabs activity
+                Intent intent = new Intent(view.getContext(), NoteTagsActivity.class);
+                intent.putExtra("pinUid", 0);
+                startActivity(intent);
+            }
+        });
 
         // enable/disable reminder
         AlertDialog.Builder builder2 = new AlertDialog.Builder(this);

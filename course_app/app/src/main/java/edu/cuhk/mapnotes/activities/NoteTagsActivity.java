@@ -12,31 +12,31 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 
 import edu.cuhk.mapnotes.R;
-//import edu.cuhk.mapnotes.activities.databinding.ActivityNoteEntryTabsBinding;
+import edu.cuhk.mapnotes.databinding.ActivityNoteEntryTagsBinding;
 
 public class NoteTagsActivity extends AppCompatActivity {
 
-//    private ActivityNoteEntryTabsBinding binding;
+    private ActivityNoteEntryTagsBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        binding = ActivityNoteEntryTabsBinding.inflate(getLayoutInflater());
-//        setContentView(binding.getRoot());
-//
-//        Toolbar toolbar = binding.toolbar;
-//        setSupportActionBar(toolbar);
-//        CollapsingToolbarLayout toolBarLayout = binding.toolbarLayout;
-//        toolBarLayout.setTitle(getTitle());
-//
-//        FloatingActionButton fab = binding.fab;
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+        binding = ActivityNoteEntryTagsBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        Toolbar toolbar = binding.toolbar;
+        setSupportActionBar(toolbar);
+        CollapsingToolbarLayout toolBarLayout = binding.toolbarLayout;
+        toolBarLayout.setTitle(getTitle());
+
+        FloatingActionButton fab = binding.fab;
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
     }
 }

@@ -54,7 +54,7 @@ public class MapsActivity extends FragmentActivity
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        showMapView();
+        syncMapView();
 
         startRoomDatabase();
         addRandomPin();
@@ -66,7 +66,7 @@ public class MapsActivity extends FragmentActivity
         mapHelpButton.setOnClickListener(new HelpButtonOnClickListener(builder, R.string.welcome_to_app_title, R.string.welcome_to_app_descr));
     }
 
-    private void showMapView() {
+    private void syncMapView() {
         // Obtain the SupportMapFragment and get notified when the map is ready to be used
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);

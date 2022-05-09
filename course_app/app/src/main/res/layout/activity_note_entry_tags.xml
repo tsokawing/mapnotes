@@ -40,7 +40,7 @@
         android:id="@+id/tag_search_widget"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginTop="180dp" />
+        android:layout_marginTop="140dp" />
 
     <!--
     <include layout="@layout/content_scrolling" />

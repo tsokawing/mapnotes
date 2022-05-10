@@ -1,5 +1,6 @@
 package edu.cuhk.mapnotes.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -20,6 +21,8 @@ public class NoteTagsActivity extends AppCompatActivity
 
     private ActivityNoteEntryTagsBinding binding;
 
+    private int noteEntryUid;
+
     // Declare Variables
     RecyclerView recycler;
     SearchView tagEditSearch;
@@ -35,6 +38,14 @@ public class NoteTagsActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         CollapsingToolbarLayout toolBarLayout = binding.toolbarLayout;
         toolBarLayout.setTitle("Manage tags");
+
+        Intent invokerIntent = getIntent();
+        if (invokerIntent != null) {
+            this.noteEntryUid = invokerIntent.getIntExtra("noteUid", -1);
+            if (this.noteEntryUid < 0) {
+                Log.e("TAG", "Bad: received an invalid note UID");
+            }
+        }
 
         setupSearchControl();
     }

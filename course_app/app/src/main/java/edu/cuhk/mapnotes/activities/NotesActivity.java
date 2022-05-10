@@ -140,7 +140,7 @@ public class NotesActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // goto tabs activity
                 Intent intent = new Intent(view.getContext(), NoteTagsActivity.class);
-                intent.putExtra("pinUid", 0);
+                intent.putExtra("noteUid", noteEntryUid);
                 startActivity(intent);
             }
         });

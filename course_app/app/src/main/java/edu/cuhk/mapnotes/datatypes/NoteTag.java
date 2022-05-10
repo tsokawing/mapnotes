@@ -5,7 +5,7 @@ import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(indices = {@Index(value = {"name"})})
+@Entity(tableName = "note_tag", indices = {@Index(value = {"name"})})
 public class NoteTag {
 
     @PrimaryKey(autoGenerate = true)

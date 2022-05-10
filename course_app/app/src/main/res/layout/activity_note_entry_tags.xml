@@ -7,6 +7,7 @@
     android:fitsSystemWindows="true"
     tools:context=".activities.NoteTagsActivity">
 
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
@@ -40,25 +41,28 @@
         android:id="@+id/tag_search_widget"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:iconifiedByDefault="false"
+        android:queryHint="Type the tag name here"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom"
+        android:layout_gravity="bottom" />
+
+    <!-- todo it cannot properly cover "remaining space", but we dont need it to -->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="480dp"
+        app:layout_anchor="@id/tag_search_widget"
+        app:layout_anchorGravity="bottom"
         android:layout_gravity="bottom"
-        android:iconifiedByDefault="false"
-        android:queryHint="Type the tag name here" />
+        >
 
-    <!--
-    <include layout="@layout/content_scrolling" />
-    -->
-
-    <!--
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/fab_margin"
-        app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|end"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
-        -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            />
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

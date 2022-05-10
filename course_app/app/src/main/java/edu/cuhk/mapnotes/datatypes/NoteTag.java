@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity
+@Entity(indices = [Index("name")])
 public class NoteTag {
 
     @PrimaryKey(autoGenerate = true)

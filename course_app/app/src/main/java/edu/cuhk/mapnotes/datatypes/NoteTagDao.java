@@ -33,4 +33,7 @@ public interface NoteTagDao {
     @Query("DELETE FROM note_tag WHERE name = :tagName")
     void deleteTag(String tagName);
 
+    @Query("DELETE FROM note_tag WHERE uid NOT IN (SELECT tag_uid FROM note_tagging_info)")
+    void deleteAllUnusedTags();
+
 }

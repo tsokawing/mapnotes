@@ -103,5 +103,11 @@ public class NoteEntryUtil {
             // no more remains; remove it
             tagDao.deleteTag(tag);
         }
+
+        cleanUpUnusedTags();
+    }
+
+    public static void cleanUpUnusedTags() {
+        MapsActivity.noteDatabase.noteTagDao().deleteAllUnusedTags();
     }
 }

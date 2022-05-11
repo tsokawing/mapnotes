@@ -10,6 +10,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.SearchView;
 
 import edu.cuhk.mapnotes.R;
@@ -70,6 +72,17 @@ public class NoteTagsActivity extends AppCompatActivity
     private void setupSearchControl() {
         tagEditSearch = (SearchView) findViewById(R.id.tag_search_widget);
         tagEditSearch.setOnQueryTextListener(this);
+
+        // reference: https://localcoder.org/how-to-modify-searchview-close-clear-button-to-always-close-the-searchbox-no-mat
+        // force clear -> set text("")
+        int clearButtonId = tagEditSearch.getContext().getResources().getIdentifier("android:id/search_close_btn", null, null);
+        ImageView clearButton = tagEditSearch.findViewById(clearButtonId);
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tagEditSearch.setQuery("", true);
+            }
+        });
 
         recycler = (RecyclerView) findViewById(R.id.recyclerView);
         tagsAdapter = new NoteTagsAdapter(noteEntryUid);

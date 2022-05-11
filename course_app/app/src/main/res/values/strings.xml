@@ -36,7 +36,7 @@
     <string name="pick_datetime">Pick</string>
 
     <!-- UI Default -->
-    <string name="note_tags_default">(Uncategorized)</string>
+    <string name="note_tags_default">(Untagged)</string>
     <string name="note_reminders_default">No reminders set.</string>
     <string name="reminder_date_default">No date set</string>
     <string name="reminder_time_default">No time set</string>

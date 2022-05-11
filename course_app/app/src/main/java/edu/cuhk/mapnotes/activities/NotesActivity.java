@@ -38,6 +38,7 @@ import edu.cuhk.mapnotes.databinding.ActivityNotesBinding;
 import edu.cuhk.mapnotes.R;
 import edu.cuhk.mapnotes.datatypes.NoteEntry;
 import edu.cuhk.mapnotes.datatypes.NoteReminder;
+import edu.cuhk.mapnotes.datatypes.NoteTag;
 import edu.cuhk.mapnotes.util.NoteEntryUtil;
 import edu.cuhk.mapnotes.util.NotificationUtil;
 
@@ -225,6 +226,9 @@ public class NotesActivity extends AppCompatActivity {
             // todo check is text or audio
             noteTextContentEditText.setText(noteEntry.noteText);
 
+            // check the tags
+            this.updateTagsDisplayText();
+
             // check the reminder
             this.updateReminderDisplayText();
         }
@@ -336,6 +340,28 @@ public class NotesActivity extends AppCompatActivity {
         }
 
         return dialogView;
+    }
+
+    private void updateTagsDisplayText() {
+        // display max 3 tags per note
+        TextView tagsText = findViewById(R.id.tagsText);
+        List<NoteTag> enabledTags = NoteEntryUtil.getEnabledTagsForNoteEntry(noteEntryUid);
+        if (enabledTags.isEmpty()) {
+            tagsText.setText(R.string.note_tags_default);
+            return;
+        }
+        String displayText = "Tags used: ";
+        displayText += enabledTags.get(0).tagName;
+        if (enabledTags.size() >= 2) {
+            displayText += ", " + enabledTags.get(1).tagName;
+            if (enabledTags.size() >= 3) {
+                displayText += ", " + enabledTags.get(2).tagName;
+                if (enabledTags.size() >= 4) {
+                    displayText += ", ...";
+                }
+            }
+        }
+        tagsText.setText(displayText);
     }
 
     private void updateReminderDisplayText() {

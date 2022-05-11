@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -91,12 +90,16 @@ public class NoteTagsAdapter extends RecyclerView.Adapter<NoteTagsAdapter.ViewHo
         boolean tagEnabled = mNoteTagsEnabled.get(position);
         holder.getCheckBoxTagToggle().setChecked(tagEnabled);
 
-        holder.getCheckBoxTagToggle().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        holder.getCheckBoxTagToggle().setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+            public void onClick(View view) {
+                // this avoids unintended tag changes when the recycler view refreshes
+                boolean isChecked = holder.getCheckBoxTagToggle().isChecked();
                 if (isChecked) {
+                    Log.d(TAG, "Enable " + noteEntryUid + " " + tagString);
                     NoteEntryUtil.addTagForNoteEntry(noteEntryUid, tagString);
                 } else {
+                    Log.d(TAG, "Disable " + noteEntryUid + " " + tagString);
                     NoteEntryUtil.removeTagForNoteEntry(noteEntryUid, tagString);
                 }
             }

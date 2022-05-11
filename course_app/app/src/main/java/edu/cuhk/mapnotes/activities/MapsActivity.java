@@ -35,6 +35,7 @@ import edu.cuhk.mapnotes.databinding.ActivityMapsBinding;
 import edu.cuhk.mapnotes.datatypes.AppDatabase;
 import edu.cuhk.mapnotes.datatypes.NotePin;
 import edu.cuhk.mapnotes.util.HelpButtonOnClickListener;
+import edu.cuhk.mapnotes.util.NoteEntryUtil;
 import edu.cuhk.mapnotes.util.NotePinUtil;
 
 public class MapsActivity extends FragmentActivity
@@ -103,6 +104,7 @@ public class MapsActivity extends FragmentActivity
                 noteDatabase.notePinDao().deletePin(dumpingPin);
             }
         }
+        NoteEntryUtil.cleanupInvalidData();
     }
 
     private void addRandomPin() {

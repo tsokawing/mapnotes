@@ -1,13 +1,9 @@
 package edu.cuhk.mapnotes.util;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import edu.cuhk.mapnotes.activities.MapsActivity;
+import edu.cuhk.mapnotes.datatypes.AppDatabase;
 import edu.cuhk.mapnotes.datatypes.NoteReminder;
 import edu.cuhk.mapnotes.datatypes.NoteTag;
 import edu.cuhk.mapnotes.datatypes.NoteTagDao;
@@ -80,11 +76,11 @@ public class NoteEntryUtil {
             // no more remains; remove it
             tagDao.deleteTag(tag);
         }
-
-        cleanUpUnusedTags();
     }
 
-    public static void cleanUpUnusedTags() {
-        MapsActivity.noteDatabase.noteTagDao().deleteAllUnusedTags();
+    public static void cleanupInvalidData() {
+        AppDatabase database = MapsActivity.noteDatabase;
+        database.noteEntryDao().deleteInvalidNoteEntries();
+        database.noteTagDao().deleteAllUnusedTags();
     }
 }

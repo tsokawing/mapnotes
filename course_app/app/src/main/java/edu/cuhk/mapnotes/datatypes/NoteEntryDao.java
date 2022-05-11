@@ -29,4 +29,7 @@ public interface NoteEntryDao {
 
     @Delete
     void deleteNoteEntry(NoteEntry entry);
+
+    @Query("DELETE FROM note_entry WHERE pin_uid NOT IN (SELECT uid FROM note_pin)")
+    void deleteInvalidNoteEntries();
 }

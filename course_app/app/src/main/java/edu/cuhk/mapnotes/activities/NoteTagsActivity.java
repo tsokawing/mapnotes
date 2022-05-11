@@ -52,7 +52,7 @@ public class NoteTagsActivity extends AppCompatActivity
         }
 
         setupSearchControl();
-        NoteEntryUtil.cleanUpUnusedTags();
+        NoteEntryUtil.cleanupInvalidData();
     }
 
     @Override

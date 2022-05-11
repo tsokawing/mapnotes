@@ -5,6 +5,7 @@ import static androidx.room.ForeignKey.CASCADE;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "note_entry",
@@ -13,7 +14,8 @@ import androidx.room.PrimaryKey;
         parentColumns = "uid",
         childColumns = "pin_uid",
         onDelete = CASCADE
-)})
+)}, indices = {
+        @Index(value = {"pin_uid"})})
 public class NoteEntry {
     @PrimaryKey(autoGenerate = true)
     public int uid;

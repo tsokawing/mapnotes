@@ -1,7 +1,11 @@
 package edu.cuhk.mapnotes.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import edu.cuhk.mapnotes.activities.MapsActivity;
 import edu.cuhk.mapnotes.datatypes.NoteReminder;
@@ -28,6 +32,28 @@ public class NoteEntryUtil {
         List<NoteTag> noteTagList = new ArrayList<>();
         for (NoteTaggingInfo tagInfo : noteTagInfo) {
             noteTagList.add(MapsActivity.noteDatabase.noteTagDao().getTag(tagInfo.tagUid));
+        }
+        return noteTagList;
+    }
+
+    public static List<NoteTag> getTagsNotUsedByNoteEntry(int noteEntryUid) {
+        // todo consider doing a join where not in
+
+        Map<Integer, NoteTag> noteTagMapping = new HashMap<>();
+        List<NoteTag> allPossibleTags = MapsActivity.noteDatabase.noteTagDao().getAllPossibleTags();
+        for (NoteTag tag : allPossibleTags) {
+            noteTagMapping.put(tag.uid, tag);
+        }
+
+        List<NoteTaggingInfo> noteTagInfo = MapsActivity.noteDatabase.noteTaggingInfoDao().getAllNoteTaggingInfo(noteEntryUid);
+        for (NoteTaggingInfo tagInfo : noteTagInfo) {
+//            noteTagList.add(MapsActivity.noteDatabase.noteTagDao().getTag(tagInfo.tagUid));
+            noteTagMapping.remove(tagInfo.tagUid);
+        }
+
+        List<NoteTag> noteTagList = new ArrayList<>();
+        for (int tagUid : noteTagMapping.keySet()) {
+            noteTagList.add(noteTagMapping.get(tagUid));
         }
         return noteTagList;
     }

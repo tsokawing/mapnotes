@@ -25,6 +25,7 @@ public class NoteTagsActivity extends AppCompatActivity
 
     // Declare Variables
     RecyclerView recycler;
+    NoteTagsAdapter tagsAdapter;
     SearchView tagEditSearch;
 
     @Override
@@ -60,6 +61,7 @@ public class NoteTagsActivity extends AppCompatActivity
         String text = newText;
         Log.d("SEARCH", text);
 //        adapter.filter(text);
+        tagsAdapter.refreshTagsWithThisSearchString(text);
         return false;
     }
 
@@ -68,6 +70,7 @@ public class NoteTagsActivity extends AppCompatActivity
         tagEditSearch.setOnQueryTextListener(this);
 
         recycler = (RecyclerView) findViewById(R.id.recyclerView);
-        recycler.setAdapter(new NoteTagsAdapter());
+        tagsAdapter = new NoteTagsAdapter(noteEntryUid);
+        recycler.setAdapter(tagsAdapter);
     }
 }

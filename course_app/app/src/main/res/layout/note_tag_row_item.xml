@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <CheckBox
-        android:id="@+id/checkBox"
+        android:id="@+id/checkBox_TagToggle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Tag Select!"

@@ -15,6 +15,7 @@ import android.widget.SearchView;
 import edu.cuhk.mapnotes.R;
 import edu.cuhk.mapnotes.adapters.NoteTagsAdapter;
 import edu.cuhk.mapnotes.databinding.ActivityNoteEntryTagsBinding;
+import edu.cuhk.mapnotes.util.NoteEntryUtil;
 
 public class NoteTagsActivity extends AppCompatActivity
         implements SearchView.OnQueryTextListener {
@@ -49,6 +50,7 @@ public class NoteTagsActivity extends AppCompatActivity
         }
 
         setupSearchControl();
+        NoteEntryUtil.cleanUpUnusedTags();
     }
 
     @Override

@@ -16,8 +16,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.provider.MediaStore;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.File;
@@ -71,6 +73,7 @@ public class PinsActivity extends AppCompatActivity {
 //            this.pinUid = savedInstanceState.getInt("pinUid");
 //            Log.d("TAG", "Pin notes: UID " + this.pinUid);
         }
+        this.refreshPinLocationDisplay();
 
         // Fab button for gallery
         FloatingActionButton fabViewGallery = binding.fabViewGallery;
@@ -78,6 +81,16 @@ public class PinsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 toggleBetweenNotesAndPhotos();
+            }
+        });
+
+        // floating button to modify location name
+        FloatingActionButton fabEditTitle = binding.fabEditPinName;
+        AlertDialog dialogEditPinName = this.makeEditTitleDialog();
+        fabEditTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogEditPinName.show();
             }
         });
 
@@ -249,5 +262,52 @@ public class PinsActivity extends AppCompatActivity {
 
     public Context getContext() {
         return this.getApplicationContext();
+    }
+
+    private void properlySetToolbarTitle(CharSequence charSequence) {
+        CollapsingToolbarLayout ctl = findViewById(R.id.toolbar_layout);
+        ctl.setTitle(charSequence);
+    }
+
+    private void refreshPinLocationDisplay() {
+        if (this.pinUid >= 0) {
+            // ok
+            NotePin notePin = MapsActivity.noteDatabase.notePinDao().getPinById(pinUid);
+            properlySetToolbarTitle(notePin.pinName);
+        }
+    }
+
+    private AlertDialog makeEditTitleDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.renaming_pin_name);
+        EditText inputRenameTitle = new EditText(this);
+        inputRenameTitle.setInputType(InputType.TYPE_CLASS_TEXT);
+        // should have already loaded a valid note
+        if (pinUid >= 0) {
+            NotePin pin = MapsActivity.noteDatabase.notePinDao().getPinById(pinUid);
+            inputRenameTitle.setText(pin.pinName);
+        }
+        builder.setView(inputRenameTitle);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (pinUid >= 0) {
+                    // put the updated title back to the DB
+                    NotePin notePin = MapsActivity.noteDatabase.notePinDao().getPinById(pinUid);
+                    notePin.pinName = inputRenameTitle.getText().toString();
+                    MapsActivity.noteDatabase.notePinDao().updatePin(notePin);
+                    refreshPinLocationDisplay();
+                }
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog properDialog = builder.create();
+        return properDialog;
     }
 }

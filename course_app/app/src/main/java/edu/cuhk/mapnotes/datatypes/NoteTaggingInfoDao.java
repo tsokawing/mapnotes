@@ -32,4 +32,9 @@ public interface NoteTaggingInfoDao {
     @Delete
     void removeTaggingInformation(NoteTaggingInfo taggingInfo);
 
+    @Query("SELECT * FROM note_tag WHERE uid IN (SELECT tag_uid FROM note_tagging_info WHERE note_entry_uid = :noteEntryUid)")
+    List<NoteTag> getTagsEnabledByNoteEntry(int noteEntryUid);
+
+    @Query("SELECT * FROM note_tag WHERE uid NOT IN (SELECT tag_uid FROM note_tagging_info WHERE note_entry_uid = :noteEntryUid)")
+    List<NoteTag> getTagsUnusedByNoteEntry(int noteEntryUid);
 }

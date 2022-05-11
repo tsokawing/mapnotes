@@ -28,34 +28,11 @@ public class NoteEntryUtil {
     }
 
     public static List<NoteTag> getEnabledTagsForNoteEntry(int noteEntryUid) {
-        List<NoteTaggingInfo> noteTagInfo = MapsActivity.noteDatabase.noteTaggingInfoDao().getAllNoteTaggingInfo(noteEntryUid);
-        List<NoteTag> noteTagList = new ArrayList<>();
-        for (NoteTaggingInfo tagInfo : noteTagInfo) {
-            noteTagList.add(MapsActivity.noteDatabase.noteTagDao().getTag(tagInfo.tagUid));
-        }
-        return noteTagList;
+        return MapsActivity.noteDatabase.noteTaggingInfoDao().getTagsEnabledByNoteEntry(noteEntryUid);
     }
 
     public static List<NoteTag> getTagsNotUsedByNoteEntry(int noteEntryUid) {
-        // todo consider doing a join where not in
-
-        Map<Integer, NoteTag> noteTagMapping = new HashMap<>();
-        List<NoteTag> allPossibleTags = MapsActivity.noteDatabase.noteTagDao().getAllPossibleTags();
-        for (NoteTag tag : allPossibleTags) {
-            noteTagMapping.put(tag.uid, tag);
-        }
-
-        List<NoteTaggingInfo> noteTagInfo = MapsActivity.noteDatabase.noteTaggingInfoDao().getAllNoteTaggingInfo(noteEntryUid);
-        for (NoteTaggingInfo tagInfo : noteTagInfo) {
-//            noteTagList.add(MapsActivity.noteDatabase.noteTagDao().getTag(tagInfo.tagUid));
-            noteTagMapping.remove(tagInfo.tagUid);
-        }
-
-        List<NoteTag> noteTagList = new ArrayList<>();
-        for (int tagUid : noteTagMapping.keySet()) {
-            noteTagList.add(noteTagMapping.get(tagUid));
-        }
-        return noteTagList;
+        return MapsActivity.noteDatabase.noteTaggingInfoDao().getTagsUnusedByNoteEntry(noteEntryUid);
     }
 
     public static void addTagForNoteEntry(int noteEntryUid, String tagName) {

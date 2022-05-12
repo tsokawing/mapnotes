@@ -29,7 +29,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -49,8 +48,7 @@ import edu.cuhk.mapnotes.util.NotePinUtil;
 public class MapsActivity extends FragmentActivity
         implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
-    private List<NotePin> notePins = new ArrayList<>();
-    private HashMap<Integer, Marker> notePinsMapping = new HashMap<Integer, Marker>();
+    private HashMap<Integer, Marker> notePinsMapping = new HashMap<>();
 
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
@@ -71,8 +69,8 @@ public class MapsActivity extends FragmentActivity
         syncMapView();
 
         startRoomDatabase();
+        // todo addrandompin is debug feature
         addRandomPin();
-        loadNotePins();
 
         // Tree view button
         CheckBox treeViewCheckBox = findViewById(R.id.notetree_checkbox);
@@ -113,6 +111,7 @@ public class MapsActivity extends FragmentActivity
 
         // debug/demo behavior: each time the app runs, a new pin is added to the db
         // when there are too many pins, clear the db and add again
+        // todo remove in prod
         List<NotePin> notePins = noteDatabase.notePinDao().getAllPins();
         if (notePins.size() >= 5) {
             // clear the list
@@ -129,10 +128,7 @@ public class MapsActivity extends FragmentActivity
         // 22.3787,114.1930 -> 22.3907,114.2104
         double latitude = 22.3787 + random.nextDouble() * (22.3907 - 22.3787);
         double longitude = 114.1930 + random.nextDouble() * (114.2104 - 114.1930);
-        NotePin randomPin = NotePinUtil.MakeNewPinAtLocation(latitude, longitude);
-        notePins.add(randomPin);
-
-        loadNotePins();
+        NotePinUtil.MakeNewPinAtLocation(latitude, longitude);
     }
 
     @Override
@@ -152,7 +148,7 @@ public class MapsActivity extends FragmentActivity
                 Toast.makeText(getApplicationContext(), R.string.toast_pin_created, Toast.LENGTH_LONG).show();
             }
         });
-        initCamera();
+        initCameraPosition();
     }
 
     @Override
@@ -195,21 +191,20 @@ public class MapsActivity extends FragmentActivity
         mMap.addMarker(new MarkerOptions().position(latlng).title("" + notePin.uid));
     }
 
-    private void initCamera() {
+    private void initCameraPosition() {
+        // inits the camera position
+        // try to move it to center of pin; if no pin, then move to hong kong
         LatLng hk = new LatLng(22.318736573752293, 114.16958960975587);
-        LatLng center = notePins.isEmpty() ? hk : getCenterOfPins(notePins);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(center));
+        LatLng center = notePinsMapping.isEmpty() ? hk : getCenterOfPins();
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(center, 13));
     }
 
-    private void loadNotePins() {
-        notePins.addAll(noteDatabase.notePinDao().getAllPins());
-    }
+    private LatLng getCenterOfPins() {
+        List<NotePin> allNotes = MapsActivity.noteDatabase.notePinDao().getAllPins();
 
-    private LatLng getCenterOfPins(List<NotePin> notePins) {
-        List<Double> latitudes = notePins.stream().map(notePin -> notePin.latitude)
+        List<Double> latitudes = allNotes.stream().map(notePin -> notePin.latitude)
                 .collect(Collectors.toList());
-        List<Double> longitudes = notePins.stream().map(notePin -> notePin.longitude)
+        List<Double> longitudes = allNotes.stream().map(notePin -> notePin.longitude)
                 .collect(Collectors.toList());
 
         double latCenter = (Collections.max(latitudes) + Collections.min(latitudes)) / 2;

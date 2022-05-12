@@ -82,8 +82,8 @@ public class MapsActivity extends FragmentActivity
         });
 
         // my location button
-        FloatingActionButton mapHelpButton = binding.fabMyLocation;
-        mapHelpButton.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton mapMyLocationButton = binding.fabMyLocation;
+        mapMyLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 tryMoveCameraToGpsLocation();

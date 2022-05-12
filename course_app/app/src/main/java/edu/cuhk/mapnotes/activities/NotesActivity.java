@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -94,45 +95,7 @@ public class NotesActivity extends AppCompatActivity {
         });
 
         // edit title
-        // first prepare the dialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.renaming_note_title);
-        EditText inputRenameTitle = new EditText(this);
-        inputRenameTitle.setInputType(InputType.TYPE_CLASS_TEXT);
-        // should have already loaded a valid note
-        if (noteEntryUid >= 0) {
-            NoteEntry entry = MapsActivity.noteDatabase.noteEntryDao().getNoteEntry(noteEntryUid);
-            inputRenameTitle.setText(entry.noteTitle);
-        }
-        builder.setView(inputRenameTitle);
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (noteEntryUid >= 0) {
-                    // put the updated title back to the DB
-                    NoteEntry noteEntry = MapsActivity.noteDatabase.noteEntryDao().getNoteEntry(noteEntryUid);
-                    noteEntry.noteTitle = inputRenameTitle.getText().toString();
-                    MapsActivity.noteDatabase.noteEntryDao().updateNoteEntry(noteEntry);
-                    properlySetToolbarTitle(noteEntry.noteTitle);
-                }
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-        AlertDialog properDialog = builder.create();
-
-        // then link the dialog to the UI element
-        FloatingActionButton fabEditTitle = binding.fabEditRenameTitle;
-        fabEditTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                properDialog.show();
-            }
-        });
+        this.setupNoteTitleRenaming();
 
         // todo edit tags
         FloatingActionButton fabTags = findViewById(R.id.fab_edit_tags);
@@ -273,6 +236,64 @@ public class NotesActivity extends AppCompatActivity {
     private void properlySetToolbarTitle(CharSequence charSequence) {
         CollapsingToolbarLayout ctl = findViewById(R.id.toolbar_layout);
         ctl.setTitle(charSequence);
+    }
+
+    private void setupNoteTitleRenaming() {
+        // first prepare the dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.renaming_note_title);
+        EditText inputRenameTitle = new EditText(this);
+        inputRenameTitle.setInputType(InputType.TYPE_CLASS_TEXT);
+        // should have already loaded a valid note
+        if (noteEntryUid >= 0) {
+            NoteEntry entry = MapsActivity.noteDatabase.noteEntryDao().getNoteEntry(noteEntryUid);
+            inputRenameTitle.setText(entry.noteTitle);
+        }
+        builder.setView(inputRenameTitle);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (noteEntryUid >= 0) {
+                    // put the updated title back to the DB
+                    NoteEntry noteEntry = MapsActivity.noteDatabase.noteEntryDao().getNoteEntry(noteEntryUid);
+                    noteEntry.noteTitle = inputRenameTitle.getText().toString();
+                    MapsActivity.noteDatabase.noteEntryDao().updateNoteEntry(noteEntry);
+                    properlySetToolbarTitle(noteEntry.noteTitle);
+                }
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        AlertDialog properDialog = builder.create();
+
+        // then link the dialog to the UI element
+        // all toolbars must get the onCLick
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                properDialog.show();
+            }
+        });
+        CollapsingToolbarLayout ctl = findViewById(R.id.toolbar_layout);
+        ctl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                properDialog.show();
+            }
+        });
+
+        FloatingActionButton fabEditTitle = binding.fabEditRenameTitle;
+        fabEditTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                properDialog.show();
+            }
+        });
     }
 
     private View inflateAndInitReminderDialog() {

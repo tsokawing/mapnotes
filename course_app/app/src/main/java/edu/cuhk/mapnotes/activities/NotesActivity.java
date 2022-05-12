@@ -100,73 +100,8 @@ public class NotesActivity extends AppCompatActivity {
         // edit tags
         this.setupTagManagement();
 
-        // enable/disable reminder
-        AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
-        builder2.setTitle(R.string.config_reminder_title);
-        // todo: issue: reminder UI does not update when "reminder is triggered when inside the NoteEntry UI" (extreme edge case)
-        View dialogView = this.inflateAndInitReminderDialog();
-        builder2.setView(dialogView);
-        builder2.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-//                testNotification();
-                // did the user say to enable reminders?
-                SwitchCompat reminderSwitch = dialogView.findViewById(R.id.switchEnableReminder);
-                if (!reminderSwitch.isChecked()) {
-                    // no. remove any reminders
-                    if (noteEntryUid >= 0) {
-                        MapsActivity.noteDatabase.noteReminderDao().clearAllRemindersOfNote(noteEntryUid);
-                    }
-                    updateReminderDisplayText();
-                    return;
-                }
-                // build a timestamp string and then convert it into a Date object
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-
-                DatePicker datePicker = dialogView.findViewById(R.id.datePicker);
-                TimePicker timePicker = dialogView.findViewById(R.id.timePicker);
-                String timestampString = "" + datePicker.getYear() + "-" + String.format("%02d", datePicker.getMonth() + 1) + "-" + String.format("%02d", datePicker.getDayOfMonth());
-                timestampString += " " + String.format("%02d", timePicker.getHour()) + ":" + String.format("%02d", timePicker.getMinute());
-
-                try {
-                    Date reminderDate = formatter.parse(timestampString);
-                    assert reminderDate != null;
-                    long timestampMs = reminderDate.getTime();
-
-                    // try to upsert
-                    List<NoteReminder> reminderList = MapsActivity.noteDatabase.noteReminderDao().getAllNoteReminders(noteEntryUid);
-                    NoteReminder reminder;
-                    if (reminderList.size() > 0) {
-                        reminder = reminderList.get(0);
-                    } else {
-                        reminder = new NoteReminder();
-                        reminder.noteUid = noteEntryUid;
-                    }
-                    EditText reminderTextEditText = dialogView.findViewById(R.id.editTextReminderText);
-                    reminder.reminderText = reminderTextEditText.getText().toString();
-                    reminder.reminderTimestamp = timestampMs;
-                    MapsActivity.noteDatabase.noteReminderDao().upsertNoteReminders(reminder);
-                    updateReminderDisplayText();
-                    scheduleNoteEntryReminder();
-                } catch (ParseException x) {
-                    Log.e("TAG", "Failed to parse date! I got: " + timestampString);
-                }
-            }
-        });
-        builder2.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                updateReminderDisplayText();
-            }
-        });
-        AlertDialog properDialog2 = builder2.create();
-        FloatingActionButton fabEditReminder = binding.fabEditReminders;
-        fabEditReminder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                properDialog2.show();
-            }
-        });
+        // edit reminder
+        this.setupReminderManagement();
     }
 
     @Override
@@ -296,6 +231,77 @@ public class NotesActivity extends AppCompatActivity {
                 Intent intent = new Intent(view.getContext(), NoteTagsActivity.class);
                 intent.putExtra("noteUid", noteEntryUid);
                 startActivity(intent);
+            }
+        });
+    }
+
+    private void setupReminderManagement() {
+        // enable/disable reminder
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.config_reminder_title);
+        // todo: issue: reminder UI does not update when "reminder is triggered when inside the NoteEntry UI" (extreme edge case)
+        View dialogView = this.inflateAndInitReminderDialog();
+        builder.setView(dialogView);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+//                testNotification();
+                // did the user say to enable reminders?
+                SwitchCompat reminderSwitch = dialogView.findViewById(R.id.switchEnableReminder);
+                if (!reminderSwitch.isChecked()) {
+                    // no. remove any reminders
+                    if (noteEntryUid >= 0) {
+                        MapsActivity.noteDatabase.noteReminderDao().clearAllRemindersOfNote(noteEntryUid);
+                    }
+                    updateReminderDisplayText();
+                    return;
+                }
+                // build a timestamp string and then convert it into a Date object
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
+                DatePicker datePicker = dialogView.findViewById(R.id.datePicker);
+                TimePicker timePicker = dialogView.findViewById(R.id.timePicker);
+                String timestampString = "" + datePicker.getYear() + "-" + String.format("%02d", datePicker.getMonth() + 1) + "-" + String.format("%02d", datePicker.getDayOfMonth());
+                timestampString += " " + String.format("%02d", timePicker.getHour()) + ":" + String.format("%02d", timePicker.getMinute());
+
+                try {
+                    Date reminderDate = formatter.parse(timestampString);
+                    assert reminderDate != null;
+                    long timestampMs = reminderDate.getTime();
+
+                    // try to upsert
+                    List<NoteReminder> reminderList = MapsActivity.noteDatabase.noteReminderDao().getAllNoteReminders(noteEntryUid);
+                    NoteReminder reminder;
+                    if (reminderList.size() > 0) {
+                        reminder = reminderList.get(0);
+                    } else {
+                        reminder = new NoteReminder();
+                        reminder.noteUid = noteEntryUid;
+                    }
+                    EditText reminderTextEditText = dialogView.findViewById(R.id.editTextReminderText);
+                    reminder.reminderText = reminderTextEditText.getText().toString();
+                    reminder.reminderTimestamp = timestampMs;
+                    MapsActivity.noteDatabase.noteReminderDao().upsertNoteReminders(reminder);
+                    updateReminderDisplayText();
+                    scheduleNoteEntryReminder();
+                } catch (ParseException x) {
+                    Log.e("TAG", "Failed to parse date! I got: " + timestampString);
+                }
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                updateReminderDisplayText();
+            }
+        });
+        AlertDialog properDialog = builder.create();
+
+        TextView reminderText = findViewById(R.id.reminderText);
+        reminderText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                properDialog.show();
             }
         });
     }

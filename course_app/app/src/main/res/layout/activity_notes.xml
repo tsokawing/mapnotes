@@ -50,7 +50,8 @@
                 android:layout_marginTop="240dp"
                 android:text="@string/note_reminders_default"
                 android:textColor="#FFFFFF"
-                android:textSize="18dp" />
+                android:textSize="18dp"
+                android:clickable="true" />
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -73,14 +74,9 @@
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@drawable/ic_baseline_title_24" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_edit_reminders"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/fab_margin"
-        app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|end"
-        app:srcCompat="@drawable/ic_baseline_access_time_24" />
+    <!-- Tags icon: ic_baseline_label_24 -->
+
+    <!-- Reminder icon: ic_baseline_access_time_24 -->
 
     <include layout="@layout/content_scrolling" />
 

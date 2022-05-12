@@ -118,7 +118,7 @@ public class MapsActivity extends FragmentActivity
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
         this.updateGoogleMapContents();
 

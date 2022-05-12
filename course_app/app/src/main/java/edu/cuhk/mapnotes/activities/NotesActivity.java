@@ -212,14 +212,6 @@ public class NotesActivity extends AppCompatActivity {
                 properDialog.show();
             }
         });
-
-        FloatingActionButton fabEditTitle = binding.fabEditRenameTitle;
-        fabEditTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                properDialog.show();
-            }
-        });
     }
 
     private void setupTagManagement() {

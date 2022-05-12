@@ -74,21 +74,11 @@ public class MapsActivity extends FragmentActivity
 
         // Tree view button
         CheckBox treeViewCheckBox = findViewById(R.id.notetree_checkbox);
-        treeViewCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                goToNotesTreeActivity();
-            }
-        });
+        treeViewCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> goToNotesTreeActivity());
 
         // my location button
         FloatingActionButton mapMyLocationButton = binding.fabMyLocation;
-        mapMyLocationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                tryMoveCameraToGpsLocation();
-            }
-        });
+        mapMyLocationButton.setOnClickListener(view -> tryMoveCameraToGpsLocation());
 
         this.showWelcomeDialog();
     }
@@ -139,14 +129,11 @@ public class MapsActivity extends FragmentActivity
         this.tryMoveCameraToGpsLocation();
 
         mMap.setOnMarkerClickListener(this);
-        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
-            @Override
-            public void onMapLongClick(@NonNull LatLng latLng) {
-                // create a new pin
-                NotePin pin = NotePinUtil.MakeNewPinAtLocation(latLng.latitude, latLng.longitude);
-                drawNotePin(pin);
-                Toast.makeText(getApplicationContext(), R.string.toast_pin_created, Toast.LENGTH_LONG).show();
-            }
+        mMap.setOnMapLongClickListener(latLng -> {
+            // create a new pin
+            NotePin pin = NotePinUtil.MakeNewPinAtLocation(latLng.latitude, latLng.longitude);
+            drawNotePin(pin);
+            Toast.makeText(getApplicationContext(), R.string.toast_pin_created, Toast.LENGTH_LONG).show();
         });
         initCameraPosition();
     }
@@ -254,14 +241,11 @@ public class MapsActivity extends FragmentActivity
             // permission granted
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
-            fusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                @Override
-                public void onSuccess(Location location) {
-                    if (location != null) {
-                        // usually not null, but hey, who knows.
-                        LatLng position = new LatLng(location.getLatitude(), location.getLongitude());
-                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position, 13));
-                    }
+            fusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
+                if (location != null) {
+                    // usually not null, but hey, who knows.
+                    LatLng position = new LatLng(location.getLatitude(), location.getLongitude());
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position, 13));
                 }
             });
         } else {

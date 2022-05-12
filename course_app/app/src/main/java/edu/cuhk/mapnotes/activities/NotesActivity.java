@@ -97,17 +97,8 @@ public class NotesActivity extends AppCompatActivity {
         // edit title
         this.setupNoteTitleRenaming();
 
-        // todo edit tags
-        FloatingActionButton fabTags = findViewById(R.id.fab_edit_tags);
-        fabTags.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // goto tabs activity
-                Intent intent = new Intent(view.getContext(), NoteTagsActivity.class);
-                intent.putExtra("noteUid", noteEntryUid);
-                startActivity(intent);
-            }
-        });
+        // edit tags
+        this.setupTagManagement();
 
         // enable/disable reminder
         AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
@@ -292,6 +283,19 @@ public class NotesActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 properDialog.show();
+            }
+        });
+    }
+
+    private void setupTagManagement() {
+        TextView tagsText = findViewById(R.id.tagsText);
+        tagsText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // goto tabs activity
+                Intent intent = new Intent(view.getContext(), NoteTagsActivity.class);
+                intent.putExtra("noteUid", noteEntryUid);
+                startActivity(intent);
             }
         });
     }

@@ -42,6 +42,7 @@ import edu.cuhk.mapnotes.R;
 import edu.cuhk.mapnotes.databinding.ActivityMapsBinding;
 import edu.cuhk.mapnotes.datatypes.AppDatabase;
 import edu.cuhk.mapnotes.datatypes.NotePin;
+import edu.cuhk.mapnotes.util.HelpButtonOnClickListener;
 import edu.cuhk.mapnotes.util.NoteEntryUtil;
 import edu.cuhk.mapnotes.util.NotePinUtil;
 
@@ -82,8 +83,7 @@ public class MapsActivity extends FragmentActivity
             }
         });
 
-        // help button
-        builder = new AlertDialog.Builder(this);
+        // my location button
         FloatingActionButton mapHelpButton = binding.fabMyLocation;
         mapHelpButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +91,8 @@ public class MapsActivity extends FragmentActivity
                 tryMoveCameraToGpsLocation();
             }
         });
+
+        this.showWelcomeDialog();
     }
 
     private void syncMapView() {
@@ -266,6 +268,13 @@ public class MapsActivity extends FragmentActivity
         Intent intent = new Intent(this, PinsActivity.class);
         intent.putExtra("pinUid", pinUid);
         startActivity(intent);
+    }
+
+    private void showWelcomeDialog() {
+        if (builder == null) {
+            builder = new AlertDialog.Builder(this);
+        }
+        new HelpButtonOnClickListener(builder, R.string.welcome_to_app_title, R.string.welcome_to_app_descr).onClick(null);
     }
 
     private void tryMoveCameraToGpsLocation() {

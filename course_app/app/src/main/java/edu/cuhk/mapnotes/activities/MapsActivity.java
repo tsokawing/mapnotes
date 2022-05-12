@@ -1,24 +1,35 @@
 package edu.cuhk.mapnotes.activities;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.room.Room;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -51,6 +62,8 @@ public class MapsActivity extends FragmentActivity
 
     AlertDialog.Builder builder;
 
+    private FusedLocationProviderClient fusedLocationClient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,8 +88,13 @@ public class MapsActivity extends FragmentActivity
 
         // help button
         builder = new AlertDialog.Builder(this);
-        FloatingActionButton mapHelpButton = binding.fabMapHelp;
-        mapHelpButton.setOnClickListener(new HelpButtonOnClickListener(builder, R.string.welcome_to_app_title, R.string.welcome_to_app_descr));
+        FloatingActionButton mapHelpButton = binding.fabMyLocation;
+        mapHelpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tryMoveCameraToGpsLocation();
+            }
+        });
     }
 
     private void syncMapView() {
@@ -115,12 +133,21 @@ public class MapsActivity extends FragmentActivity
         double longitude = 114.1930 + random.nextDouble() * (114.2104 - 114.1930);
         NotePin randomPin = NotePinUtil.MakeNewPinAtLocation(latitude, longitude);
         notePins.add(randomPin);
+
+        loadNotePins();
+
+        // help button
+//        builder = new AlertDialog.Builder(this);
+//        FloatingActionButton mapHelpButton = binding.fabMapHelp;
+//        mapHelpButton.setOnClickListener(new HelpButtonOnClickListener(builder, R.string.welcome_to_app_title, R.string.welcome_to_app_descr));
     }
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
         this.updateGoogleMapContents();
+
+        this.tryMoveCameraToGpsLocation();
 
         mMap.setOnMarkerClickListener(this);
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
@@ -243,5 +270,35 @@ public class MapsActivity extends FragmentActivity
         Intent intent = new Intent(this, PinsActivity.class);
         intent.putExtra("pinUid", pinUid);
         startActivity(intent);
+    }
+
+    private void tryMoveCameraToGpsLocation() {
+        // obtains 1x GPS location and returns it
+        // also handles the necessary flow properly
+        if (mMap == null) {
+            // not ready yet!
+            return;
+        }
+        if (fusedLocationClient == null) {
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        }
+        // ask permission
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            // permission granted
+            mMap.setMyLocationEnabled(true);
+            mMap.getUiSettings().setMyLocationButtonEnabled(false);
+            fusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(Location location) {
+                    if (location != null) {
+                        // usually not null, but hey, who knows.
+                        LatLng position = new LatLng(location.getLatitude(), location.getLongitude());
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position, 13));
+                    }
+                }
+            });
+        } else {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 5);
+        }
     }
 }

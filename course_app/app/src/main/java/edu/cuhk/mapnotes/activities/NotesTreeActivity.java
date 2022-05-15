@@ -1,4 +1,4 @@
-package edu.cuhk.mapnotes;
+package edu.cuhk.mapnotes.activities;
 
 import android.os.Bundle;
 
@@ -19,6 +19,7 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.cuhk.mapnotes.R;
 import edu.cuhk.mapnotes.activities.MapsActivity;
 import edu.cuhk.mapnotes.adapters.NotesTreeViewHolder;
 import edu.cuhk.mapnotes.databinding.ActivityNotesTreeBinding;

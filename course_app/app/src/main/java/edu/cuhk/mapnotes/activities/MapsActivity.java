@@ -9,12 +9,9 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -27,7 +24,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Collections;
@@ -37,7 +33,6 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import edu.cuhk.mapnotes.NotesTreeActivity;
 import edu.cuhk.mapnotes.R;
 import edu.cuhk.mapnotes.databinding.ActivityMapsBinding;
 import edu.cuhk.mapnotes.datatypes.AppDatabase;

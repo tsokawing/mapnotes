@@ -25,7 +25,7 @@
             android:label="@string/title_activity_note_entry_tabs"
             android:theme="@style/Theme.CourseProject.NoActionBar" />
         <activity
-            android:name=".NotesTreeActivity"
+            android:name=".activities.NotesTreeActivity"
             android:exported="false"
             android:label="@string/title_activity_notes_tree"
             android:theme="@style/Theme.CourseProject.NoActionBar" />

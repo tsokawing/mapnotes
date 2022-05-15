@@ -56,9 +56,9 @@ public class NotesTreeActivity extends AppCompatActivity {
         notePins = MapsActivity.noteDatabase.notePinDao().getAllPins();
         for (NotePin notePin : notePins) {
             List<NoteEntry> noteEntries = MapsActivity.noteDatabase.noteEntryDao().getAllNoteEntries(notePin.uid);
-            TreeNode root = new TreeNode(notePin.pinName, R.layout.list_item_file);
+            TreeNode root = new TreeNode(notePin, R.layout.list_item_file);
             for (NoteEntry noteEntry : noteEntries) {
-                root.addChild(new TreeNode(noteEntry.noteTitle, R.layout.list_item_file));
+                root.addChild(new TreeNode(noteEntry, R.layout.list_item_file));
             }
             roots.add(root);
         }

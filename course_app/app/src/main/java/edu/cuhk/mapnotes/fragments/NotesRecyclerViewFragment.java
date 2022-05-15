@@ -112,7 +112,7 @@ public class NotesRecyclerViewFragment extends Fragment {
                 adapter.notifyItemRemoved(position);
 
                 // Display snack bar for undo
-                Snackbar.make(recyclerView, deletedNote.noteTitle, Snackbar.LENGTH_LONG).setAction("Undo", new View.OnClickListener() {
+                Snackbar.make(recyclerView, deletedNote.noteTitle + " deleted.", Snackbar.LENGTH_LONG).setAction("", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         // TODO: Add note back to db and ui

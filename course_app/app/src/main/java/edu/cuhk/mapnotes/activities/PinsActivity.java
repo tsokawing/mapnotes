@@ -85,9 +85,16 @@ public class PinsActivity extends AppCompatActivity {
         });
 
         // floating button to modify location name
-        FloatingActionButton fabEditTitle = binding.fabEditPinName;
         AlertDialog dialogEditPinName = this.makeEditTitleDialog();
-        fabEditTitle.setOnClickListener(new View.OnClickListener() {
+        CollapsingToolbarLayout ctl = findViewById(R.id.toolbar_layout);
+        ctl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogEditPinName.show();
+            }
+        });
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialogEditPinName.show();

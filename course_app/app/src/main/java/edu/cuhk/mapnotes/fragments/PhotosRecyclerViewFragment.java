@@ -48,7 +48,7 @@ public class PhotosRecyclerViewFragment extends Fragment {
         rootView.setTag(TAG);
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.photos_rv);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         mAdapter = new PinPhotosAdapter(mDataset);
         mRecyclerView.setAdapter(mAdapter);
 

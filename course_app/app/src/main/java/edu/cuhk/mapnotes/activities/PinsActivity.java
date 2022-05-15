@@ -102,8 +102,8 @@ public class PinsActivity extends AppCompatActivity {
                 // add a new note entry to this pin
                 // TODO: Delete db then refresh may be slow as UI has to wait db finished.
                 NoteEntry noteEntry = new NoteEntry();
-                noteEntry.noteTitle = "New Note";
-                noteEntry.noteText = "A new note for this location has been created. Click here to edit it.";
+                noteEntry.noteTitle = "Untitled Note";
+                noteEntry.noteText = "Click here to edit!";
                 noteEntry.pinUid = pinUid;
                 // TODO: Should make db related as singleton outside of MapsActivity
                 MapsActivity.noteDatabase.noteEntryDao().insertNoteEntries(noteEntry);

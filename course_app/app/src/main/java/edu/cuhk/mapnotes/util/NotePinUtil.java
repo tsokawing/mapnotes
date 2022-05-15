@@ -14,7 +14,7 @@ public class NotePinUtil {
 
     public static NotePin MakeNewPinAtLocation(double latitude, double longitude) {
         NotePin newPin = new NotePin();
-        newPin.pinName = "New Location";
+        newPin.pinName = "Untitled Pin";
         newPin.latitude = latitude;
         newPin.longitude = longitude;
         List<Long> insertionResponse = MapsActivity.noteDatabase.notePinDao().insertPins(newPin);

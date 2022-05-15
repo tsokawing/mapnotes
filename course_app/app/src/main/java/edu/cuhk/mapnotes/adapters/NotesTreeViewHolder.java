@@ -55,5 +55,12 @@ public class NotesTreeViewHolder extends TreeViewHolder {
             int stateIcon = node.isExpanded() ? R.drawable.ic_baseline_expand_less_24 : R.drawable.ic_baseline_expand_more_24;
             fileStateIcon.setImageResource(stateIcon);
         }
+
+        // Go to note activity if a note is clicked
+        if (node.getValue() instanceof NoteEntry && node.isSelected()) {
+            Intent noteIntent = new Intent(itemView.getContext(), NotesActivity.class);
+            noteIntent.putExtra("noteUid", ((NoteEntry) node.getValue()).uid);
+            itemView.getContext().startActivity(noteIntent);
+        }
     }
 }

@@ -55,6 +55,13 @@ public class PhotosRecyclerViewFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        loadPinPhotos();
+    }
+
     private void loadPinId() {
         Bundle bundleArguments = getArguments();
         if (bundleArguments != null) {
@@ -64,6 +71,8 @@ public class PhotosRecyclerViewFragment extends Fragment {
     }
 
     private void loadPinPhotos() {
+        mDataset.clear();
+
         // Load from sdcard
         File path = new File(this.requireContext().getExternalFilesDir(null).toString(), "images/" + String.valueOf(pinUid));
         if(path.exists()) {

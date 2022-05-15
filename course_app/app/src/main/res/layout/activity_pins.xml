@@ -9,31 +9,29 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_bar_height"
+        android:layout_height="56dp"
         android:fitsSystemWindows="true"
         android:theme="@style/Theme.CourseProject.AppBarOverlay"
-        android:background="@color/white"
         app:elevation="0dp">
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:toolbarId="@+id/toolbar"
-            android:id="@+id/toolbar_layout"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
-            android:elevation="4dp"
-            android:background="@drawable/appbar_shadow">
+            android:layout_height="?attr/actionBarSize"
+            android:layout_marginStart="4dp"
+            app:layout_collapseMode="pin"
+            app:popupTheme="@style/Theme.CourseProject.PopupOverlay">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
+            <EditText
+                android:id="@+id/pin_title"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/Theme.CourseProject.PopupOverlay" />
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:inputType="text"
+                android:maxLines="1"
+                android:text="Pin Title" />
+        </androidx.appcompat.widget.Toolbar>
 
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -44,15 +42,6 @@
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@android:drawable/ic_menu_gallery" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_edit_pin_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/fab_margin_2x"
-        app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|end"
-        app:srcCompat="@drawable/ic_baseline_title_24" />
 
     <include layout="@layout/notes_list" />
 

@@ -16,7 +16,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.provider.MediaStore;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -48,6 +50,7 @@ public class PinsActivity extends AppCompatActivity {
     private boolean showingPhotos = false;
 
     private int pinUid;
+    private String pinName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +58,6 @@ public class PinsActivity extends AppCompatActivity {
 
         binding = ActivityPinsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        writePinInfoOnToolBar();
 
         // load the pin uid
         Intent invokerIntent = getIntent();
@@ -75,6 +76,23 @@ public class PinsActivity extends AppCompatActivity {
         }
         this.refreshPinLocationDisplay();
 
+        // Tool bar
+        EditText editPinTitle = findViewById(R.id.pin_title);
+        editPinTitle.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                pinName = s.toString();
+            }
+        });
+
+        // Fab buttons
+
         // Fab button for gallery
         FloatingActionButton fabViewGallery = binding.fabViewGallery;
         fabViewGallery.setOnClickListener(new View.OnClickListener() {
@@ -83,18 +101,6 @@ public class PinsActivity extends AppCompatActivity {
                 toggleBetweenNotesAndPhotos();
             }
         });
-
-        // floating button to modify location name
-        FloatingActionButton fabEditTitle = binding.fabEditPinName;
-        AlertDialog dialogEditPinName = this.makeEditTitleDialog();
-        fabEditTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialogEditPinName.show();
-            }
-        });
-
-        // Fab buttons
 
         binding.fabAddNote.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,6 +163,12 @@ public class PinsActivity extends AppCompatActivity {
 
         // help button
         builder = new AlertDialog.Builder(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        renamePin(pinName);
     }
 
     private void toggleBetweenNotesAndPhotos() {
@@ -253,61 +265,25 @@ public class PinsActivity extends AppCompatActivity {
         }
     }
 
-    private void writePinInfoOnToolBar() {
-        Toolbar toolbar = binding.toolbar;
-        setSupportActionBar(toolbar);
-        CollapsingToolbarLayout toolBarLayout = binding.toolbarLayout;
-        toolBarLayout.setTitle("Pin");
-    }
-
     public Context getContext() {
         return this.getApplicationContext();
     }
 
-    private void properlySetToolbarTitle(CharSequence charSequence) {
-        CollapsingToolbarLayout ctl = findViewById(R.id.toolbar_layout);
-        ctl.setTitle(charSequence);
-    }
-
     private void refreshPinLocationDisplay() {
         if (this.pinUid >= 0) {
-            // ok
             NotePin notePin = MapsActivity.noteDatabase.notePinDao().getPinById(pinUid);
-            properlySetToolbarTitle(notePin.pinName);
+            pinName = notePin.pinName;
+            EditText editPinTitle = findViewById(R.id.pin_title);
+            editPinTitle.setText(pinName);
         }
     }
 
-    private AlertDialog makeEditTitleDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.renaming_pin_name);
-        EditText inputRenameTitle = new EditText(this);
-        inputRenameTitle.setInputType(InputType.TYPE_CLASS_TEXT);
-        // should have already loaded a valid note
+    private void renamePin(String name) {
         if (pinUid >= 0) {
-            NotePin pin = MapsActivity.noteDatabase.notePinDao().getPinById(pinUid);
-            inputRenameTitle.setText(pin.pinName);
+            NotePin notePin = MapsActivity.noteDatabase.notePinDao().getPinById(pinUid);
+            notePin.pinName = name;
+            MapsActivity.noteDatabase.notePinDao().updatePin(notePin);
+            refreshPinLocationDisplay();
         }
-        builder.setView(inputRenameTitle);
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (pinUid >= 0) {
-                    // put the updated title back to the DB
-                    NotePin notePin = MapsActivity.noteDatabase.notePinDao().getPinById(pinUid);
-                    notePin.pinName = inputRenameTitle.getText().toString();
-                    MapsActivity.noteDatabase.notePinDao().updatePin(notePin);
-                    refreshPinLocationDisplay();
-                }
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        AlertDialog properDialog = builder.create();
-        return properDialog;
     }
 }

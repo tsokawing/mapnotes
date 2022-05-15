@@ -1,10 +1,15 @@
 package edu.cuhk.mapnotes.util;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.text.DecimalFormat;
 import java.util.List;
 
+import edu.cuhk.mapnotes.R;
 import edu.cuhk.mapnotes.activities.MapsActivity;
 import edu.cuhk.mapnotes.datatypes.NoteEntry;
 import edu.cuhk.mapnotes.datatypes.NotePin;
@@ -23,6 +28,13 @@ public class NotePinUtil {
 
         ensurePinHasSomeNotes(newPin);
         return newPin;
+    }
+
+    public static Marker addNotePinToMap(NotePin pin, GoogleMap mapObject) {
+        LatLng latlng = new LatLng(pin.latitude, pin.longitude);
+        return mapObject.addMarker(new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.destination))
+                .position(latlng).title("" + pin.uid));
     }
 
     public static void ensurePinHasSomeNotes(NotePin pin) {

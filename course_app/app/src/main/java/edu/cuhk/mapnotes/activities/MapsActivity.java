@@ -20,10 +20,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Collections;
@@ -128,7 +126,9 @@ public class MapsActivity extends FragmentActivity
         mMap.setOnMapLongClickListener(latLng -> {
             // create a new pin
             NotePin pin = NotePinUtil.MakeNewPinAtLocation(latLng.latitude, latLng.longitude);
-            drawNotePin(pin);
+            Marker marker = NotePinUtil.addNotePinToMap(pin, mMap);
+            notePinsMapping.put(pin.uid, marker);
+            updateGoogleMapContents();
             Toast.makeText(getApplicationContext(), R.string.toast_pin_created, Toast.LENGTH_LONG).show();
         });
         initCameraPosition();
@@ -163,19 +163,9 @@ public class MapsActivity extends FragmentActivity
     private void pairNotePins() {
         // pairs the notepins in the database with the markers on the map
         for (NotePin notePin : noteDatabase.notePinDao().getAllPins()) {
-            LatLng latlng = new LatLng(notePin.latitude, notePin.longitude);
-            Marker marker = mMap.addMarker(new MarkerOptions()
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.destination))
-                    .position(latlng).title("" + notePin.uid));
+            Marker marker = NotePinUtil.addNotePinToMap(notePin, mMap);
             notePinsMapping.put(notePin.uid, marker);
         }
-    }
-
-    private void drawNotePin(NotePin notePin) {
-        LatLng latlng = new LatLng(notePin.latitude, notePin.longitude);
-        mMap.addMarker(new MarkerOptions()
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.destination))
-                .position(latlng).title("" + notePin.uid));
     }
 
     private void initCameraPosition() {

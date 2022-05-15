@@ -43,6 +43,8 @@
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@android:drawable/ic_menu_gallery" />
 
+    <!-- Edit title ic_baseline_title_24 -->
+
     <include layout="@layout/notes_list" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

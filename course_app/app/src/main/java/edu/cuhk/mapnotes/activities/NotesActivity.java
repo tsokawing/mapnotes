@@ -22,6 +22,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -209,14 +210,14 @@ public class NotesActivity extends AppCompatActivity {
         ctl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                properDialog.show();
+//                properDialog.show();
             }
         });
     }
 
     private void setupTagManagement() {
-        TextView tagsText = findViewById(R.id.tagsText);
-        tagsText.setOnClickListener(new View.OnClickListener() {
+        RelativeLayout tagRelativeLayout = findViewById(R.id.tag_layout);
+        tagRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // goto tabs activity
@@ -289,8 +290,8 @@ public class NotesActivity extends AppCompatActivity {
         });
         AlertDialog properDialog = builder.create();
 
-        TextView reminderText = findViewById(R.id.reminderText);
-        reminderText.setOnClickListener(new View.OnClickListener() {
+        RelativeLayout reminderRelativeLayout = findViewById(R.id.reminder_layout);
+        reminderRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 properDialog.show();
@@ -367,13 +368,13 @@ public class NotesActivity extends AppCompatActivity {
 
     private void updateTagsDisplayText() {
         // display max 3 tags per note
-        TextView tagsText = findViewById(R.id.tagsText);
+        TextView tagsText = findViewById(R.id.tags_text);
         List<NoteTag> enabledTags = NoteEntryUtil.getEnabledTagsForNoteEntry(noteEntryUid);
         if (enabledTags.isEmpty()) {
             tagsText.setText(R.string.note_tags_default);
             return;
         }
-        String displayText = "Tags used: ";
+        String displayText = "";
         displayText += enabledTags.get(0).tagName;
         if (enabledTags.size() >= 2) {
             displayText += ", " + enabledTags.get(1).tagName;
@@ -391,7 +392,7 @@ public class NotesActivity extends AppCompatActivity {
         // check reminder
         // this does not use the util method because we need to detect expiration
         List<NoteReminder> reminderList = MapsActivity.noteDatabase.noteReminderDao().getAllNoteReminders(this.noteEntryUid);
-        TextView reminderText = findViewById(R.id.reminderText);
+        TextView reminderText = findViewById(R.id.reminder_text);
         if (reminderList.isEmpty()) {
             // no reminder; set early
             reminderText.setText(R.string.note_reminders_default);
@@ -403,7 +404,7 @@ public class NotesActivity extends AppCompatActivity {
         Date reminderDate = new Date(reminder.reminderTimestamp);
         if (System.currentTimeMillis() > reminderDate.getTime()) {
             // expired!
-            reminderText.setText("Reminder expired.");
+            reminderText.setText("Reminder expired");
             return;
         }
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");

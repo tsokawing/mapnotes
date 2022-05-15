@@ -10,7 +10,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_bar_height_extra"
+        android:layout_height="180dp"
         android:fitsSystemWindows="true"
         android:theme="@style/Theme.CourseProject.AppBarOverlay"
         android:background="@color/white"
@@ -21,37 +21,68 @@
             style="@style/Widget.MaterialComponents.Toolbar.Primary"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@drawable/appbar_shadow"
+            android:elevation="4dp"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:expandedTitleMarginBottom="120dp"
-            app:toolbarId="@+id/toolbar"
-            android:elevation="4dp"
-            android:background="@drawable/appbar_shadow">
+            app:expandedTitleMarginStart="16dp"
+            app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Large"
+            app:layout_scrollFlags="scroll|snap"
+            app:toolbarId="@+id/toolbar">
 
-            <TextView
-                android:id="@+id/tagsText"
-                android:layout_width="fill_parent"
-                android:layout_height="30dp"
-                android:layout_gravity="top|start"
+            <RelativeLayout
+                android:id="@+id/tag_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/fab_margin"
-                android:layout_marginTop="200dp"
-                android:text="@string/note_tags_default"
-                android:textColor="#FFFFFF"
-                android:textSize="18dp"
-                android:clickable="true" />
+                android:layout_marginTop="95dp"
+                android:clickable="true">
 
-            <TextView
-                android:id="@+id/reminderText"
-                android:layout_width="fill_parent"
-                android:layout_height="30dp"
-                android:layout_gravity="top|start"
+                <ImageView
+                    android:id="@+id/tag_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_baseline_local_offer_24" />
+
+                <TextView
+                    android:id="@+id/tags_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/tag_icon"
+                    android:padding="@dimen/margin_small"
+                    android:text="@string/tags_string"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/reminder_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/fab_margin"
-                android:layout_marginTop="240dp"
-                android:text="@string/note_reminders_default"
-                android:textColor="#FFFFFF"
-                android:textSize="18dp"
-                android:clickable="true" />
+                android:layout_marginTop="125dp"
+                android:clickable="true">
+
+                <ImageView
+                    android:id="@+id/reminder_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_baseline_alarm_24" />
+
+                <TextView
+                    android:id="@+id/reminder_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/reminder_icon"
+                    android:padding="@dimen/margin_small"
+                    android:text="@string/note_reminders_default"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18dp" />
+            </RelativeLayout>
+
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"

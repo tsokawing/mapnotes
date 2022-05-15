@@ -136,5 +136,5 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="title_activity_note_entry_tabs">NoteEntryTabsActivity</string>
-    <string name="tags_string">No tag</string>
+    <string name="tags_string">No tags</string>
 </resources>

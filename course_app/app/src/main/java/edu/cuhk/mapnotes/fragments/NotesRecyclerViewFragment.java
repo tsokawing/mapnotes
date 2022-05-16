@@ -17,6 +17,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import edu.cuhk.mapnotes.R;
 import edu.cuhk.mapnotes.activities.MapsActivity;
+import edu.cuhk.mapnotes.activities.PinsActivity;
 import edu.cuhk.mapnotes.adapters.PinNotesAdapter;
 import edu.cuhk.mapnotes.datatypes.NoteEntry;
 
@@ -89,6 +90,10 @@ public class NotesRecyclerViewFragment extends Fragment {
 
         useSwipeToDelete(mRecyclerView, mAdapter);
 
+        PinsActivity parentActivity = (PinsActivity) getActivity();
+        assert parentActivity != null;
+        parentActivity.notifyRefreshActivityUi();
+
         return rootView;
     }
 
@@ -110,6 +115,9 @@ public class NotesRecyclerViewFragment extends Fragment {
 
                 adapter.refreshNotePins();
                 adapter.notifyItemRemoved(position);
+                PinsActivity parentActivity = (PinsActivity) getActivity();
+                assert parentActivity != null;
+                parentActivity.notifyRefreshActivityUi();
 
                 // Display snack bar for undo
                 Snackbar.make(recyclerView, deletedNote.noteTitle + " deleted.", Snackbar.LENGTH_LONG).setAction("", new View.OnClickListener() {

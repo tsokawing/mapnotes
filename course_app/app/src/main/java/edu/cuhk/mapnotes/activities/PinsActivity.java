@@ -118,6 +118,8 @@ public class PinsActivity extends AppCompatActivity {
                 adapter.refreshNotePins();
                 adapter.notifyItemInserted(adapter.getItemCount() - 1);
 
+                notifyRefreshActivityUi();
+
                 Toast.makeText(getApplicationContext(), "A new note has been created.", Toast.LENGTH_LONG).show();
             }
         });
@@ -262,6 +264,43 @@ public class PinsActivity extends AppCompatActivity {
             PinNotesAdapter adapter = notesRecyclerViewFragment.getPinNotesAdapter();
             adapter.refreshNotePins();
             adapter.notifyDataSetChanged();
+
+            // determine what layout to display
+            this.notifyRefreshActivityUi();
+        }
+    }
+
+    public void notifyRefreshActivityUi() {
+        // a note has been added/deleted
+        // call this when the fragments initialize
+        if (notesRecyclerViewFragment != null) {
+            PinNotesAdapter adapter = notesRecyclerViewFragment.getPinNotesAdapter();
+
+            View contentFragment = findViewById(R.id.pin_content_fragment);
+            View nothingToDisplay = findViewById(R.id.layout_nothing_to_display);
+            if (!showingPhotos) {
+                // text mode
+                if (adapter.getItemCount() == 0) {
+                    // nothing to display
+                    contentFragment.setVisibility(View.INVISIBLE);
+                    nothingToDisplay.setVisibility(View.VISIBLE);
+                } else {
+                    // got something to display
+                    contentFragment.setVisibility(View.VISIBLE);
+                    nothingToDisplay.setVisibility(View.INVISIBLE);
+                }
+            } else {
+                // photo mode
+                if (!this.hasPhotos()) {
+                    // nothing to display
+                    contentFragment.setVisibility(View.INVISIBLE);
+                    nothingToDisplay.setVisibility(View.VISIBLE);
+                } else {
+                    // got something to display
+                    contentFragment.setVisibility(View.VISIBLE);
+                    nothingToDisplay.setVisibility(View.INVISIBLE);
+                }
+            }
         }
     }
 
@@ -285,5 +324,17 @@ public class PinsActivity extends AppCompatActivity {
             MapsActivity.noteDatabase.notePinDao().updatePin(notePin);
             refreshPinLocationDisplay();
         }
+    }
+
+    private boolean hasPhotos() {
+        File path = new File(getContext().getExternalFilesDir(null).toString(), "images/" + String.valueOf(pinUid));
+        if (!path.exists()) {
+            return false;
+        }
+        String[] fileNames = path.list();
+        if (fileNames == null) {
+            return false;
+        }
+        return fileNames.length > 0;
     }
 }

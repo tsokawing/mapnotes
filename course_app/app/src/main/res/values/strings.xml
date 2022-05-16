@@ -40,6 +40,7 @@ You may then edit the notes of the locations on the map by clicking on the pins 
     <string name="reminder_date_default">No date set</string>
     <string name="reminder_time_default">No time set</string>
     <string name="reminder_text_hint">Set your reminder text…</string>
+    <string name="nothing_to_display">(There is nothing to display…)</string>
 
     <!-- Toasts -->
     <string name="toast_pin_created">A new location is now marked.</string>

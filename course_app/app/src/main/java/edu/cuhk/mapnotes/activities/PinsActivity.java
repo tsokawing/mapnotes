@@ -118,6 +118,8 @@ public class PinsActivity extends AppCompatActivity {
                 adapter.refreshNotePins();
                 adapter.notifyItemInserted(adapter.getItemCount() - 1);
 
+                notifyRefreshActivityUi();
+
                 Toast.makeText(getApplicationContext(), "A new note has been created.", Toast.LENGTH_LONG).show();
             }
         });
@@ -262,6 +264,28 @@ public class PinsActivity extends AppCompatActivity {
             PinNotesAdapter adapter = notesRecyclerViewFragment.getPinNotesAdapter();
             adapter.refreshNotePins();
             adapter.notifyDataSetChanged();
+
+            // determine what layout to display
+            this.notifyRefreshActivityUi();
+        }
+    }
+
+    public void notifyRefreshActivityUi() {
+        // a note has been added/deleted
+        if (notesRecyclerViewFragment != null) {
+            PinNotesAdapter adapter = notesRecyclerViewFragment.getPinNotesAdapter();
+
+            View notesList = findViewById(R.id.pin_content_fragment);
+            View nothingToDisplay = findViewById(R.id.layout_nothing_to_display);
+            if (adapter.getItemCount() == 0) {
+                // nothing to display
+                notesList.setVisibility(View.INVISIBLE);
+                nothingToDisplay.setVisibility(View.VISIBLE);
+            } else {
+                // got something to display
+                notesList.setVisibility(View.VISIBLE);
+                nothingToDisplay.setVisibility(View.INVISIBLE);
+            }
         }
     }
 

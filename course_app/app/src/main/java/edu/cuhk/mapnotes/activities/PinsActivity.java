@@ -272,19 +272,34 @@ public class PinsActivity extends AppCompatActivity {
 
     public void notifyRefreshActivityUi() {
         // a note has been added/deleted
+        // call this when the fragments initialize
         if (notesRecyclerViewFragment != null) {
             PinNotesAdapter adapter = notesRecyclerViewFragment.getPinNotesAdapter();
 
-            View notesList = findViewById(R.id.pin_content_fragment);
+            View contentFragment = findViewById(R.id.pin_content_fragment);
             View nothingToDisplay = findViewById(R.id.layout_nothing_to_display);
-            if (adapter.getItemCount() == 0) {
-                // nothing to display
-                notesList.setVisibility(View.INVISIBLE);
-                nothingToDisplay.setVisibility(View.VISIBLE);
+            if (!showingPhotos) {
+                // text mode
+                if (adapter.getItemCount() == 0) {
+                    // nothing to display
+                    contentFragment.setVisibility(View.INVISIBLE);
+                    nothingToDisplay.setVisibility(View.VISIBLE);
+                } else {
+                    // got something to display
+                    contentFragment.setVisibility(View.VISIBLE);
+                    nothingToDisplay.setVisibility(View.INVISIBLE);
+                }
             } else {
-                // got something to display
-                notesList.setVisibility(View.VISIBLE);
-                nothingToDisplay.setVisibility(View.INVISIBLE);
+                // photo mode
+                if (!this.hasPhotos()) {
+                    // nothing to display
+                    contentFragment.setVisibility(View.INVISIBLE);
+                    nothingToDisplay.setVisibility(View.VISIBLE);
+                } else {
+                    // got something to display
+                    contentFragment.setVisibility(View.VISIBLE);
+                    nothingToDisplay.setVisibility(View.INVISIBLE);
+                }
             }
         }
     }
@@ -309,5 +324,17 @@ public class PinsActivity extends AppCompatActivity {
             MapsActivity.noteDatabase.notePinDao().updatePin(notePin);
             refreshPinLocationDisplay();
         }
+    }
+
+    private boolean hasPhotos() {
+        File path = new File(getContext().getExternalFilesDir(null).toString(), "images/" + String.valueOf(pinUid));
+        if (!path.exists()) {
+            return false;
+        }
+        String[] fileNames = path.list();
+        if (fileNames == null) {
+            return false;
+        }
+        return fileNames.length > 0;
     }
 }

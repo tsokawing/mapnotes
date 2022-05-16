@@ -52,6 +52,10 @@ public class PhotosRecyclerViewFragment extends Fragment {
         mAdapter = new PinPhotosAdapter(mDataset);
         mRecyclerView.setAdapter(mAdapter);
 
+        PinsActivity parentActivity = (PinsActivity) getActivity();
+        assert parentActivity != null;
+        parentActivity.notifyRefreshActivityUi();
+
         return rootView;
     }
 

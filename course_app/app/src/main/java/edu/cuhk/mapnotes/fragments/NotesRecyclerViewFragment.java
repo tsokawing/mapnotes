@@ -90,6 +90,10 @@ public class NotesRecyclerViewFragment extends Fragment {
 
         useSwipeToDelete(mRecyclerView, mAdapter);
 
+        PinsActivity parentActivity = (PinsActivity) getActivity();
+        assert parentActivity != null;
+        parentActivity.notifyRefreshActivityUi();
+
         return rootView;
     }
 

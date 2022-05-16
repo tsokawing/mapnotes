@@ -356,12 +356,6 @@ public class NotesActivity extends AppCompatActivity {
             timePicker.setMinute(ldt.getMinute());
         }
         reminderSwitch.setChecked(isChecked);
-        if (!isChecked) {
-            // we must manually apply the changes of states here for the initialization
-            reminderTextEdit.setEnabled(false);
-            datePicker.setEnabled(false);
-            timePicker.setEnabled(false);
-        }
 
         return dialogView;
     }

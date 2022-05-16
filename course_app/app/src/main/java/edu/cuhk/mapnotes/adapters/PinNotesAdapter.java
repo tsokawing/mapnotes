@@ -15,6 +15,7 @@ import edu.cuhk.mapnotes.R;
 import edu.cuhk.mapnotes.activities.MapsActivity;
 import edu.cuhk.mapnotes.activities.NotesActivity;
 import edu.cuhk.mapnotes.datatypes.NoteEntry;
+import io.noties.markwon.Markwon;
 
 public class PinNotesAdapter extends RecyclerView.Adapter<PinNotesAdapter.ViewHolder> {
     private static final String TAG = "Adapter";
@@ -31,8 +32,11 @@ public class PinNotesAdapter extends RecyclerView.Adapter<PinNotesAdapter.ViewHo
         private final TextView textViewNoteTitle;
         private final TextView textViewNoteContent;
 
+        private final Markwon markwonNoteContent;
+
         public ViewHolder(View v) {
             super(v);
+            markwonNoteContent = Markwon.create(v.getContext());
             // Define click listener for the ViewHolder's View.
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -46,7 +50,6 @@ public class PinNotesAdapter extends RecyclerView.Adapter<PinNotesAdapter.ViewHo
             });
             textViewNoteTitle = (TextView) v.findViewById(R.id.textViewNoteTitle);
             textViewNoteContent = (TextView) v.findViewById(R.id.textViewNoteText);
-
         }
 
         public TextView getTitleTextView() {
@@ -55,6 +58,12 @@ public class PinNotesAdapter extends RecyclerView.Adapter<PinNotesAdapter.ViewHo
 
         public TextView getContentTextView() {
             return textViewNoteContent;
+        }
+
+        public void setNoteContentText(String markdownString) {
+            markwonNoteContent.setMarkdown(getContentTextView(), markdownString);
+            // strange workaround needed
+            getContentTextView().setMovementMethod(null);
         }
     }
 
@@ -101,7 +110,7 @@ public class PinNotesAdapter extends RecyclerView.Adapter<PinNotesAdapter.ViewHo
         // with that element
         NoteEntry noteEntry = mNoteEntries.get(position);
         viewHolder.getTitleTextView().setText(noteEntry.noteTitle);
-        viewHolder.getContentTextView().setText(noteEntry.noteText);
+        viewHolder.setNoteContentText(noteEntry.noteText);
     }
 
     // Return the size of your dataset (invoked by the layout manager)

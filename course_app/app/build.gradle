@@ -51,4 +51,8 @@ dependencies {
     // Room: an interface for SQLite
     implementation "androidx.room:room-runtime:2.4.2"
     annotationProcessor "androidx.room:room-compiler:2.4.2"
+
+    // Markwon: a library for markdown processing
+    implementation "io.noties.markwon:core:4.6.2"
+    implementation "io.noties.markwon:editor:4.6.2"
 }

@@ -104,6 +104,8 @@
 
     <include layout="@layout/content_scrolling" />
 
+    <include layout="@layout/content_scrolling_read" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_edit_text"
         android:layout_width="wrap_content"

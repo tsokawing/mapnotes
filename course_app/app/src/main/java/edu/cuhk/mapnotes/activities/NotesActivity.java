@@ -10,6 +10,7 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
@@ -35,6 +36,7 @@ import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 import edu.cuhk.mapnotes.databinding.ActivityNotesBinding;
 import edu.cuhk.mapnotes.R;
@@ -43,6 +45,12 @@ import edu.cuhk.mapnotes.datatypes.NoteReminder;
 import edu.cuhk.mapnotes.datatypes.NoteTag;
 import edu.cuhk.mapnotes.util.NoteEntryUtil;
 import edu.cuhk.mapnotes.util.NotificationUtil;
+import io.noties.markwon.Markwon;
+import io.noties.markwon.core.spans.StrongEmphasisSpan;
+import io.noties.markwon.editor.AbstractEditHandler;
+import io.noties.markwon.editor.MarkwonEditor;
+import io.noties.markwon.editor.MarkwonEditorTextWatcher;
+import io.noties.markwon.editor.PersistedSpans;
 
 public class NotesActivity extends AppCompatActivity {
 
@@ -53,6 +61,9 @@ public class NotesActivity extends AppCompatActivity {
     private int noteEntryUid;
 
     private EditText inputRenameTitle;
+
+    private Markwon markwon;
+    private MarkwonEditor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +82,9 @@ public class NotesActivity extends AppCompatActivity {
 
         binding = ActivityNotesBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // initially set to render the text
+        this.initializeMarkdownRenderingMechanism();
 
         Toolbar toolbar = binding.toolbar;
         setSupportActionBar(toolbar);
@@ -124,9 +138,32 @@ public class NotesActivity extends AppCompatActivity {
         }
     }
 
+    private void initializeMarkdownRenderingMechanism() {
+        // markdown-enabled editor
+        markwon = Markwon.create(this);
+        editor = MarkwonEditor.create(markwon);
+        EditText editTextNoteContent = findViewById(R.id.note_edittext);
+        editTextNoteContent.addTextChangedListener(MarkwonEditorTextWatcher.withProcess(editor));
+
+        // markdown-based text rendering
+        TextView textViewNoteContent = findViewById(R.id.note_display_text);
+        if (this.noteEntryUid >= 0) {
+            NoteEntry entry = MapsActivity.noteDatabase.noteEntryDao().getNoteEntry(this.noteEntryUid);
+            markwon.setMarkdown(textViewNoteContent, entry.noteText);
+        }
+
+        // initially set to render the text
+//        textViewNoteContent.setVisibility(View.VISIBLE);
+        editTextNoteContent.setVisibility(View.INVISIBLE);
+        textViewNoteContent.setVisibility(View.VISIBLE);
+//        editTextNoteContent.setVisibility(View.INVISIBLE);
+//        editTextNoteContent.addTextChangedListener(MarkwonEditorTextWatcher.withPreRender(editor, Executors.newCachedThreadPool(), editTextNoteContent));
+    }
+
     void startEditText() {
         isEditing = true;
         EditText editText = findViewById(R.id.note_edittext);
+        editText.setVisibility(View.VISIBLE);
         editText.setFocusable(true);
         editText.setFocusableInTouchMode(true);
         editText.setEnabled(true);
@@ -138,11 +175,16 @@ public class NotesActivity extends AppCompatActivity {
 
         FloatingActionButton editTextFab = findViewById(R.id.fab_edit_text);
         editTextFab.setImageResource(R.drawable.ic_baseline_check_24);
+
+        // markdown rendering mechanism (hack)
+        TextView textViewNoteContent = findViewById(R.id.note_display_text);
+        textViewNoteContent.setVisibility(View.INVISIBLE);
     }
 
     void stopEditText(boolean doNotSave) {
         isEditing = false;
         EditText editText = findViewById(R.id.note_edittext);
+        editText.setVisibility(View.INVISIBLE);
         editText.setFocusable(false);
 
         // Collapse keyboard
@@ -158,6 +200,14 @@ public class NotesActivity extends AppCompatActivity {
             entry.noteText = editText.getText().toString();
             MapsActivity.noteDatabase.noteEntryDao().updateNoteEntry(entry);
         }
+
+        // markdown rendering mechanism (hack)
+        TextView textViewNoteContent = findViewById(R.id.note_display_text);
+        if (this.noteEntryUid >= 0) {
+            NoteEntry entry = MapsActivity.noteDatabase.noteEntryDao().getNoteEntry(this.noteEntryUid);
+            markwon.setMarkdown(textViewNoteContent, entry.noteText);
+        }
+        textViewNoteContent.setVisibility(View.VISIBLE);
     }
 
     private void properlySetToolbarTitle(CharSequence charSequence) {

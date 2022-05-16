@@ -1,9 +1,12 @@
 package edu.cuhk.mapnotes.util;
 
+import androidx.annotation.NonNull;
+
 import java.util.List;
 
 import edu.cuhk.mapnotes.activities.MapsActivity;
 import edu.cuhk.mapnotes.datatypes.AppDatabase;
+import edu.cuhk.mapnotes.datatypes.NoteEntry;
 import edu.cuhk.mapnotes.datatypes.NoteReminder;
 import edu.cuhk.mapnotes.datatypes.NoteTag;
 import edu.cuhk.mapnotes.datatypes.NoteTagDao;
@@ -82,5 +85,13 @@ public class NoteEntryUtil {
         AppDatabase database = MapsActivity.noteDatabase;
         database.noteEntryDao().deleteInvalidNoteEntries();
         database.noteTagDao().deleteAllUnusedTags();
+    }
+
+    public static List<NoteEntry> getAllNoteEntriesUsingThisTag(int tagUid) {
+        return MapsActivity.noteDatabase.noteTagDao().getAllNoteEntriesUsingThisTag(tagUid);
+    }
+
+    public static List<NoteEntry> getAllNoteEntriesUsingThisTag(@NonNull NoteTag tag) {
+        return getAllNoteEntriesUsingThisTag(tag.uid);
     }
 }

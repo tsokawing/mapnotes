@@ -121,6 +121,10 @@ public class PinsActivity extends AppCompatActivity {
                 notifyRefreshActivityUi();
 
                 Toast.makeText(getApplicationContext(), "A new note has been created.", Toast.LENGTH_LONG).show();
+
+                if (showingPhotos) {
+                    toggleBetweenNotesAndPhotos();
+                }
             }
         });
 
@@ -226,6 +230,10 @@ public class PinsActivity extends AppCompatActivity {
                 Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
                 saveImage(imageBitmap);
             }
+        }
+
+        if (!showingPhotos) {
+            toggleBetweenNotesAndPhotos();
         }
     }
 

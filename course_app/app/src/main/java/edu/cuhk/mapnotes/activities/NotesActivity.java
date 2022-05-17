@@ -23,6 +23,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -117,6 +118,9 @@ public class NotesActivity extends AppCompatActivity {
 
         // edit reminder
         this.setupReminderManagement();
+
+        // back button
+        this.setupBackButton();
     }
 
     @Override
@@ -136,6 +140,16 @@ public class NotesActivity extends AppCompatActivity {
             // check the reminder
             this.updateReminderDisplayText();
         }
+    }
+
+    private void setupBackButton() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void initializeMarkdownRenderingMechanism() {

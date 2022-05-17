@@ -169,12 +169,24 @@ public class PinsActivity extends AppCompatActivity {
 
         // help button
         builder = new AlertDialog.Builder(this);
+
+        setupBackButton();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         renamePin(pinName);
+    }
+
+    private void setupBackButton() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void toggleBetweenNotesAndPhotos() {

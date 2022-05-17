@@ -18,8 +18,11 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="0dp"
+            app:contentInsetStart="0dp"
+            app:contentInsetStartWithNavigation="0dp"
             app:layout_collapseMode="pin"
+            app:navigationIcon="?attr/homeAsUpIndicator"
             app:popupTheme="@style/Theme.CourseProject.PopupOverlay">
 
             <EditText

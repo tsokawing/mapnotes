@@ -40,7 +40,7 @@ import edu.cuhk.mapnotes.util.NoteEntryUtil;
 import edu.cuhk.mapnotes.util.NotePinUtil;
 
 public class MapsActivity extends FragmentActivity
-        implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+        implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, GoogleMap.OnMarkerDragListener {
 
     private HashMap<Integer, Marker> notePinsMapping = new HashMap<>();
 
@@ -131,6 +131,7 @@ public class MapsActivity extends FragmentActivity
             updateGoogleMapContents();
             Toast.makeText(getApplicationContext(), R.string.toast_pin_created, Toast.LENGTH_LONG).show();
         });
+        mMap.setOnMarkerDragListener(this);
         initCameraPosition();
     }
 
@@ -208,6 +209,21 @@ public class MapsActivity extends FragmentActivity
         intent.putExtra("pinUid", pinUid);
         startActivity(intent);
     }
+
+    @Override
+    public void onMarkerDrag(@NonNull Marker marker) {}
+
+    @Override
+    public void onMarkerDragEnd(@NonNull Marker marker) {
+        int pinUid = Integer.parseInt(marker.getTitle());
+        NotePin notePin = MapsActivity.noteDatabase.notePinDao().getPinById(pinUid);
+        notePin.latitude = marker.getPosition().latitude;
+        notePin.longitude = marker.getPosition().longitude;
+        MapsActivity.noteDatabase.notePinDao().updatePin(notePin);
+    }
+
+    @Override
+    public void onMarkerDragStart(@NonNull Marker marker) {}
 
     private void showWelcomeDialog() {
         if (builder == null) {

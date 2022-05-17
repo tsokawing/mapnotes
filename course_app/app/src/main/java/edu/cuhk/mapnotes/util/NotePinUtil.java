@@ -34,7 +34,8 @@ public class NotePinUtil {
         LatLng latlng = new LatLng(pin.latitude, pin.longitude);
         return mapObject.addMarker(new MarkerOptions()
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.destination))
-                .position(latlng).title("" + pin.uid));
+                .position(latlng).title("" + pin.uid)
+                .draggable(true));
     }
 
     public static void ensurePinHasSomeNotes(NotePin pin) {

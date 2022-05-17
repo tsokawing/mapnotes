@@ -46,8 +46,9 @@ public class PinsActivity extends AppCompatActivity {
     private NotesRecyclerViewFragment notesRecyclerViewFragment;
     private PhotosRecyclerViewFragment photosRecyclerViewFragment;
 
-    static final int REQUEST_IMAGE_CAPTURE = 1;
+    private boolean isAddFABOpen = false;
     private boolean showingPhotos = false;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
 
     private int pinUid;
     private String pinName;
@@ -102,6 +103,36 @@ public class PinsActivity extends AppCompatActivity {
             }
         });
 
+        setupAddFAB();
+
+        // Show list of notes by default
+        showPinNotes();
+
+        // help button
+        builder = new AlertDialog.Builder(this);
+
+        setupBackButton();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        renamePin(pinName);
+    }
+
+    private void setupAddFAB() {
+        binding.fabAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!isAddFABOpen){
+                    showAddFABMenu();
+                }else{
+                    closeAddFABMenu();
+                }
+            }
+        });
+
+        // notes
         binding.fabAddNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -128,27 +159,25 @@ public class PinsActivity extends AppCompatActivity {
             }
         });
 
+        // Photos
         binding.fabAddPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 captureImage();
-//                dispatchTakePictureIntent();
             }
         });
-
-        // Show list of notes by default
-        showPinNotes();
-
-        // help button
-        builder = new AlertDialog.Builder(this);
-
-        setupBackButton();
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        renamePin(pinName);
+    private void showAddFABMenu(){
+        isAddFABOpen = true;
+        binding.fabAddNote.animate().translationY(-getResources().getDimension(R.dimen.standard_64));
+        binding.fabAddPhoto.animate().translationY(-getResources().getDimension(R.dimen.standard_128));
+    }
+
+    private void closeAddFABMenu(){
+        isAddFABOpen = false;
+        binding.fabAddNote.animate().translationY(0);
+        binding.fabAddPhoto.animate().translationY(0);
     }
 
     private void setupBackButton() {

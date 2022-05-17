@@ -20,4 +20,8 @@
     <dimen name="app_bar_height_extra">200dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="text_margin_2x">32dp</dimen>
+
+    <dimen name="standard_64">64dp</dimen>
+    <dimen name="standard_128">128dp</dimen>
+    <dimen name="standard_192">192dp</dimen>
 </resources>

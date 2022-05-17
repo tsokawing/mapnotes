@@ -18,6 +18,8 @@ import androidx.appcompat.widget.Toolbar;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
@@ -121,6 +123,9 @@ public class NotesActivity extends AppCompatActivity {
 
         // back button
         this.setupBackButton();
+
+        // back to pin button
+        this.setupGoToPinButton();
     }
 
     @Override
@@ -150,6 +155,31 @@ public class NotesActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private void setupGoToPinButton() {
+        Toolbar toolBar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolBar);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_notes, menu);
+        MenuItem itemSwitch = menu.findItem(R.id.go_to_pin);
+        itemSwitch.setActionView(R.layout.button_to_pin);
+
+        final ImageButton button = menu.findItem(R.id.go_to_pin).getActionView().findViewById(R.id.goToPinButton);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NoteEntry entry = MapsActivity.noteDatabase.noteEntryDao().getNoteEntry(noteEntryUid);
+                Intent intent = new Intent(v.getContext(), PinsActivity.class);
+                intent.putExtra("pinUid", entry.pinUid);
+                startActivity(intent);
+            }
+        });
+        return true;
     }
 
     private void initializeMarkdownRenderingMechanism() {

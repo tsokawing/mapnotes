@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.appbar.MaterialToolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -39,9 +40,10 @@ public class NoteTagsActivity extends AppCompatActivity
         setContentView(binding.getRoot());
 
         Toolbar toolbar = binding.toolbar;
-        setSupportActionBar(toolbar);
-        CollapsingToolbarLayout toolBarLayout = binding.toolbarLayout;
-        toolBarLayout.setTitle("Manage tags");
+//        setSupportActionBar(toolbar);
+//        MaterialToolbar toolBarLayout = binding.toolbarLayout;
+//        toolBarLayout.setTitle("Manage tags");
+
 
         Intent invokerIntent = getIntent();
         if (invokerIntent != null) {
@@ -51,8 +53,20 @@ public class NoteTagsActivity extends AppCompatActivity
             }
         }
 
+        setUpFinishButton();
+
         setupSearchControl();
         NoteEntryUtil.cleanupInvalidData();
+    }
+
+    private void setUpFinishButton() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override

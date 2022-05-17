@@ -11,28 +11,21 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_bar_height"
+        android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
         android:theme="@style/Theme.CourseProject.AppBarOverlay">
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/toolbar_layout"
-            style="@style/Widget.MaterialComponents.Toolbar.Primary"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:toolbarId="@+id/toolbar">
+            android:layout_height="?attr/actionBarSize"
+            app:contentInsetStart="0dp"
+            app:contentInsetStartWithNavigation="0dp"
+            app:layout_collapseMode="pin"
+            app:navigationIcon="@drawable/ic_baseline_check_24"
+            app:popupTheme="@style/Theme.CourseProject.PopupOverlay"
+            app:title="Manage Tags" />
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/Theme.CourseProject.PopupOverlay" />
-
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
     <!-- -->
@@ -40,29 +33,30 @@
     <SearchView
         android:id="@+id/tag_search_widget"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
         android:iconifiedByDefault="false"
+        android:queryBackground="@null"
         android:queryHint="Type the tag name here"
         app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom"
-        android:layout_gravity="bottom" />
+        app:layout_anchorGravity="bottom" />
 
     <!-- todo it cannot properly cover "remaining space", but we dont need it to -->
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="480dp"
-        app:layout_anchor="@id/tag_search_widget"
-        app:layout_anchorGravity="bottom"
+        android:layout_height="match_parent"
         android:layout_gravity="bottom"
-        >
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="120dp"
+        app:layout_anchor="@id/tag_search_widget"
+        app:layout_anchorGravity="bottom">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            />
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
     </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

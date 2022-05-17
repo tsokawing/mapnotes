@@ -3,6 +3,7 @@
     <dimen name="fab_margin_2x">80dp</dimen>
     <dimen name="fab_margin_3x">144dp</dimen>
     <dimen name="fab_margin_4x">208dp</dimen>
+    <dimen name="fab_margin_5x">272dp</dimen>
 
     <dimen name="list_item_height">72dp</dimen>
 

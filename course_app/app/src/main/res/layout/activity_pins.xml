@@ -41,7 +41,14 @@
 
     <include layout="@layout/layout_nothing_to_display" android:visibility="invisible"/>
 
-
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add_video"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="@dimen/fab_margin"
+        android:layout_marginBottom="@dimen/fab_margin_5x"
+        app:srcCompat="@drawable/ic_baseline_videocam_24" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add_photo"
@@ -58,17 +65,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="@dimen/fab_margin"
-        android:layout_marginBottom="@dimen/fab_margin_3x"
-        app:srcCompat="@android:drawable/ic_menu_gallery" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_add_video"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="@dimen/fab_margin"
-        android:layout_marginBottom="@dimen/fab_margin_4x"
-        app:srcCompat="@drawable/ic_baseline_videocam_24"
         android:layout_marginBottom="16dp"
         app:srcCompat="@drawable/ic_baseline_edit_24" />
 
@@ -80,5 +76,14 @@
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="16dp"
         app:srcCompat="@android:drawable/ic_input_add" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_view_gallery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="@dimen/fab_margin"
+        android:layout_marginBottom="@dimen/fab_margin_4x"
+        app:srcCompat="@android:drawable/ic_menu_gallery" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

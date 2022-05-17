@@ -3,15 +3,14 @@ package edu.cuhk.mapnotes.activities;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -20,8 +19,12 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import java.io.File;
@@ -46,8 +49,9 @@ public class PinsActivity extends AppCompatActivity {
     private NotesRecyclerViewFragment notesRecyclerViewFragment;
     private PhotosRecyclerViewFragment photosRecyclerViewFragment;
 
-    static final int REQUEST_IMAGE_CAPTURE = 1;
+    private boolean isAddFABOpen = false;
     private boolean showingPhotos = false;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
 
     private int pinUid;
     private String pinName;
@@ -70,13 +74,53 @@ public class PinsActivity extends AppCompatActivity {
             }
             Log.d("TAG", "Pin notes from intent: UID " + this.pinUid);
         }
-        if (savedInstanceState != null) {
-//            this.pinUid = savedInstanceState.getInt("pinUid");
-//            Log.d("TAG", "Pin notes: UID " + this.pinUid);
-        }
+
         this.refreshPinLocationDisplay();
 
         // Tool bar
+
+        setupToolBar();
+
+
+        setupAddFAB();
+
+        // Show list of notes by default
+        showPinNotes();
+
+        // help button
+        builder = new AlertDialog.Builder(this);
+
+        setupBackButton();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        renamePin(pinName);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_pins, menu);
+        MenuItem itemSwitch = menu.findItem(R.id.switch_action_bar);
+        itemSwitch.setActionView(R.layout.switch_pin_content);
+
+        final SwitchCompat sw = menu.findItem(R.id.switch_action_bar).getActionView().findViewById(R.id.pinSwitch);
+
+        sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                toggleBetweenNotesAndPhotos();
+            }
+        });
+        return true;
+    }
+
+    private void setupToolBar() {
+        Toolbar toolBar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolBar);
+
         EditText editPinTitle = findViewById(R.id.pin_title);
         editPinTitle.addTextChangedListener(new TextWatcher() {
             @Override
@@ -90,18 +134,21 @@ public class PinsActivity extends AppCompatActivity {
                 pinName = s.toString();
             }
         });
+    }
 
-        // Fab buttons
-
-        // Fab button for gallery
-        FloatingActionButton fabViewGallery = binding.fabViewGallery;
-        fabViewGallery.setOnClickListener(new View.OnClickListener() {
+    private void setupAddFAB() {
+        binding.fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                toggleBetweenNotesAndPhotos();
+            public void onClick(View v) {
+                if(!isAddFABOpen){
+                    showAddFABMenu();
+                }else{
+                    closeAddFABMenu();
+                }
             }
         });
 
+        // notes
         binding.fabAddNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -120,35 +167,34 @@ public class PinsActivity extends AppCompatActivity {
 
                 notifyRefreshActivityUi();
 
-                Toast.makeText(getApplicationContext(), "A new note has been created.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "A new note has been created", Toast.LENGTH_LONG).show();
 
                 if (showingPhotos) {
-                    toggleBetweenNotesAndPhotos();
+                    SwitchCompat sw = findViewById(R.id.pinSwitch);
+                    sw.setChecked(false);
                 }
             }
         });
 
+        // Photos
         binding.fabAddPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 captureImage();
-//                dispatchTakePictureIntent();
             }
         });
-
-        // Show list of notes by default
-        showPinNotes();
-
-        // help button
-        builder = new AlertDialog.Builder(this);
-
-        setupBackButton();
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        renamePin(pinName);
+    private void showAddFABMenu(){
+        isAddFABOpen = true;
+        binding.fabAddNote.animate().translationY(-getResources().getDimension(R.dimen.standard_64));
+        binding.fabAddPhoto.animate().translationY(-getResources().getDimension(R.dimen.standard_128));
+    }
+
+    private void closeAddFABMenu(){
+        isAddFABOpen = false;
+        binding.fabAddNote.animate().translationY(0);
+        binding.fabAddPhoto.animate().translationY(0);
     }
 
     private void setupBackButton() {
@@ -179,9 +225,6 @@ public class PinsActivity extends AppCompatActivity {
         notesRecyclerViewFragment = fragment;
         transaction.replace(R.id.pin_content_fragment, notesRecyclerViewFragment);
         transaction.commit();
-
-        FloatingActionButton galleryFab = findViewById(R.id.fab_view_gallery);
-        galleryFab.setImageResource(R.drawable.ic_baseline_photo_24);
     }
 
     private void showPinPhotos() {
@@ -193,9 +236,6 @@ public class PinsActivity extends AppCompatActivity {
         photosRecyclerViewFragment = fragment;
         transaction.replace(R.id.pin_content_fragment, photosRecyclerViewFragment);
         transaction.commit();
-
-        FloatingActionButton galleryFab = findViewById(R.id.fab_view_gallery);
-        galleryFab.setImageResource(R.drawable.ic_baseline_notes_24);
     }
 
     @SuppressLint("QueryPermissionsNeeded")
@@ -217,7 +257,8 @@ public class PinsActivity extends AppCompatActivity {
         }
 
         if (!showingPhotos) {
-            toggleBetweenNotesAndPhotos();
+            SwitchCompat sw = findViewById(R.id.pinSwitch);
+            sw.setChecked(true);
         }
     }
 

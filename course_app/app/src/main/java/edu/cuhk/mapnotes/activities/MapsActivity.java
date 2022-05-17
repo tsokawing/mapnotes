@@ -9,9 +9,12 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -211,19 +214,49 @@ public class MapsActivity extends FragmentActivity
     }
 
     @Override
-    public void onMarkerDrag(@NonNull Marker marker) {}
+    public void onMarkerDrag(@NonNull Marker marker) {
+        final ImageView trashBin = findViewById(R.id.trashBin);
+        Point markerScreenPosition = mMap.getProjection().toScreenLocation(marker.getPosition());
+        if (overlap(markerScreenPosition, trashBin)) {
+            trashBin.setImageResource(R.drawable.ic_baseline_delete_forever_24_red);
+        } else {
+            trashBin.setImageResource(R.drawable.ic_baseline_delete_forever_24);
+        }
+    }
 
     @Override
     public void onMarkerDragEnd(@NonNull Marker marker) {
         int pinUid = Integer.parseInt(marker.getTitle());
-        NotePin notePin = MapsActivity.noteDatabase.notePinDao().getPinById(pinUid);
-        notePin.latitude = marker.getPosition().latitude;
-        notePin.longitude = marker.getPosition().longitude;
-        MapsActivity.noteDatabase.notePinDao().updatePin(notePin);
+        NotePin notePin = noteDatabase.notePinDao().getPinById(pinUid);
+
+        final ImageView trashBin = findViewById(R.id.trashBin);
+        Point markerScreenPosition = mMap.getProjection().toScreenLocation(marker.getPosition());
+        if (overlap(markerScreenPosition, trashBin)) {
+            marker.remove();
+            noteDatabase.notePinDao().deletePin(notePin);
+        } else {
+            notePin.latitude = marker.getPosition().latitude;
+            notePin.longitude = marker.getPosition().longitude;
+            noteDatabase.notePinDao().updatePin(notePin);
+        }
+
+        trashBin.setVisibility(View.GONE);
     }
 
     @Override
-    public void onMarkerDragStart(@NonNull Marker marker) {}
+    public void onMarkerDragStart(@NonNull Marker marker) {
+        ImageView trashBin = findViewById(R.id.trashBin);
+        trashBin.setImageResource(R.drawable.ic_baseline_delete_forever_24);
+        trashBin.setVisibility(View.VISIBLE);
+    }
+
+    private boolean overlap(Point point, ImageView imgview) {
+        int[] imgCoords = new int[2];
+        imgview.getLocationOnScreen(imgCoords);
+        boolean overlapX = point.x < imgCoords[0] + imgview.getWidth() && point.x > imgCoords[0] - imgview.getWidth();
+        boolean overlapY = point.y < imgCoords[1] + imgview.getHeight() && point.y > imgCoords[1] - imgview.getWidth();
+        return overlapX && overlapY;
+    }
 
     private void showWelcomeDialog() {
         if (builder == null) {

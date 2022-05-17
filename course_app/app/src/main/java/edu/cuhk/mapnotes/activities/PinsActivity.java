@@ -136,34 +136,6 @@ public class PinsActivity extends AppCompatActivity {
             }
         });
 
-        binding.fabDeletePin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                builder.setMessage(R.string.deleting_pin_descr)
-                        .setCancelable(false)
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                // delete it!
-                                // we will do it in a slightly roundabout way
-                                NotePin pin = MapsActivity.noteDatabase.notePinDao().getPinById(pinUid);
-                                MapsActivity.noteDatabase.notePinDao().deletePin(pin);
-                                // exit to the map
-                                finish();
-                            }
-                        })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.cancel();
-                            }
-                        });
-                AlertDialog dialog = builder.create();
-                dialog.setTitle(R.string.deleting_pin_title);
-                dialog.show();
-            }
-        });
-
         // Show list of notes by default
         showPinNotes();
 

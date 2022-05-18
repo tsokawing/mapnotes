@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -39,7 +39,6 @@ import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.Executors;
 
 import edu.cuhk.mapnotes.databinding.ActivityNotesBinding;
 import edu.cuhk.mapnotes.R;
@@ -48,12 +47,11 @@ import edu.cuhk.mapnotes.datatypes.NoteReminder;
 import edu.cuhk.mapnotes.datatypes.NoteTag;
 import edu.cuhk.mapnotes.util.NoteEntryUtil;
 import edu.cuhk.mapnotes.util.NotificationUtil;
+import io.noties.markwon.AbstractMarkwonPlugin;
 import io.noties.markwon.Markwon;
-import io.noties.markwon.core.spans.StrongEmphasisSpan;
-import io.noties.markwon.editor.AbstractEditHandler;
+import io.noties.markwon.core.MarkwonTheme;
 import io.noties.markwon.editor.MarkwonEditor;
 import io.noties.markwon.editor.MarkwonEditorTextWatcher;
-import io.noties.markwon.editor.PersistedSpans;
 
 public class NotesActivity extends AppCompatActivity {
 
@@ -183,8 +181,23 @@ public class NotesActivity extends AppCompatActivity {
     }
 
     private void initializeMarkdownRenderingMechanism() {
-        // markdown-enabled editor
-        markwon = Markwon.create(this);
+        // markdown-enabled editor with style
+        markwon = Markwon.builder(NotesActivity.this)
+                .usePlugin(new AbstractMarkwonPlugin() {
+            @Override
+            public void configureTheme(@NonNull MarkwonTheme.Builder builder) {
+                super.configureTheme(builder);
+
+                float textSizes[] = new float[] {1.2F, 1.F, .9F, .74F, .67F, .5F};
+                builder.headingTextSizeMultipliers(textSizes);
+                builder.headingBreakHeight(0);
+
+                builder.bulletWidth(15);
+                builder.listItemColor(Color.argb(255,180,180,180));
+            }
+        }).build();
+
+
         editor = MarkwonEditor.create(markwon);
         EditText editTextNoteContent = findViewById(R.id.note_edittext);
         editTextNoteContent.addTextChangedListener(MarkwonEditorTextWatcher.withProcess(editor));

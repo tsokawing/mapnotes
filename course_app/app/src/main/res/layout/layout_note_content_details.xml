@@ -13,14 +13,14 @@
         android:id="@+id/note_display_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/text_margin"
-        android:layout_marginBottom="@dimen/text_margin"
         android:layout_marginStart="@dimen/text_margin"
+        android:layout_marginTop="@dimen/text_margin"
         android:layout_marginEnd="@dimen/text_margin"
+        android:layout_marginBottom="@dimen/text_margin"
         android:background="@android:color/transparent"
+        android:gravity="top"
         android:text="@string/note_content"
-        android:textSize="18sp"
-        android:textColor="@color/black"
-        android:gravity="top" />
+        android:textColor="#6D6D6D"
+        android:textSize="18sp" />
 
 </androidx.core.widget.NestedScrollView>

@@ -1,12 +1,14 @@
 package edu.cuhk.mapnotes.adapters;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -15,7 +17,9 @@ import edu.cuhk.mapnotes.R;
 import edu.cuhk.mapnotes.activities.MapsActivity;
 import edu.cuhk.mapnotes.activities.NotesActivity;
 import edu.cuhk.mapnotes.datatypes.NoteEntry;
+import io.noties.markwon.AbstractMarkwonPlugin;
 import io.noties.markwon.Markwon;
+import io.noties.markwon.core.MarkwonTheme;
 
 public class PinNotesAdapter extends RecyclerView.Adapter<PinNotesAdapter.ViewHolder> {
     private static final String TAG = "Adapter";
@@ -36,7 +40,21 @@ public class PinNotesAdapter extends RecyclerView.Adapter<PinNotesAdapter.ViewHo
 
         public ViewHolder(View v) {
             super(v);
-            markwonNoteContent = Markwon.create(v.getContext());
+            markwonNoteContent = Markwon.builder(v.getContext())
+                    .usePlugin(new AbstractMarkwonPlugin() {
+                        @Override
+                        public void configureTheme(@NonNull MarkwonTheme.Builder builder) {
+                            super.configureTheme(builder);
+
+                            float textSizes[] = new float[] {1.2F, 1.F, .9F, .74F, .67F, .5F};
+                            builder.headingTextSizeMultipliers(textSizes);
+                            builder.headingBreakHeight(0);
+
+                            builder.bulletWidth(15);
+                            builder.listItemColor(Color.argb(255,180,180,180));
+                        }
+                    }).build();
+
             // Define click listener for the ViewHolder's View.
             v.setOnClickListener(new View.OnClickListener() {
                 @Override

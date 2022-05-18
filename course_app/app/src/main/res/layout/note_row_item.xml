@@ -11,10 +11,10 @@
         android:id="@+id/textViewNoteTitle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/note_title"
-        android:layout_marginTop="4dp"
         android:layout_marginStart="4dp"
-        android:textSize="18sp" />
+        android:layout_marginTop="4dp"
+        android:text="@string/note_title"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/textViewNoteText"

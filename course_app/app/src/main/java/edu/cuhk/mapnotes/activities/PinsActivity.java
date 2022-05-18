@@ -190,12 +190,14 @@ public class PinsActivity extends AppCompatActivity {
         isAddFABOpen = true;
         binding.fabAddNote.animate().translationY(-getResources().getDimension(R.dimen.standard_64));
         binding.fabAddPhoto.animate().translationY(-getResources().getDimension(R.dimen.standard_128));
+        binding.fabAddVideo.animate().translationY(-getResources().getDimension(R.dimen.standard_192));
     }
 
     private void closeAddFABMenu(){
         isAddFABOpen = false;
         binding.fabAddNote.animate().translationY(0);
         binding.fabAddPhoto.animate().translationY(0);
+        binding.fabAddVideo.animate().translationY(0);
     }
 
     private void setupBackButton() {

@@ -26,7 +26,7 @@ public class NotePinUtil {
         // immediately write back to the object here, others may want to use the UID
         newPin.uid = (int) ((long) insertionResponse.get(0));
 
-        ensurePinHasSomeNotes(newPin);
+//        ensurePinHasSomeNotes(newPin);
         return newPin;
     }
 

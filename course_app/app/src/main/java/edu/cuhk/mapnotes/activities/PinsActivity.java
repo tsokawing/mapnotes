@@ -157,7 +157,7 @@ public class PinsActivity extends AppCompatActivity {
                 // TODO: Delete db then refresh may be slow as UI has to wait db finished.
                 NoteEntry noteEntry = new NoteEntry();
                 noteEntry.noteTitle = "Untitled Note";
-                noteEntry.noteText = "Click here to edit...";
+                noteEntry.noteText = "";
                 noteEntry.pinUid = pinUid;
                 // TODO: Should make db related as singleton outside of MapsActivity
                 MapsActivity.noteDatabase.noteEntryDao().insertNoteEntries(noteEntry);

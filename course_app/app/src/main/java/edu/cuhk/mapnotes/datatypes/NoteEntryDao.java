@@ -22,7 +22,7 @@ public interface NoteEntryDao {
     NoteEntry getNoteEntry(int noteEntryUid);
 
     @Insert
-    void insertNoteEntries(NoteEntry... entries);
+    List<Long> insertNoteEntries(NoteEntry... entries);
 
     @Update
     void updateNoteEntry(NoteEntry entry);

@@ -33,6 +33,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import edu.cuhk.mapnotes.adapters.PinNotesAdapter;
@@ -160,7 +161,7 @@ public class PinsActivity extends AppCompatActivity {
                 noteEntry.noteText = "";
                 noteEntry.pinUid = pinUid;
                 // TODO: Should make db related as singleton outside of MapsActivity
-                MapsActivity.noteDatabase.noteEntryDao().insertNoteEntries(noteEntry);
+                List<Long> newNoteIds = MapsActivity.noteDatabase.noteEntryDao().insertNoteEntries(noteEntry);
 
                 PinNotesAdapter adapter = notesRecyclerViewFragment.getPinNotesAdapter();
                 adapter.refreshNotePins();
@@ -174,6 +175,11 @@ public class PinsActivity extends AppCompatActivity {
                     SwitchCompat sw = findViewById(R.id.pinSwitch);
                     sw.setChecked(false);
                 }
+
+                // Open created notes immediately
+                Intent intent = new Intent(view.getContext(), NotesActivity.class);
+                intent.putExtra("noteUid", newNoteIds.get(0).intValue());
+                view.getContext().startActivity(intent);
             }
         });
 

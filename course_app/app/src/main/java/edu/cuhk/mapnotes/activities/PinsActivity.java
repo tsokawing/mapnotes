@@ -24,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -208,9 +209,12 @@ public class PinsActivity extends AppCompatActivity {
     }
 
     private void toggleBetweenNotesAndPhotos() {
+        ImageView switchIcon = findViewById(R.id.switch_icon);
         if (showingPhotos) {
+            switchIcon.setImageResource(R.drawable.ic_baseline_library_books_24);
             showPinNotes();
         } else {
+            switchIcon.setImageResource(R.drawable.ic_baseline_photo_library_24);
             showPinPhotos();
         }
         showingPhotos = !showingPhotos;

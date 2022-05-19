@@ -64,6 +64,7 @@ public class NotesTreeViewHolder extends TreeViewHolder {
         if (node.getValue() instanceof NoteEntry && node.isSelected()) {
             Intent noteIntent = new Intent(itemView.getContext(), NotesActivity.class);
             noteIntent.putExtra("noteUid", ((NoteEntry) node.getValue()).uid);
+            noteIntent.putExtra("fromTreeActivity", true);
             itemView.getContext().startActivity(noteIntent);
         }
     }

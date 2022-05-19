@@ -162,6 +162,12 @@ public class NotesActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        Intent intent = getIntent();
+        boolean fromTreeActivity = intent.getBooleanExtra("fromTreeActivity", false);
+        if (!fromTreeActivity) {
+            return false;
+        }
+
         getMenuInflater().inflate(R.menu.menu_notes, menu);
         MenuItem itemSwitch = menu.findItem(R.id.go_to_pin);
         itemSwitch.setActionView(R.layout.button_to_pin);

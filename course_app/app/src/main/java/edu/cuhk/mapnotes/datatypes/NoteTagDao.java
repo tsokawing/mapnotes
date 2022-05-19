@@ -36,6 +36,6 @@ public interface NoteTagDao {
     @Query("DELETE FROM note_tag WHERE uid NOT IN (SELECT tag_uid FROM note_tagging_info)")
     void deleteAllUnusedTags();
 
-    @Query("SELECT * FROM note_entry entry INNER JOIN note_tagging_info info ON (entry.uid = info.note_entry_uid) WHERE info.tag_uid = :tagUid")
+    @Query("SELECT entry.* FROM note_entry entry INNER JOIN note_tagging_info info ON (entry.uid = info.note_entry_uid) WHERE info.tag_uid = :tagUid")
     List<NoteEntry> getAllNoteEntriesUsingThisTag(int tagUid);
 }

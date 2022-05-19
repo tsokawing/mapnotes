@@ -119,11 +119,11 @@ public class NotesActivity extends AppCompatActivity {
         // edit reminder
         this.setupReminderManagement();
 
-        // back button
-        this.setupBackButton();
-
         // back to pin button
         this.setupGoToPinButton();
+
+        // back button
+        this.setupBackButton();
     }
 
     @Override

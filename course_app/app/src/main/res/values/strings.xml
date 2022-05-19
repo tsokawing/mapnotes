@@ -43,7 +43,7 @@ You may then edit the notes of the locations on the map by clicking on the pins 
     <string name="nothing_to_display">(There is nothing to display…)</string>
 
     <!-- Toasts -->
-    <string name="toast_pin_created">A new location is now marked.</string>
+    <string name="toast_pin_created">A new location is now marked</string>
     <string name="title_activity_notes_tree">NotesTreeActivity</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"

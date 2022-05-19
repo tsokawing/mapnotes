@@ -317,7 +317,7 @@ public class NotesActivity extends AppCompatActivity {
         ctl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                properDialog.show();
+                properDialog.show();
             }
         });
     }

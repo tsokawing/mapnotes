@@ -67,7 +67,7 @@ public class MapsActivity extends FragmentActivity
 
         startRoomDatabase();
         // todo addrandompin is debug feature
-        addRandomPin();
+//        addRandomPin();
 
         // Tree view button
         CheckBox treeViewCheckBox = findViewById(R.id.notetree_checkbox);

@@ -37,4 +37,7 @@ public interface NoteTaggingInfoDao {
 
     @Query("SELECT * FROM note_tag WHERE uid NOT IN (SELECT tag_uid FROM note_tagging_info WHERE note_entry_uid = :noteEntryUid)")
     List<NoteTag> getTagsUnusedByNoteEntry(int noteEntryUid);
+
+    @Query("DELETE FROM note_tagging_info WHERE note_entry_uid NOT IN (SELECT uid FROM note_entry) OR tag_uid NOT IN (SELECT uid FROM note_tag)")
+    void deleteAllInvalidTaggingInfo();
 }

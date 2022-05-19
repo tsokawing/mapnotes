@@ -85,6 +85,7 @@ public class NoteEntryUtil {
         AppDatabase database = MapsActivity.noteDatabase;
         database.noteEntryDao().deleteInvalidNoteEntries();
         database.noteTagDao().deleteAllUnusedTags();
+        database.noteTaggingInfoDao().deleteAllInvalidTaggingInfo();
     }
 
     public static List<NoteEntry> getAllNoteEntriesUsingThisTag(int tagUid) {

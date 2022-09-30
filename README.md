@@ -1,2 +1,2 @@
-# csci3310_proj
-CSCI3310 Course Proj
+# Introduction
+MapNotes, a map based note-taking Android App.
